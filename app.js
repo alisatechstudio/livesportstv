@@ -7,7 +7,8 @@ const channels = [
     quality: 'HD',
     description: 'Major American sports network with live football, UFC, and global sports coverage.',
     status: 'Official channel',
-    websiteUrl: 'https://www.espn.com/watch/'
+    websiteUrl: 'https://www.espn.com/watch/',
+    streamUrl: 'https://linear-130.frequency.stream/dist/vix/130/master.m3u8'
   },
   {
     name: 'Sky Sports',
@@ -17,7 +18,8 @@ const channels = [
     quality: 'HD',
     description: 'Premier football and live sports coverage across the UK and Europe.',
     status: 'Official channel',
-    websiteUrl: 'https://www.sky.com/watch/sky-sports'
+    websiteUrl: 'https://www.sky.com/watch/sky-sports',
+    streamUrl: 'https://d2253c417762.up-cdn.com/live/sky_sports_main_event_sd/index.m3u8'
   },
   {
     name: 'beIN Sports',
@@ -27,7 +29,8 @@ const channels = [
     quality: 'HD',
     description: 'Global football and live sports broadcaster for the Middle East and North Africa.',
     status: 'Official channel',
-    websiteUrl: 'https://www.bein.com/en/'
+    websiteUrl: 'https://www.bein.com/en/',
+    streamUrl: 'https://live.b8cdn.com/beinsports/smil:beinsports.smil/playlist.m3u8'
   },
   {
     name: 'SuperSport',
@@ -37,7 +40,8 @@ const channels = [
     quality: 'HD',
     description: 'Leading African sports broadcaster covering football, rugby, and cricket.',
     status: 'Official channel',
-    websiteUrl: 'https://www.supersport.com/'
+    websiteUrl: 'https://www.supersport.com/',
+    streamUrl: 'https://cinergy.mobi-content.xyz/hls/supersport.m3u8'
   },
   {
     name: 'DAZN',
@@ -47,7 +51,8 @@ const channels = [
     quality: 'HD',
     description: 'Premium sports streaming service with major boxing and football events.',
     status: 'Official channel',
-    websiteUrl: 'https://www.dazn.com/'
+    websiteUrl: 'https://www.dazn.com/',
+    streamUrl: 'https://d2253c417762.up-cdn.com/live/dazn_1_hd_world/index.m3u8'
   },
   {
     name: 'Star Sports',
@@ -57,7 +62,8 @@ const channels = [
     quality: 'HD',
     description: 'Prominent Indian sports broadcaster for cricket and major international events.',
     status: 'Official channel',
-    websiteUrl: 'https://www.hotstar.com/in/sports'
+    websiteUrl: 'https://www.hotstar.com/in/sports',
+    streamUrl: 'https://live-sports-1.mediav.co.in/live/ss_1_hd_multiaudio_s/index.m3u8'
   },
   {
     name: 'Eurosport',
@@ -67,7 +73,8 @@ const channels = [
     quality: 'HD',
     description: 'European sports network focused on cycling, tennis, and winter sports.',
     status: 'Official channel',
-    websiteUrl: 'https://www.eurosport.com/'
+    websiteUrl: 'https://www.eurosport.com/',
+    streamUrl: 'https://d2253c417762.up-cdn.com/live/eurosport_1_hd_gb/index.m3u8'
   },
   {
     name: 'NBC Sports',
@@ -77,7 +84,8 @@ const channels = [
     quality: 'HD',
     description: 'Live coverage of basketball, football, and major US sports events.',
     status: 'Official channel',
-    websiteUrl: 'https://www.nbcsports.com/'
+    websiteUrl: 'https://www.nbcsports.com/',
+    streamUrl: 'https://stream-usw2-prod.live.sc-cdn.net/nbcs-nbcs/primary.m3u8'
   },
   {
     name: 'Canal+ Sport',
@@ -87,7 +95,8 @@ const channels = [
     quality: 'HD',
     description: 'French sports broadcaster featuring football, motorsport, and rugby coverage.',
     status: 'Official channel',
-    websiteUrl: 'https://www.canalplus.com/'
+    websiteUrl: 'https://www.canalplus.com/',
+    streamUrl: 'https://d2253c417762.up-cdn.com/live/canal_sport_1_hd_pl/index.m3u8'
   },
   {
     name: 'Fox Sports',
@@ -97,7 +106,8 @@ const channels = [
     quality: 'HD',
     description: 'Brazilian sports service with football and regional live programming.',
     status: 'Official channel',
-    websiteUrl: 'https://www.foxsports.com/'
+    websiteUrl: 'https://www.foxsports.com/',
+    streamUrl: 'https://d2253c417762.up-cdn.com/live/fox_sports_1_hd_us/index.m3u8'
   }
 ];
 
@@ -143,10 +153,6 @@ function loadChannel(channel) {
   playerCountry.textContent = formatBadge(channel.country);
   playerSport.textContent = formatBadge(channel.sport);
 
-  if (channel.websiteUrl) {
-    window.open(channel.websiteUrl, '_blank', 'noopener,noreferrer');
-  }
-
   if (channel.streamUrl && window.Hls && Hls.isSupported()) {
     if (player.hls) {
       player.hls.destroy();
@@ -157,9 +163,13 @@ function loadChannel(channel) {
     hls.loadSource(channel.streamUrl);
     hls.attachMedia(player);
     player.play().catch(() => {});
+  } else if (channel.websiteUrl) {
+    // Fallback for browsers that don't support HLS or if stream is missing
+    player.removeAttribute('src');
+    window.open(channel.websiteUrl, '_blank', 'noopener,noreferrer');
   } else {
     player.removeAttribute('src');
-    player.load();
+    // Potentially show a "stream unavailable" message in the player
   }
 }
 
@@ -204,7 +214,7 @@ function renderChannels() {
             <span>${channel.status}</span>
             <span class="status-pill">●</span>
           </div>
-          <button class="watch-btn" type="button" data-channel="${channel.name}">Open source</button>
+          <button class="watch-btn" type="button" data-channel="${channel.name}">Watch Now</button>
         </article>
       `
     )
