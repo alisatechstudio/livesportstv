@@ -1,7 +1,12 @@
 // FreeTV clone — uses the public iptv-org M3U playlist (HLS .m3u8 streams)
 const M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
+const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
 const FAV_KEY = 'freetvFavorites';
 const THEME_KEY = 'freetvTheme';
+
+// Country data sourced from iptv-org/database via their public API.
+// Maps ISO alpha-2 code -> { name, flag (emoji) }
+let countryData = {};
 
 // Category mapping derived from iptv-org group-title values
 const CATEGORY_MAP = {
@@ -65,11 +70,19 @@ const countryNameProvider = new Intl.DisplayNames(['en'], { type: 'region' });
 
 function getCountryName(code) {
   if (!code || code === 'INT') return 'International';
+  if (countryData[code]) return countryData[code].name;
   try {
     return countryNameProvider.of(code);
   } catch {
     return code;
   }
+}
+
+function getCountryFlag(code, asImage = false) {
+  if (countryData[code] && countryData[code].flag && !asImage) {
+    return countryData[code].flag; // emoji
+  }
+  return `https://flagcdn.com/24x18/${String(code).toLowerCase()}.png`; // image fallback
 }
 
 function categoryFor(channel) {
@@ -168,7 +181,7 @@ function logoUrl(channel) {
 }
 
 function cardHtml(channel) {
-  const flagUrl = `https://flagcdn.com/24x18/${channel.country.toLowerCase()}.png`;
+  const flagUrl = getCountryFlag(channel.country, true);
   const fav = isFav(channel.id);
   const logo = logoUrl(channel);
   const initials = channel.name.replace(/[^A-Za-z0-9 ]/g, '').slice(0, 2).toUpperCase();
@@ -360,8 +373,21 @@ async function init() {
   setupTheme();
   bindEvents();
 
+  // Load country metadata from iptv-org in parallel with the channel list.
+  const countriesPromise = fetch(COUNTRIES_URL)
+    .then((r) => (r.ok ? r.json() : []))
+    .then((list) => {
+      (list || []).forEach((c) => {
+        countryData[c.code] = { name: c.name, flag: c.flag };
+      });
+    })
+    .catch((err) => console.warn('Could not load country data:', err));
+
   try {
-    const res = await fetch(M3U_URL);
+    const [res] = await Promise.all([
+      fetch(M3U_URL),
+      countriesPromise,
+    ]);
     if (!res.ok) throw new Error(`Failed to load channels: ${res.statusText}`);
     channels = parseM3U(await res.text());
     populateFilters();
