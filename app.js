@@ -3,7 +3,7 @@ let favoriteChannelIds = [];
 let currentlyPlayingId = null;
 const FAVORITES_KEY = 'iptvFavorites';
 const THEME_KEY = 'iptvTheme';
-const M3U_STREAMS_URL = 'https://raw.githack.com/iptv-org/iptv/master/index.m3u';
+const M3U_STREAMS_URL = 'https://cdn.jsdelivr.net/gh/iptv-org/iptv/index.m3u';
 
 const countryFilter = document.getElementById('countryFilter');
 const sportFilter = document.getElementById('sportFilter');
@@ -14,6 +14,7 @@ const totalChannels = document.getElementById('totalChannels');
 const totalCountries = document.getElementById('totalCountries');
 const totalSports = document.getElementById('totalSports');
 const player = document.getElementById('iptvPlayer');
+const videoFrame = player.parentElement;
 const playerTitle = document.getElementById('playerTitle');
 const playerDescription = document.getElementById('playerDescription');
 const playerCountry = document.getElementById('playerCountry');
@@ -166,6 +167,7 @@ function loadChannel(channel) {
 
   // Set initial loading state
   playerDescription.textContent = 'Connecting to stream...';
+  videoFrame.classList.add('loading');
 
   // Update the visual indicator for the playing channel
   if (currentlyPlayingId !== channel.id) {
@@ -187,6 +189,7 @@ function loadChannel(channel) {
   if (!channel.streamUrl) {
     player.removeAttribute('src');
     playerDescription.textContent = 'No stream URL available for this channel.';
+    videoFrame.classList.remove('loading');
     return;
   }
 
@@ -200,6 +203,7 @@ function loadChannel(channel) {
   hls.on(Hls.Events.MANIFEST_PARSED, function () {
     // Stream manifest loaded successfully, update description
     playerDescription.textContent = channel.description;
+    videoFrame.classList.remove('loading');
   });
 
   hls.on(Hls.Events.ERROR, function (event, data) {
@@ -213,6 +217,7 @@ function loadChannel(channel) {
       }
 
       playerDescription.textContent = errorMessage;
+      videoFrame.classList.remove('loading');
       hls.destroy();
     }
   });
