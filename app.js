@@ -3,7 +3,7 @@ let favoriteChannelIds = [];
 let currentlyPlayingId = null;
 const FAVORITES_KEY = 'iptvFavorites';
 const THEME_KEY = 'iptvTheme';
-const M3U_STREAMS_URL = 'https://corsproxy.io/?https://iptv-org.github.io/iptv/index.m3u';
+const M3U_STREAMS_URL = 'https://thingproxy.freeboard.io/fetch/https://iptv-org.github.io/iptv/index.m3u';
 
 const countryFilter = document.getElementById('countryFilter');
 const sportFilter = document.getElementById('sportFilter');
