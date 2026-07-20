@@ -153,15 +153,21 @@ function parseM3U(text) {
 }
 
 function populateFilters() {
-  const countries = [...new Set(channels.map((c) => c.country))].sort();
-  const cats = [...new Set(channels.map((c) => categoryFor(c)))].sort();
-
-  countries.forEach((c) => {
+  // Build the country dropdown from the full iptv-org dataset (real list),
+  // falling back to codes found in the playlist if the dataset failed to load.
+  const datasetCodes = Object.keys(countryData).filter((c) => c);
+  const countryOptions = (datasetCodes.length
+    ? datasetCodes.map((code) => ({ code, name: countryData[code].name || getCountryName(code) }))
+    : [...new Set(channels.map((c) => c.country))]
+  ).sort((a, b) => a.name.localeCompare(b.name));
+  countryOptions.forEach(({ code, name }) => {
     const o = document.createElement('option');
-    o.value = c;
-    o.textContent = getCountryName(c);
+    o.value = code;
+    o.textContent = name;
     els.country.appendChild(o);
   });
+
+  const cats = [...new Set(channels.map((c) => categoryFor(c)))].sort();
   cats.forEach((c) => {
     const o = document.createElement('option');
     o.value = c;
@@ -170,7 +176,8 @@ function populateFilters() {
   });
 
   els.statChannels.textContent = channels.length.toLocaleString();
-  els.statCountries.textContent = countries.length;
+  const presentCountries = new Set(channels.map((c) => c.country));
+  els.statCountries.textContent = presentCountries.size;
   els.statCategories.textContent = cats.length;
 }
 
