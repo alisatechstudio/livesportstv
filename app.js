@@ -6,7 +6,8 @@ const channels = [
     language: 'English',
     quality: 'HD',
     description: 'Fast-paced football coverage with match highlights and live commentary.',
-    status: 'Live now'
+    status: 'Live now',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Arena Sport',
@@ -15,7 +16,8 @@ const channels = [
     language: 'Spanish',
     quality: 'HD',
     description: 'Basketball action from top domestic and international leagues.',
-    status: 'Live now'
+    status: 'Live now',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Vibe Sports',
@@ -24,7 +26,8 @@ const channels = [
     language: 'Portuguese',
     quality: 'SD',
     description: 'A vibrant channel for volleyball, beach sports, and regional events.',
-    status: 'Updated'
+    status: 'Updated',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Nile League',
@@ -33,7 +36,8 @@ const channels = [
     language: 'Arabic',
     quality: 'HD',
     description: 'Regional football coverage with strong commentary and match recaps.',
-    status: 'Live now'
+    status: 'Live now',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Urban Track',
@@ -42,7 +46,8 @@ const channels = [
     language: 'English',
     quality: 'HD',
     description: 'Track, field, and sprint events from major competitions around the globe.',
-    status: 'Live now'
+    status: 'Live now',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Rally Pulse',
@@ -51,7 +56,8 @@ const channels = [
     language: 'German',
     quality: 'HD',
     description: 'Motorsport highlights, races, and behind-the-scenes features.',
-    status: 'Live now'
+    status: 'Live now',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Champions Arena',
@@ -60,7 +66,8 @@ const channels = [
     language: 'Hindi',
     quality: 'HD',
     description: 'Cricket coverage with commentary tailored for passionate fans.',
-    status: 'Updated'
+    status: 'Updated',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   },
   {
     name: 'Pulse Net',
@@ -69,7 +76,8 @@ const channels = [
     language: 'English',
     quality: 'SD',
     description: 'Boxing and combat sports content from local and international events.',
-    status: 'Live now'
+    status: 'Live now',
+    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
   }
 ];
 
@@ -80,6 +88,11 @@ const channelGrid = document.getElementById('channelGrid');
 const totalChannels = document.getElementById('totalChannels');
 const totalCountries = document.getElementById('totalCountries');
 const totalSports = document.getElementById('totalSports');
+const player = document.getElementById('iptvPlayer');
+const playerTitle = document.getElementById('playerTitle');
+const playerDescription = document.getElementById('playerDescription');
+const playerCountry = document.getElementById('playerCountry');
+const playerSport = document.getElementById('playerSport');
 
 function populateFilters() {
   const countries = [...new Set(channels.map((channel) => channel.country))].sort();
@@ -98,6 +111,28 @@ function populateFilters() {
     option.textContent = sport;
     sportFilter.appendChild(option);
   });
+}
+
+function loadChannel(channel) {
+  playerTitle.textContent = channel.name;
+  playerDescription.textContent = `${channel.description} ${channel.language} • ${channel.quality} stream`;
+  playerCountry.textContent = channel.country;
+  playerSport.textContent = channel.sport;
+
+  if (window.Hls && Hls.isSupported()) {
+    if (player.hls) {
+      player.hls.destroy();
+    }
+
+    const hls = new Hls();
+    player.hls = hls;
+    hls.loadSource(channel.streamUrl);
+    hls.attachMedia(player);
+  } else {
+    player.src = channel.streamUrl;
+  }
+
+  player.play().catch(() => {});
 }
 
 function renderChannels() {
@@ -141,10 +176,20 @@ function renderChannels() {
             <span>${channel.status}</span>
             <span class="status-pill">●</span>
           </div>
+          <button class="watch-btn" type="button" data-channel="${channel.name}">Watch now</button>
         </article>
       `
     )
     .join('');
+
+  channelGrid.querySelectorAll('.watch-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const selected = channels.find((channel) => channel.name === button.dataset.channel);
+      if (selected) {
+        loadChannel(selected);
+      }
+    });
+  });
 }
 
 [countryFilter, sportFilter, searchInput].forEach((element) => {
@@ -154,3 +199,4 @@ function renderChannels() {
 
 populateFilters();
 renderChannels();
+loadChannel(channels[0]);

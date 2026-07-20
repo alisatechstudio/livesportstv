@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Sports TV Channels</title>
+    <title>World Sports IPTV Directory</title>
     <meta
       name="description"
-      content="Browse free sports TV channels around the world, filtered by country and sport type."
+      content="Browse IPTV sports channels around the world with a built-in player, filtered by country and sport type."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -22,20 +23,46 @@
 
     <header class="hero">
       <div class="hero-content">
-        <p class="eyebrow">Global sports streaming directory</p>
-        <h1>Free sports channels from around the world.</h1>
+        <p class="eyebrow">Global IPTV sports directory</p>
+        <h1>All IPTV sports channels with a built-in player.</h1>
         <p class="hero-text">
-          Discover live sports coverage by country and sport type, with a clean, fast
-          browsing experience for fans everywhere.
+          Explore live sports coverage worldwide, filter by country and sport, and open each
+          channel directly in a media player from the same page.
         </p>
         <div class="hero-actions">
-          <a href="#directory" class="btn btn-primary">Explore channels</a>
+          <a href="#directory" class="btn btn-primary">Open player</a>
           <a href="#about" class="btn btn-secondary">How it works</a>
         </div>
       </div>
     </header>
 
     <main id="directory" class="container">
+      <section class="player-section" aria-label="Embedded IPTV player">
+        <div class="player-card">
+          <div class="player-header">
+            <div>
+              <p class="eyebrow">Embedded IPTV player</p>
+              <h2 id="playerTitle">Choose a channel to start watching</h2>
+            </div>
+            <span class="player-state">Live demo stream</span>
+          </div>
+
+          <div class="video-frame">
+            <video id="iptvPlayer" controls playsinline preload="metadata"></video>
+          </div>
+
+          <div class="player-meta">
+            <p id="playerDescription">
+              Select any channel below to load a live preview stream and explore the directory instantly.
+            </p>
+            <div class="meta-row">
+              <span id="playerCountry" class="badge">Global</span>
+              <span id="playerSport" class="badge">All sports</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="toolbar" aria-label="Channel filters">
         <div class="search-box">
           <label for="searchInput">Search by name or language</label>
@@ -79,16 +106,16 @@
       <h2>Why this directory works</h2>
       <p>
         This experience helps fans discover sports content quickly by narrowing the list to
-        their preferred country and sport. It is designed as a lightweight, modern directory
-        that can be expanded with real sources and live links over time.
+        their preferred country and sport. The player makes it easy to preview a stream and
+        jump straight into watching from the same view.
       </p>
       <p>
-        Please always verify that any stream or source is legal and available in your region.
+        Always verify that a stream or source is legal and available in your region before using it.
       </p>
     </section>
 
     <footer class="footer">
-      <p>Built for sports fans who want a cleaner way to browse global channels.</p>
+      <p>Built for sports fans who want a cleaner way to browse global IPTV channels.</p>
     </footer>
 
     <script src="app.js"></script>
