@@ -115,7 +115,7 @@ function populateFilters() {
   });
 }
 
-async function loadChannel(channel) {
+function loadChannel(channel) {
   playerTitle.textContent = channel.name;
   playerCountry.textContent = formatBadge(channel.country);
   playerSport.textContent = formatBadge(channel.sport);
@@ -146,29 +146,36 @@ async function loadChannel(channel) {
     return;
   }
 
-  try {
-    // Check if the stream is online with a timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5-second timeout
-    const response = await fetch(channel.streamUrl, { signal: controller.signal });
-    clearTimeout(timeoutId);
+  // Use HLS.js directly and handle its errors for robustness
+  const hls = new Hls({
+    // Add a timeout for manifest loading to avoid indefinite waiting
+    manifestLoadTimeout: 5000,
+  });
+  player.hls = hls;
 
-    if (!response.ok) {
-      throw new Error(`Stream check failed with status: ${response.status}`);
+  hls.on(Hls.Events.MANIFEST_PARSED, function () {
+    // Stream manifest loaded successfully, update description
+    playerDescription.textContent = channel.description;
+  });
+
+  hls.on(Hls.Events.ERROR, function (event, data) {
+    if (data.fatal) {
+      console.error('HLS.js fatal error:', data);
+      let errorMessage = 'This stream appears to be offline or is unavailable.';
+
+      // Provide more specific feedback for 403 Forbidden errors
+      if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code === 403) {
+        errorMessage = 'Access to this stream is forbidden (403). It may be region-locked or protected.';
+      }
+
+      playerDescription.textContent = errorMessage;
+      hls.destroy();
     }
+  });
 
-    // If check is successful, load with HLS.js
-    playerDescription.textContent = channel.description; // Restore original description
-    const hls = new Hls();
-    player.hls = hls;
-    hls.loadSource(channel.streamUrl);
-    hls.attachMedia(player);
-    player.play().catch(() => {});
-  } catch (error) {
-    console.error('Failed to load stream:', error.message);
-    player.removeAttribute('src');
-    playerDescription.textContent = 'This stream appears to be offline or is unavailable.';
-  }
+  hls.loadSource(channel.streamUrl);
+  hls.attachMedia(player);
+  player.play().catch(() => {});
 }
 
 function renderChannels() {
@@ -223,12 +230,12 @@ function renderChannels() {
     .join('');
 
   channelGrid.querySelectorAll('.watch-btn').forEach((button) => {
-    button.addEventListener('click', async (event) => {
+    button.addEventListener('click', (event) => {
       const channelId = button.dataset.channelId;
       event.currentTarget.blur(); // Remove focus from the button to prevent conflict
       const selected = channels.find((channel) => channel.id === channelId);
       if (selected) {
-        await loadChannel(selected);
+        loadChannel(selected);
       }
     });
   });
@@ -258,7 +265,7 @@ async function initializeApp() {
       renderChannels();
       // Load the first channel by default and set its playing state
       currentlyPlayingId = channels[0].id;
-      await loadChannel(channels[0]);
+      loadChannel(channels[0]);
     } else {
       channelGrid.innerHTML = '<div class="empty-state">Could not load any sports channels at this time.</div>';
     }
