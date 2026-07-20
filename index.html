@@ -3,16 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AlisaTV</title>
-    
+    <title>AlisaTV — Watch Free Live TV from 175+ Countries</title>
+    <meta
+      name="description"
+      content="Browse thousands of free, publicly available live TV channels from 175+ countries. Watch news, sports, movies and more with no account required."
+    />
+    <link rel="canonical" href="https://livesportstv.store/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AlisaTV — Watch Free Live TV from 175+ Countries" />
+    <meta
+      property="og:description"
+      content="Browse thousands of free, publicly available live TV channels from 175+ countries. Watch news, sports, movies and more with no account required."
+    />
+    <meta property="og:url" content="https://livesportstv.store/" />
+    <meta property="og:site_name" content="AlisaTV" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AlisaTV — Watch Free Live TV from 175+ Countries" />
+    <meta
+      name="twitter:description"
+      content="Browse thousands of free, publicly available live TV channels from 175+ countries."
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AlisaTV",
+        "url": "https://livesportstv.store/",
+        "description": "Watch free live TV channels from 175+ countries.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://livesportstv.store/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Free Live TV Channels",
+        "description": "Publicly available IPTV sports and entertainment channels from around the world."
+      }
+    </script>
+
+    <!-- Resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://flagcdn.com" />
+    <link rel="dns-prefetch" href="https://iptv-org.github.io" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js" as="script" />
+    <link rel="preload" href="freetv.min.css" as="style" />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
-    <link rel="stylesheet" href="freetv.css" />
+    <link rel="stylesheet" href="freetv.min.css" />
   </head>
   <body>
     <!-- Header -->
