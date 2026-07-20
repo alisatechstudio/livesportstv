@@ -1,83 +1,103 @@
 const channels = [
   {
-    name: 'Goal Rush TV',
+    name: 'ESPN',
+    country: 'United States',
+    sport: 'Football',
+    language: 'English',
+    quality: 'HD',
+    description: 'Major American sports network with live football, UFC, and global sports coverage.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.espn.com/watch/'
+  },
+  {
+    name: 'Sky Sports',
     country: 'United Kingdom',
     sport: 'Football',
     language: 'English',
     quality: 'HD',
-    description: 'Fast-paced football coverage with match highlights and live commentary.',
-    status: 'Live now',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+    description: 'Premier football and live sports coverage across the UK and Europe.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.sky.com/watch/sky-sports'
   },
   {
-    name: 'Arena Sport',
-    country: 'Spain',
-    sport: 'Basketball',
-    language: 'Spanish',
-    quality: 'HD',
-    description: 'Basketball action from top domestic and international leagues.',
-    status: 'Live now',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
-  },
-  {
-    name: 'Vibe Sports',
-    country: 'Brazil',
-    sport: 'Volleyball',
-    language: 'Portuguese',
-    quality: 'SD',
-    description: 'A vibrant channel for volleyball, beach sports, and regional events.',
-    status: 'Updated',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
-  },
-  {
-    name: 'Nile League',
-    country: 'Egypt',
+    name: 'beIN Sports',
+    country: 'Qatar',
     sport: 'Football',
     language: 'Arabic',
     quality: 'HD',
-    description: 'Regional football coverage with strong commentary and match recaps.',
-    status: 'Live now',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+    description: 'Global football and live sports broadcaster for the Middle East and North Africa.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.bein.com/en/'
   },
   {
-    name: 'Urban Track',
-    country: 'United States',
-    sport: 'Athletics',
+    name: 'SuperSport',
+    country: 'South Africa',
+    sport: 'Football',
     language: 'English',
     quality: 'HD',
-    description: 'Track, field, and sprint events from major competitions around the globe.',
-    status: 'Live now',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+    description: 'Leading African sports broadcaster covering football, rugby, and cricket.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.supersport.com/'
   },
   {
-    name: 'Rally Pulse',
+    name: 'DAZN',
     country: 'Germany',
-    sport: 'Motorsport',
+    sport: 'Boxing',
     language: 'German',
     quality: 'HD',
-    description: 'Motorsport highlights, races, and behind-the-scenes features.',
-    status: 'Live now',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+    description: 'Premium sports streaming service with major boxing and football events.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.dazn.com/'
   },
   {
-    name: 'Champions Arena',
+    name: 'Star Sports',
     country: 'India',
     sport: 'Cricket',
     language: 'Hindi',
     quality: 'HD',
-    description: 'Cricket coverage with commentary tailored for passionate fans.',
-    status: 'Updated',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+    description: 'Prominent Indian sports broadcaster for cricket and major international events.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.hotstar.com/in/sports'
   },
   {
-    name: 'Pulse Net',
-    country: 'Nigeria',
-    sport: 'Boxing',
+    name: 'Eurosport',
+    country: 'France',
+    sport: 'Cycling',
+    language: 'French',
+    quality: 'HD',
+    description: 'European sports network focused on cycling, tennis, and winter sports.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.eurosport.com/'
+  },
+  {
+    name: 'NBC Sports',
+    country: 'United States',
+    sport: 'Basketball',
     language: 'English',
-    quality: 'SD',
-    description: 'Boxing and combat sports content from local and international events.',
-    status: 'Live now',
-    streamUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+    quality: 'HD',
+    description: 'Live coverage of basketball, football, and major US sports events.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.nbcsports.com/'
+  },
+  {
+    name: 'Canal+ Sport',
+    country: 'France',
+    sport: 'Football',
+    language: 'French',
+    quality: 'HD',
+    description: 'French sports broadcaster featuring football, motorsport, and rugby coverage.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.canalplus.com/'
+  },
+  {
+    name: 'Fox Sports',
+    country: 'Brazil',
+    sport: 'Football',
+    language: 'Portuguese',
+    quality: 'HD',
+    description: 'Brazilian sports service with football and regional live programming.',
+    status: 'Official channel',
+    websiteUrl: 'https://www.foxsports.com/'
   }
 ];
 
@@ -119,7 +139,11 @@ function loadChannel(channel) {
   playerCountry.textContent = channel.country;
   playerSport.textContent = channel.sport;
 
-  if (window.Hls && Hls.isSupported()) {
+  if (channel.websiteUrl) {
+    window.open(channel.websiteUrl, '_blank', 'noopener,noreferrer');
+  }
+
+  if (channel.streamUrl && window.Hls && Hls.isSupported()) {
     if (player.hls) {
       player.hls.destroy();
     }
@@ -128,11 +152,11 @@ function loadChannel(channel) {
     player.hls = hls;
     hls.loadSource(channel.streamUrl);
     hls.attachMedia(player);
+    player.play().catch(() => {});
   } else {
-    player.src = channel.streamUrl;
+    player.removeAttribute('src');
+    player.load();
   }
-
-  player.play().catch(() => {});
 }
 
 function renderChannels() {
@@ -176,7 +200,7 @@ function renderChannels() {
             <span>${channel.status}</span>
             <span class="status-pill">●</span>
           </div>
-          <button class="watch-btn" type="button" data-channel="${channel.name}">Watch now</button>
+          <button class="watch-btn" type="button" data-channel="${channel.name}">Open official source</button>
         </article>
       `
     )
