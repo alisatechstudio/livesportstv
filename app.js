@@ -20,6 +20,21 @@ const playerCountry = document.getElementById('playerCountry');
 const playerSport = document.getElementById('playerSport');
 const themeToggle = document.getElementById('themeToggle');
 
+// Use the browser's Intl API to get full country names from codes.
+const countryNameProvider = new Intl.DisplayNames(['en'], { type: 'region' });
+
+function getCountryName(code) {
+  if (!code) return 'Unknown';
+  try {
+    // For valid codes like 'US', this returns 'United States'.
+    return countryNameProvider.of(code);
+  } catch (e) {
+    // For invalid codes like 'INT' or 'XX', .of() throws a RangeError.
+    // In this case, we just return the original code.
+    return code;
+  }
+}
+
 function formatBadge(text) {
   return text || 'N/A';
 }
@@ -55,6 +70,30 @@ function toggleFavorite(channelId) {
   else favoriteChannelIds.push(channelId);
   saveFavorites();
   renderChannels();
+}
+
+async function geolocateAndSetFilter() {
+  try {
+    // Using a free, no-key-required geolocation API
+    const response = await fetch('https://ipapi.co/json/');
+    if (!response.ok) {
+      console.warn('Could not fetch user location:', response.statusText);
+      return;
+    }
+    const locationData = await response.json();
+    const userCountryCode = locationData.country_code;
+
+    if (userCountryCode) {
+      // Check if this country code exists as an option in the filter dropdown
+      const countryExists = Array.from(countryFilter.options).some(opt => opt.value === userCountryCode);
+      if (countryExists) {
+        countryFilter.value = userCountryCode;
+        console.log(`Automatically filtering for user's country: ${userCountryCode}`);
+      }
+    }
+  } catch (error) {
+    console.warn('Geolocation failed. This might be due to an ad-blocker or network issue.', error);
+  }
 }
 
 function parseM3U(m3uContent) {
@@ -100,10 +139,15 @@ function populateFilters() {
   const countries = [...new Set(channels.map((channel) => channel.country))].sort();
   const sports = [...new Set(channels.map((channel) => channel.sport))].sort();
 
-  countries.forEach((country) => {
+  // Create objects with code and full name, then sort alphabetically by name
+  const countryOptions = countries
+    .map(code => ({ code, name: getCountryName(code) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  countryOptions.forEach(({ code, name }) => {
     const option = document.createElement('option');
-    option.value = country;
-    option.textContent = country;
+    option.value = code;
+    option.textContent = name;
     countryFilter.appendChild(option);
   });
 
@@ -117,7 +161,7 @@ function populateFilters() {
 
 function loadChannel(channel) {
   playerTitle.textContent = channel.name;
-  playerCountry.textContent = formatBadge(channel.country);
+  playerCountry.textContent = getCountryName(channel.country);
   playerSport.textContent = formatBadge(channel.sport);
 
   // Set initial loading state
@@ -149,7 +193,7 @@ function loadChannel(channel) {
   // Use HLS.js directly and handle its errors for robustness
   const hls = new Hls({
     // Add a timeout for manifest loading to avoid indefinite waiting
-    manifestLoadTimeout: 5000,
+    manifestLoadTimeout: 15000,
   });
   player.hls = hls;
 
@@ -213,7 +257,7 @@ function renderChannels() {
         <article class="card ${isPlaying ? 'playing' : ''}">
           <div class="meta-row">
             <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" data-channel-id="${channel.id}" aria-label="Toggle Favorite">★</button>
-            <span class="badge">${channel.country}</span>
+            <span class="badge">${getCountryName(channel.country)}</span>
             <span class="badge">${channel.sport}</span>
           </div>
           <h3>${channel.name}</h3>
@@ -247,6 +291,8 @@ function renderChannels() {
       toggleFavorite(channelId);
     });
   });
+
+  return filtered;
 }
 
 async function initializeApp() {
@@ -262,10 +308,23 @@ async function initializeApp() {
 
     if (channels.length > 0) {
       populateFilters();
-      renderChannels();
-      // Load the first channel by default and set its playing state
-      currentlyPlayingId = channels[0].id;
-      loadChannel(channels[0]);
+
+      channelGrid.innerHTML = '<div class="empty-state">Detecting your location to filter channels...</div>';
+      await geolocateAndSetFilter();
+
+      const initialChannels = renderChannels();
+
+      if (initialChannels.length > 0) {
+        // Load the first channel from the (potentially filtered) list
+        currentlyPlayingId = initialChannels[0].id;
+        loadChannel(initialChannels[0]);
+      } else {
+        // This handles the case where auto-filtering results in no channels
+        playerTitle.textContent = 'No channels for your location';
+        playerDescription.textContent = 'Try selecting "All countries" from the filter above.';
+        playerCountry.textContent = '';
+        playerSport.textContent = '';
+      }
     } else {
       channelGrid.innerHTML = '<div class="empty-state">Could not load any sports channels at this time.</div>';
     }
