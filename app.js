@@ -74,27 +74,40 @@ function toggleFavorite(channelId) {
 }
 
 async function geolocateAndSetFilter() {
-  try {
-    // Using a free, no-key-required geolocation API
-    const response = await fetch('https://ipapi.co/json/');
-    if (!response.ok) {
-      console.warn('Could not fetch user location:', response.statusText);
-      return;
-    }
-    const locationData = await response.json();
-    const userCountryCode = locationData.country_code;
+  // Multiple free, CORS-friendly IP geolocation services (no API key required).
+  // We try each in order and stop at the first that returns a valid country code.
+  const geoEndpoints = [
+    { url: 'https://get.geojs.io/v1/ip/geo.json', code: (d) => d.country_code },
+    { url: 'https://ipwho.is/', code: (d) => d.country_code },
+    { url: 'https://ipapi.co/json/', code: (d) => d.country_code },
+  ];
 
-    if (userCountryCode) {
-      // Check if this country code exists as an option in the filter dropdown
-      const countryExists = Array.from(countryFilter.options).some(opt => opt.value === userCountryCode);
-      if (countryExists) {
-        countryFilter.value = userCountryCode;
-        console.log(`Automatically filtering for user's country: ${userCountryCode}`);
+  for (const endpoint of geoEndpoints) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+      const response = await fetch(endpoint.url, { signal: controller.signal });
+      clearTimeout(timeout);
+
+      if (!response.ok) continue;
+
+      const locationData = await response.json();
+      const userCountryCode = endpoint.code(locationData);
+
+      if (userCountryCode) {
+        const countryExists = Array.from(countryFilter.options).some(opt => opt.value === userCountryCode);
+        if (countryExists) {
+          countryFilter.value = userCountryCode;
+          console.log(`Automatically filtering for user's country: ${userCountryCode}`);
+        }
+        return;
       }
+    } catch (error) {
+      console.warn(`Geolocation endpoint failed: ${endpoint.url}`, error);
     }
-  } catch (error) {
-    console.warn('Geolocation failed. This might be due to an ad-blocker or network issue.', error);
   }
+
+  console.warn('Geolocation could not be determined; showing all countries by default.');
 }
 
 function parseM3U(m3uContent) {
