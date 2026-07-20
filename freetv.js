@@ -404,6 +404,10 @@ async function init() {
     if (!m3uRes.ok) throw new Error(`channels: ${m3uRes.statusText}`);
     channels = parseM3U(await m3uRes.text());
 
+    // Surface channels that have a known country first; "International"
+    // (no country metadata in the playlist) sinks to the bottom.
+    channels.sort((a, b) => (a.country === 'INT') - (b.country === 'INT'));
+
     if (!channels.length) throw new Error('No channels were loaded.');
     populateFilters();
     renderAll();
