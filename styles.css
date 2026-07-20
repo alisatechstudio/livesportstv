@@ -319,137 +319,59 @@ body.light-theme .stats strong {
   color: var(--muted);
 }
 
-.channel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
+.channel-select-section {
   margin-top: 24px;
-}
-
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
-  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
-}
-
-.card h3 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.card p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-.meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   gap: 8px;
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 6px 10px;
-  background: rgba(124, 108, 255, 0.16);
-  color: #d9d4ff;
-  font-size: 0.82rem;
-}
-
-body.light-theme .badge {
-  background: rgba(111, 66, 193, 0.16);
-  color: var(--accent-2);
-}
-
-.favorite-btn {
-  background: none;
-  border: none;
+.channel-select-section label {
+  font-size: 0.85rem;
   color: var(--muted);
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0;
-  margin-right: 4px; /* Add some space between star and badges */
-  line-height: 1;
-  transition: color 160ms ease, transform 160ms ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.favorite-btn:hover {
+.channel-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--panel)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23aab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>")
+    no-repeat right 16px center;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 44px 14px 16px;
   color: var(--text);
-  transform: scale(1.15);
-}
-
-.favorite-btn.favorited {
-  color: #ffc700;
-  text-shadow: 0 0 8px rgba(255, 199, 0, 0.5);
-}
-
-body.light-theme .favorite-btn.favorited {
-  color: #ffb700;
-  text-shadow: 0 0 8px rgba(255, 183, 0, 0.5);
-}
-
-.watch-btn {
-  margin-top: auto;
-  border: none;
-  border-radius: 999px;
-  padding: 10px 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: white;
-  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
   cursor: pointer;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
-.watch-btn:hover {
-  transform: translateY(-1px);
+.channel-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(77, 215, 255, 0.25);
 }
 
-.card-footer {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--muted);
-  font-size: 0.9rem;
+.channel-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.status-pill {
-  color: #87f7b1;
-  font-weight: 700;
+.channel-select option {
+  background: #1b1b27;
+  color: #fff;
 }
 
-body.light-theme .status-pill {
-  color: #28a745;
-}
-
-.about {
-  padding-top: 8px;
-}
-
-.about h3 {
-  margin-bottom: 8px;
-}
-
-.about p {
-  color: var(--muted);
-  line-height: 1.7;
-  max-width: 760px;
-}
-
-.footer {
-  padding: 0 24px 40px;
-  text-align: center;
-  color: var(--muted);
+body.light-theme .channel-select option {
+  background: #fff;
+  color: #111;
 }
 
 .empty-state {
@@ -460,12 +382,6 @@ body.light-theme .status-pill {
   border-radius: 24px;
   border: 1px dashed var(--border);
   background: rgba(255, 255, 255, 0.04);
-}
-
-.card.playing {
-  border-color: var(--accent);
-  box-shadow: 0 0 25px rgba(77, 215, 255, 0.3);
-  transform: scale(1.02);
 }
 
 @media (max-width: 900px) {

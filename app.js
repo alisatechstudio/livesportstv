@@ -9,7 +9,7 @@ const countryFilter = document.getElementById('countryFilter');
 const sportFilter = document.getElementById('sportFilter');
 const favoritesFilter = document.getElementById('favoritesFilter');
 const searchInput = document.getElementById('searchInput');
-const channelGrid = document.getElementById('channelGrid');
+const channelSelect = document.getElementById('channelSelect');
 const totalChannels = document.getElementById('totalChannels');
 const totalCountries = document.getElementById('totalCountries');
 const totalSports = document.getElementById('totalSports');
@@ -182,17 +182,12 @@ function loadChannel(channel) {
   playerDescription.textContent = 'Connecting to stream...';
   videoFrame.classList.add('loading');
 
-  // Update the visual indicator for the playing channel
+  // Update the visual indicator for the playing channel in the dropdown
   if (currentlyPlayingId !== channel.id) {
-    const oldPlayingCard = document.querySelector(`.card.playing`);
-    if (oldPlayingCard) {
-      oldPlayingCard.classList.remove('playing');
-    }
-    const newPlayingCard = document.querySelector(`button[data-channel-id="${channel.id}"]`)?.closest('.card');
-    if (newPlayingCard) {
-      newPlayingCard.classList.add('playing');
-    }
     currentlyPlayingId = channel.id;
+    if (channelSelect.value !== channel.id) {
+      channelSelect.value = channel.id;
+    }
   }
 
   if (player.hls) {
@@ -261,54 +256,40 @@ function renderChannels() {
   totalCountries.textContent = [...new Set(filtered.map((channel) => channel.country))].length;
   totalSports.textContent = [...new Set(filtered.map((channel) => channel.sport))].length;
 
+  // Preserve the currently selected channel across re-renders when possible.
+  const previousSelection = channelSelect.value;
+
+  channelSelect.innerHTML = '';
+
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = filtered.length
+    ? '-- Choose a channel --'
+    : 'No channels match those filters';
+  channelSelect.appendChild(placeholder);
+
   if (!filtered.length) {
-    channelGrid.innerHTML = '<div class="empty-state">No channels match those filters yet. Try another country or sport.</div>';
-    return;
+    channelSelect.disabled = true;
+    return filtered;
   }
 
-  channelGrid.innerHTML = filtered
-    .map(
-      (channel) => {
-        const isFavorited = favoriteChannelIds.includes(channel.id);
-        const isPlaying = channel.id === currentlyPlayingId;
-        return `
-        <article class="card ${isPlaying ? 'playing' : ''}">
-          <div class="meta-row">
-            <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" data-channel-id="${channel.id}" aria-label="Toggle Favorite">★</button>
-            <span class="badge">${getCountryName(channel.country)}</span>
-            <span class="badge">${channel.sport}</span>
-          </div>
-          <h3>${channel.name}</h3>
-          <p>${channel.description}</p>
-          <div class="meta-row"><span class="badge">${channel.language}</span></div>
-          <div class="card-footer">
-            <span>${channel.status}</span>
-            <span class="status-pill">●</span>
-          </div>
-          <button class="watch-btn" type="button" data-channel-id="${channel.id}">Watch Now</button>
-        </article>
-      ` }
-    )
-    .join('');
+  channelSelect.disabled = false;
 
-  channelGrid.querySelectorAll('.watch-btn').forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const channelId = button.dataset.channelId;
-      event.currentTarget.blur(); // Remove focus from the button to prevent conflict
-      const selected = channels.find((channel) => channel.id === channelId);
-      if (selected) {
-        loadChannel(selected);
-      }
-    });
+  filtered.forEach((channel) => {
+    const option = document.createElement('option');
+    option.value = channel.id;
+    option.textContent = `${channel.name} (${getCountryName(channel.country)})`;
+    if (channel.id === currentlyPlayingId) option.selected = true;
+    channelSelect.appendChild(option);
   });
 
-  channelGrid.querySelectorAll('.favorite-btn').forEach((button) => {
-    button.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent card click event if any
-      const channelId = button.dataset.channelId;
-      toggleFavorite(channelId);
-    });
-  });
+  // If the previous selection is still in the list, keep it selected;
+  // otherwise fall back to the currently playing channel.
+  if (filtered.some((c) => c.id === previousSelection)) {
+    channelSelect.value = previousSelection;
+  } else if (currentlyPlayingId && filtered.some((c) => c.id === currentlyPlayingId)) {
+    channelSelect.value = currentlyPlayingId;
+  }
 
   return filtered;
 }
@@ -327,7 +308,7 @@ async function initializeApp() {
     if (channels.length > 0) {
       populateFilters();
 
-      channelGrid.innerHTML = '<div class="empty-state">Detecting your location to filter channels...</div>';
+      channelSelect.innerHTML = '<option value="">Detecting your location to filter channels...</option>';
       await geolocateAndSetFilter();
 
       const initialChannels = renderChannels();
@@ -344,16 +325,26 @@ async function initializeApp() {
         playerSport.textContent = '';
       }
     } else {
-      channelGrid.innerHTML = '<div class="empty-state">Could not load any sports channels at this time.</div>';
+      channelSelect.innerHTML = '<option value="">Could not load any sports channels at this time.</option>';
+      channelSelect.disabled = true;
     }
   } catch (error) {
     console.error('Error initializing app:', error);
-    channelGrid.innerHTML = `<div class="empty-state">Error: ${error.message}</div>`;
+    channelSelect.innerHTML = `<option value="">Error: ${error.message}</option>`;
+    channelSelect.disabled = true;
   } finally {
     // Add event listeners after data is ready
     [countryFilter, sportFilter, searchInput, favoritesFilter].forEach((element) => {
       element.addEventListener('input', renderChannels);
       element.addEventListener('change', renderChannels);
+    });
+
+    // Load a channel when the user picks one from the dropdown
+    channelSelect.addEventListener('change', () => {
+      const selected = channels.find((channel) => channel.id === channelSelect.value);
+      if (selected) {
+        loadChannel(selected);
+      }
     });
   }
 }
@@ -372,7 +363,8 @@ function setupTheme() {
 }
 
 // Show a loading message while fetching data
-channelGrid.innerHTML = '<div class="empty-state">Loading thousands of channels...</div>';
+channelSelect.innerHTML = '<option value="">Loading thousands of channels...</option>';
+channelSelect.disabled = true;
 totalChannels.textContent = '...';
 totalCountries.textContent = '...';
 totalSports.textContent = '...';
