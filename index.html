@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Sports TV Channels</title>
+    <meta
+      name="description"
+      content="Browse free sports TV channels around the world, filtered by country and sport type."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Global sports streaming directory</p>
+        <h1>Free sports channels from around the world.</h1>
+        <p class="hero-text">
+          Discover live sports coverage by country and sport type, with a clean, fast
+          browsing experience for fans everywhere.
+        </p>
+        <div class="hero-actions">
+          <a href="#directory" class="btn btn-primary">Explore channels</a>
+          <a href="#about" class="btn btn-secondary">How it works</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="directory" class="container">
+      <section class="toolbar" aria-label="Channel filters">
+        <div class="search-box">
+          <label for="searchInput">Search by name or language</label>
+          <input id="searchInput" type="text" placeholder="Search channels" />
+        </div>
+
+        <div class="filter-group">
+          <label for="countryFilter">Country</label>
+          <select id="countryFilter">
+            <option value="all">All countries</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="sportFilter">Sport</label>
+          <select id="sportFilter">
+            <option value="all">All sports</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="Directory statistics">
+        <article>
+          <strong id="totalChannels">0</strong>
+          <span>Channels</span>
+        </article>
+        <article>
+          <strong id="totalCountries">0</strong>
+          <span>Countries</span>
+        </article>
+        <article>
+          <strong id="totalSports">0</strong>
+          <span>Sports</span>
+        </article>
+      </section>
+
+      <section id="channelGrid" class="channel-grid" aria-live="polite"></section>
+    </main>
+
+    <section id="about" class="about container">
+      <h2>Why this directory works</h2>
+      <p>
+        This experience helps fans discover sports content quickly by narrowing the list to
+        their preferred country and sport. It is designed as a lightweight, modern directory
+        that can be expanded with real sources and live links over time.
+      </p>
+      <p>
+        Please always verify that any stream or source is legal and available in your region.
+      </p>
+    </section>
+
+    <footer class="footer">
+      <p>Built for sports fans who want a cleaner way to browse global channels.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
