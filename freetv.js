@@ -1,12 +1,15 @@
 // FreeTV clone — uses the public iptv-org data
 const M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
 const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
+const LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json';
 const FAV_KEY = 'freetvFavorites';
 const THEME_KEY = 'freetvTheme';
 
 // Country data sourced from iptv-org/database via their public API.
-// Maps ISO alpha-2 code -> { name, flag (emoji) }
+// Maps ISO alpha-2 code -> { name, flag (emoji), languages: [iso639-3,...] }
 let countryData = {};
+// Maps ISO 639-3 language code -> human-readable name.
+let langName = {};
 
 // Category mapping derived from iptv-org group-title values
 const CATEGORY_MAP = {
@@ -43,6 +46,7 @@ const els = {
   search: document.getElementById('searchInput'),
   country: document.getElementById('countryFilter'),
   category: document.getElementById('categoryFilter'),
+  language: document.getElementById('languageFilter'),
   favoritesToggle: document.getElementById('favoritesToggle'),
   statChannels: document.getElementById('statChannels'),
   statCountries: document.getElementById('statCountries'),
@@ -141,11 +145,17 @@ function parseM3U(text) {
     const cc = id.match(/\.([a-zA-Z]{2})(@|$)/);
     const country = cc ? cc[1].toUpperCase() : 'INT';
 
+    // Derive language(s) from the country's official languages.
+    const langs = (countryData[country] && countryData[country].languages) || [];
+    const languages = langs.map((code) => langName[code] || code).filter(Boolean);
+
     out.push({
       id: id || name,
       name: name.trim(),
       category,
       country,
+      languages,
+      language: languages[0] || 'Unknown',
       logo,
       streamUrl: next,
     });
@@ -154,9 +164,10 @@ function parseM3U(text) {
 }
 
 function populateFilters() {
-  // Reset both selects before (re)populating.
+  // Reset the selects before (re)populating.
   els.country.innerHTML = '<option value="all">All countries</option>';
   els.category.innerHTML = '<option value="all">All categories</option>';
+  els.language.innerHTML = '<option value="all">All languages</option>';
 
   // Only show countries that actually have channels.
   const present = new Set(channels.map((c) => c.country));
@@ -180,6 +191,17 @@ function populateFilters() {
     o.value = c;
     o.textContent = c;
     els.category.appendChild(o);
+  });
+
+  // Languages derived from each channel's country.
+  const langs = [...new Set(channels.flatMap((c) => c.languages))]
+    .filter((l) => l && l !== 'Unknown')
+    .sort((a, b) => a.localeCompare(b));
+  langs.forEach((l) => {
+    const o = document.createElement('option');
+    o.value = l;
+    o.textContent = l;
+    els.language.appendChild(o);
   });
 
   els.statChannels.textContent = channels.length.toLocaleString();
@@ -213,6 +235,7 @@ function cardHtml(channel) {
         <span class="card-country">
           <img class="flag" src="${flagUrl}" alt="" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
         </span>
+        <span class="card-lang">${channel.language !== 'Unknown' ? channel.language : ''}</span>
         <span class="status"><span class="dot"></span> Live</span>
       </div>
     </article>`;
@@ -231,6 +254,7 @@ function getFilters() {
     q: els.search.value.trim().toLowerCase(),
     country: els.country.value,
     category: els.category.value,
+    language: els.language.value,
     favOnly: els.favoritesToggle.getAttribute('aria-pressed') === 'true',
   };
 }
@@ -240,8 +264,9 @@ function filtered(f) {
     if (f.favOnly && !isFav(c.id)) return false;
     if (f.country !== 'all' && c.country !== f.country) return false;
     if (f.category !== 'all' && categoryFor(c) !== f.category) return false;
+    if (f.language !== 'all' && !(c.languages || []).includes(f.language)) return false;
     if (f.q) {
-      const hay = `${c.name} ${getCountryName(c.country)} ${categoryFor(c)}`.toLowerCase();
+      const hay = `${c.name} ${getCountryName(c.country)} ${categoryFor(c)} ${(c.languages || []).join(' ')}`.toLowerCase();
       if (!hay.includes(f.q)) return false;
     }
     return true;
@@ -258,7 +283,7 @@ function renderAll() {
   const news = all.filter((c) => categoryFor(c) === 'News').slice(0, 12);
 
   // When a specific search/filter is active, hide the themed rows and show everything in "all"
-  const focused = f.q || f.country !== 'all' || f.category !== 'all' || f.favOnly;
+  const focused = f.q || f.country !== 'all' || f.category !== 'all' || f.language !== 'all' || f.favOnly;
 
   els.grids.trending.parentElement.style.display = focused ? 'none' : '';
   els.grids.sports.parentElement.style.display = focused ? 'none' : '';
@@ -276,7 +301,7 @@ let hls = null;
 
 function openPlayer(channel) {
   els.title.textContent = channel.name;
-  els.desc.textContent = `${categoryFor(channel)} • ${getCountryName(channel.country)}`;
+  els.desc.textContent = `${categoryFor(channel)} • ${getCountryName(channel.country)}${channel.language !== 'Unknown' ? ' • ' + channel.language : ''}`;
   els.countryEl.textContent = getCountryName(channel.country);
   els.categoryEl.textContent = categoryFor(channel);
   els.flag.src = `https://flagcdn.com/24x18/${channel.country.toLowerCase()}.png`;
@@ -347,7 +372,7 @@ function hideOverlay() {
 
 // Events
 function bindEvents() {
-  [els.search, els.country, els.category].forEach((el) => {
+  [els.search, els.country, els.category, els.language].forEach((el) => {
     el.addEventListener('input', renderAll);
     el.addEventListener('change', renderAll);
   });
@@ -390,17 +415,26 @@ async function init() {
   allGrids.forEach((g) => (g.innerHTML = '<div class="empty-state">Loading channels from iptv-org…</div>'));
 
   try {
-    // Country metadata (names + flag emoji) and the channel list in parallel.
+    // Country + language metadata and the channel list in parallel.
     const countriesPromise = fetch(COUNTRIES_URL)
       .then((r) => (r.ok ? r.json() : []))
       .then((list) => {
         (list || []).forEach((c) => {
-          countryData[c.code] = { name: c.name, flag: c.flag };
+          countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
         });
       })
       .catch((err) => console.warn('Could not load country data:', err));
 
-    const [m3uRes] = await Promise.all([fetch(M3U_URL), countriesPromise]);
+    const languagesPromise = fetch(LANGUAGES_URL)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list) => {
+        (list || []).forEach((l) => {
+          langName[l.code] = l.name;
+        });
+      })
+      .catch((err) => console.warn('Could not load language data:', err));
+
+    const [m3uRes] = await Promise.all([fetch(M3U_URL), countriesPromise, languagesPromise]);
     if (!m3uRes.ok) throw new Error(`channels: ${m3uRes.statusText}`);
     channels = parseM3U(await m3uRes.text());
 

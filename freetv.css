@@ -245,7 +245,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 180px;
+  min-width: 160px;
+  flex: 1 1 160px;
 }
 
 .filter-group label {
@@ -396,6 +397,19 @@ a {
   gap: 6px;
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+.card-lang {
+  color: var(--muted);
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+body.light-theme .card-lang {
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .flag {
