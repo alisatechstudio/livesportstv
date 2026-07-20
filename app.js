@@ -3,7 +3,7 @@ let favoriteChannelIds = [];
 let currentlyPlayingId = null;
 const FAVORITES_KEY = 'iptvFavorites';
 const THEME_KEY = 'iptvTheme';
-const M3U_STREAMS_URL = 'https://cdn.jsdelivr.net/gh/iptv-org/iptv/index.m3u';
+const M3U_STREAMS_URL = 'https://raw.githack.com/iptv-org/iptv/master/index.m3u';
 
 const countryFilter = document.getElementById('countryFilter');
 const sportFilter = document.getElementById('sportFilter');
