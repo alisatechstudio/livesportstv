@@ -1,4 +1,4 @@
-// FreeTV clone — uses the public iptv-org M3U playlist (HLS .m3u8 streams)
+// FreeTV clone — uses the public iptv-org data
 const M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
 const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
 const FAV_KEY = 'freetvFavorites';
@@ -121,7 +121,8 @@ function applyTheme(theme) {
   els.themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
 }
 
-// Parse M3U into channels
+// Parse the main M3U into channels. Country is extracted from the tvg-id,
+// which uses the form "Name.cc@Quality" (e.g. "BBCNews.uk@SD").
 function parseM3U(text) {
   const lines = text.split('\n');
   const out = [];
@@ -137,7 +138,7 @@ function parseM3U(text) {
     const id = tvgId ? tvgId[1] : `ch-${out.length}`;
     const name = (line.match(/,(.+)$/) || [, 'Unknown'])[1];
     const logo = (line.match(/tvg-logo="([^"]*)"/) || [])[1] || '';
-    const cc = id.match(/\.([a-zA-Z]{2})$/);
+    const cc = id.match(/\.([a-zA-Z]{2})(@|$)/);
     const country = cc ? cc[1].toUpperCase() : 'INT';
 
     out.push({
@@ -153,13 +154,19 @@ function parseM3U(text) {
 }
 
 function populateFilters() {
-  // Build the country dropdown from the full iptv-org dataset (real list),
-  // falling back to codes found in the playlist if the dataset failed to load.
-  const datasetCodes = Object.keys(countryData).filter((c) => c);
-  const countryOptions = (datasetCodes.length
-    ? datasetCodes.map((code) => ({ code, name: countryData[code].name || getCountryName(code) }))
-    : [...new Set(channels.map((c) => c.country))]
-  ).sort((a, b) => a.name.localeCompare(b.name));
+  // Reset both selects before (re)populating.
+  els.country.innerHTML = '<option value="all">All countries</option>';
+  els.category.innerHTML = '<option value="all">All categories</option>';
+
+  // Only show countries that actually have channels.
+  const present = new Set(channels.map((c) => c.country));
+  const countryOptions = [...present]
+    .filter((code) => code && code !== 'INT')
+    .map((code) => ({ code, name: getCountryName(code) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  if (present.has('INT')) {
+    countryOptions.unshift({ code: 'INT', name: 'International' });
+  }
   countryOptions.forEach(({ code, name }) => {
     const o = document.createElement('option');
     o.value = code;
@@ -176,8 +183,7 @@ function populateFilters() {
   });
 
   els.statChannels.textContent = channels.length.toLocaleString();
-  const presentCountries = new Set(channels.map((c) => c.country));
-  els.statCountries.textContent = presentCountries.size;
+  els.statCountries.textContent = present.size;
   els.statCategories.textContent = cats.length;
 }
 
@@ -380,28 +386,30 @@ async function init() {
   setupTheme();
   bindEvents();
 
-  // Load country metadata from iptv-org in parallel with the channel list.
-  const countriesPromise = fetch(COUNTRIES_URL)
-    .then((r) => (r.ok ? r.json() : []))
-    .then((list) => {
-      (list || []).forEach((c) => {
-        countryData[c.code] = { name: c.name, flag: c.flag };
-      });
-    })
-    .catch((err) => console.warn('Could not load country data:', err));
+  const allGrids = Object.values(els.grids);
+  allGrids.forEach((g) => (g.innerHTML = '<div class="empty-state">Loading channels from iptv-org…</div>'));
 
   try {
-    const [res] = await Promise.all([
-      fetch(M3U_URL),
-      countriesPromise,
-    ]);
-    if (!res.ok) throw new Error(`Failed to load channels: ${res.statusText}`);
-    channels = parseM3U(await res.text());
+    // Country metadata (names + flag emoji) and the channel list in parallel.
+    const countriesPromise = fetch(COUNTRIES_URL)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list) => {
+        (list || []).forEach((c) => {
+          countryData[c.code] = { name: c.name, flag: c.flag };
+        });
+      })
+      .catch((err) => console.warn('Could not load country data:', err));
+
+    const [m3uRes] = await Promise.all([fetch(M3U_URL), countriesPromise]);
+    if (!m3uRes.ok) throw new Error(`channels: ${m3uRes.statusText}`);
+    channels = parseM3U(await m3uRes.text());
+
+    if (!channels.length) throw new Error('No channels were loaded.');
     populateFilters();
     renderAll();
   } catch (err) {
     console.error(err);
-    Object.values(els.grids).forEach((g) => {
+    allGrids.forEach((g) => {
       g.innerHTML = `<div class="empty-state">Could not load channels: ${err.message}</div>`;
     });
   }
