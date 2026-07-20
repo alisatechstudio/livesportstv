@@ -223,8 +223,9 @@ function renderChannels() {
     .join('');
 
   channelGrid.querySelectorAll('.watch-btn').forEach((button) => {
-    button.addEventListener('click', async () => {
+    button.addEventListener('click', async (event) => {
       const channelId = button.dataset.channelId;
+      event.currentTarget.blur(); // Remove focus from the button to prevent conflict
       const selected = channels.find((channel) => channel.id === channelId);
       if (selected) {
         await loadChannel(selected);
