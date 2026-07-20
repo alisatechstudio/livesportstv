@@ -22,15 +22,26 @@
     <div class="bg-glow glow-2"></div>
 
     <header class="hero">
-      <div class="hero-content"></div>
+      <div class="hero-content">
+        <div class="hero-badge">LIVE SPORTS</div>
+        <h1>World Sports TV</h1>
+        <p>Browse public sports channels by country, sport, and language.</p>
+        <div class="hero-actions">
+          <a href="#directory" class="btn btn-primary">Explore channels</a>
+          <a href="#about" class="btn btn-secondary">About this directory</a>
+        </div>
+      </div>
     </header>
 
     <main id="directory" class="container">
       <section class="player-section" aria-label="Embedded IPTV player">
         <div class="player-card">
           <div class="player-header">
-            <div></div>
-            <span class="player-state"></span>
+            <div>
+              <div class="hero-badge">NOW PLAYING</div>
+              <h2 id="playerTitle">Select a channel</h2>
+            </div>
+            <div class="player-state">Official source</div>
           </div>
 
           <div class="video-frame">
@@ -38,6 +49,7 @@
           </div>
 
           <div class="player-meta">
+            <p id="playerDescription"></p>
             <div class="meta-row">
               <span id="playerCountry" class="badge"></span>
               <span id="playerSport" class="badge"></span>
@@ -85,9 +97,14 @@
       <section id="channelGrid" class="channel-grid" aria-live="polite"></section>
     </main>
 
-    <section id="about" class="about container"></section>
+    <section id="about" class="about container">
+      <h3>About this directory</h3>
+      <p>This directory helps fans discover public sports TV channels by country, sport, and language.</p>
+    </section>
 
-    <footer class="footer"></footer>
+    <footer class="footer">
+      <p>Built for a modern sports streaming experience.</p>
+    </footer>
 
     <script src="app.js"></script>
   </body>

@@ -114,6 +114,10 @@ const playerDescription = document.getElementById('playerDescription');
 const playerCountry = document.getElementById('playerCountry');
 const playerSport = document.getElementById('playerSport');
 
+function formatBadge(text) {
+  return text || 'Live';
+}
+
 function populateFilters() {
   const countries = [...new Set(channels.map((channel) => channel.country))].sort();
   const sports = [...new Set(channels.map((channel) => channel.sport))].sort();
@@ -135,9 +139,9 @@ function populateFilters() {
 
 function loadChannel(channel) {
   playerTitle.textContent = channel.name;
-  playerDescription.textContent = `${channel.description} ${channel.language} • ${channel.quality} stream`;
-  playerCountry.textContent = channel.country;
-  playerSport.textContent = channel.sport;
+  playerDescription.textContent = `${channel.description} • ${channel.language} • ${channel.quality}`;
+  playerCountry.textContent = formatBadge(channel.country);
+  playerSport.textContent = formatBadge(channel.sport);
 
   if (channel.websiteUrl) {
     window.open(channel.websiteUrl, '_blank', 'noopener,noreferrer');
@@ -200,7 +204,7 @@ function renderChannels() {
             <span>${channel.status}</span>
             <span class="status-pill">●</span>
           </div>
-          <button class="watch-btn" type="button" data-channel="${channel.name}">Open official source</button>
+          <button class="watch-btn" type="button" data-channel="${channel.name}">Open source</button>
         </article>
       `
     )
