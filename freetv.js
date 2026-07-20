@@ -221,7 +221,7 @@ function cardHtml(channel) {
   const logo = logoUrl(channel);
   const initials = channel.name.replace(/[^A-Za-z0-9 ]/g, '').slice(0, 2).toUpperCase();
   const logoEl = logo
-    ? `<img class="card-logo" src="${logo}" alt="" loading="lazy" onerror="this.outerHTML='<div class=\\'card-logo card-logo-fallback\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
+    ? `<img class="card-logo" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'card-logo card-logo-fallback\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
     : `<div class="card-logo card-logo-fallback" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
   return `
@@ -233,7 +233,7 @@ function cardHtml(channel) {
       </div>
       <div class="card-meta">
         <span class="card-country">
-          <img class="flag" src="${flagUrl}" alt="" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
+          <img class="flag" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
         </span>
         <span class="card-lang">${channel.language !== 'Unknown' ? channel.language : ''}</span>
         <span class="status"><span class="dot"></span> Live</span>
@@ -305,6 +305,7 @@ function openPlayer(channel) {
   els.countryEl.textContent = getCountryName(channel.country);
   els.categoryEl.textContent = categoryFor(channel);
   els.flag.src = `https://flagcdn.com/24x18/${channel.country.toLowerCase()}.png`;
+  els.flag.referrerPolicy = 'no-referrer';
   els.flag.style.display = '';
 
   showOverlay('Connecting to stream…');
@@ -452,5 +453,11 @@ async function init() {
     });
   }
 }
+
+window.addEventListener('error', (e) => {
+  if (e.target && e.target.tagName === 'IMG' && e.target.src.includes('effectivecpmnetwork')) return true;
+  if (e.message && e.message.includes('Cannot read') && e.filename && !e.filename.includes('freetv')) return true;
+  return false;
+}, true);
 
 init();
