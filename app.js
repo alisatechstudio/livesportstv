@@ -3,7 +3,7 @@ let favoriteChannelIds = [];
 let currentlyPlayingId = null;
 const FAVORITES_KEY = 'iptvFavorites';
 const THEME_KEY = 'iptvTheme';
-const IPTV_CHANNELS_URL = 'https://iptv-org.github.io/iptv/channels.json';
+const M3U_STREAMS_URL = 'https://iptv-org.github.io/iptv/streams.m3u';
 
 const countryFilter = document.getElementById('countryFilter');
 const sportFilter = document.getElementById('sportFilter');
@@ -55,6 +55,45 @@ function toggleFavorite(channelId) {
   else favoriteChannelIds.push(channelId);
   saveFavorites();
   renderChannels();
+}
+
+function parseM3U(m3uContent) {
+  const lines = m3uContent.split('\n');
+  const parsedChannels = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line.startsWith('#EXTINF:')) {
+      continue;
+    }
+
+    const nextLine = lines[i + 1] ? lines[i + 1].trim() : '';
+    // Ensure the next line is a valid HLS stream URL
+    if (!nextLine || nextLine.startsWith('#') || !nextLine.endsWith('.m3u8')) {
+      continue;
+    }
+
+    const groupTitleMatch = line.match(/group-title="([^"]*)"/);
+    const category = groupTitleMatch ? groupTitleMatch[1] : '';
+
+    // Filter for sports channels during parsing
+    if (category.toLowerCase() !== 'sports') {
+      continue;
+    }
+
+    const tvgIdMatch = line.match(/tvg-id="([^"]*)"/);
+    const id = tvgIdMatch ? tvgIdMatch[1] : `ch-${parsedChannels.length}`;
+
+    const nameMatch = line.match(/,(.+)$/);
+    const name = nameMatch ? nameMatch[1] : 'Unknown Channel';
+
+    // Best-effort country code extraction from tvg-id (e.g., "Channel.us")
+    const countryCodeMatch = id.match(/\.([a-zA-Z]{2})$/);
+    const country = countryCodeMatch ? countryCodeMatch[1].toUpperCase() : 'INT';
+
+    parsedChannels.push({ id: id || name, name, country, sport: 'Sports', language: 'Unknown', quality: 'SD/HD', description: `A public stream for ${name}.`, status: 'Public Stream', streamUrl: nextLine });
+  }
+  return parsedChannels;
 }
 
 function populateFilters() {
@@ -144,7 +183,7 @@ function renderChannels() {
 
     const matchesCountry = countryValue === 'all' || channel.country === countryValue;
     const matchesSport = sportValue === 'all' || channel.sport === sportValue;
-    const searchText = `${channel.name} ${channel.language} ${channel.description}`.toLowerCase();
+    const searchText = `${channel.name} ${channel.country}`.toLowerCase();
     const matchesSearch = searchValue === '' || searchText.includes(searchValue);
     return matchesCountry && matchesSport && matchesSearch;
   });
@@ -205,32 +244,20 @@ function renderChannels() {
 async function initializeApp() {
   favoriteChannelIds = getFavorites();
   try {
-    const response = await fetch(IPTV_CHANNELS_URL);
+    const response = await fetch(M3U_STREAMS_URL);
     if (!response.ok) {
       throw new Error(`Failed to fetch channel list: ${response.statusText}`);
     }
-    const data = await response.json();
+    const m3uContent = await response.text();
 
-    channels = data
-      .filter((channel) => channel.category === 'Sports' && channel.status !== 'BROKEN')
-      .map((channel) => ({
-        id: channel.id, // Use the unique ID from the API
-        name: channel.name,
-        country: channel.countries[0]?.name || 'Unknown',
-        sport: 'Sports', // The API provides a general "Sports" category
-        language: channel.languages[0]?.name || 'Unknown',
-        quality: channel.is_nsfw === false ? 'SD/HD' : 'Unknown',
-        description: `A public stream for ${channel.name}.`,
-        status: 'Public Stream',
-        streamUrl: channel.url,
-      }));
+    channels = parseM3U(m3uContent);
 
     if (channels.length > 0) {
       populateFilters();
       renderChannels();
       // Load the first channel by default and set its playing state
       currentlyPlayingId = channels[0].id;
-      loadChannel(channels[0]);
+      await loadChannel(channels[0]);
     } else {
       channelGrid.innerHTML = '<div class="empty-state">Could not load any sports channels at this time.</div>';
     }
