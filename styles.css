@@ -11,6 +11,19 @@
   --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
+body.light-theme {
+  color-scheme: light;
+  --bg: #f4f7fb;
+  --panel: rgba(255, 255, 255, 0.8);
+  --panel-strong: #ffffff;
+  --text: #07111f;
+  --muted: #5a687e;
+  --accent: #007bff;
+  --accent-2: #6f42c1;
+  --border: rgba(0, 0, 0, 0.1);
+  --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,12 +37,20 @@ body {
   overflow-x: hidden;
 }
 
+body.light-theme {
+  background: radial-gradient(circle at top left, #e0e8f5 0%, var(--bg) 50%, #ffffff 100%);
+}
+
 .bg-glow {
   position: fixed;
   filter: blur(80px);
   opacity: 0.45;
   z-index: 0;
   pointer-events: none;
+}
+
+body.light-theme .bg-glow {
+  display: none;
 }
 
 .glow-1 {
@@ -53,6 +74,30 @@ body {
 .footer {
   position: relative;
   z-index: 1;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 100;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
 }
 
 .hero {
@@ -81,6 +126,11 @@ body {
   text-transform: uppercase;
   margin-bottom: 14px;
   font-size: 0.8rem;
+}
+
+body.light-theme .hero-badge {
+  background: rgba(0, 123, 255, 0.16);
+  color: var(--accent);
 }
 
 h1 {
@@ -170,6 +220,11 @@ h1 {
   border-radius: 999px;
 }
 
+body.light-theme .player-state {
+  color: #28a745;
+  background: rgba(40, 167, 69, 0.14);
+}
+
 .video-frame {
   border-radius: 20px;
   overflow: hidden;
@@ -256,6 +311,10 @@ select {
   color: var(--accent);
 }
 
+body.light-theme .stats strong {
+  color: var(--accent);
+}
+
 .stats span {
   color: var(--muted);
 }
@@ -277,6 +336,7 @@ select {
   gap: 10px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .card h3 {
@@ -293,6 +353,7 @@ select {
 .meta-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
@@ -304,6 +365,38 @@ select {
   background: rgba(124, 108, 255, 0.16);
   color: #d9d4ff;
   font-size: 0.82rem;
+}
+
+body.light-theme .badge {
+  background: rgba(111, 66, 193, 0.16);
+  color: var(--accent-2);
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 4px; /* Add some space between star and badges */
+  line-height: 1;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.favorite-btn:hover {
+  color: var(--text);
+  transform: scale(1.15);
+}
+
+.favorite-btn.favorited {
+  color: #ffc700;
+  text-shadow: 0 0 8px rgba(255, 199, 0, 0.5);
+}
+
+body.light-theme .favorite-btn.favorited {
+  color: #ffb700;
+  text-shadow: 0 0 8px rgba(255, 183, 0, 0.5);
 }
 
 .watch-btn {
@@ -335,6 +428,10 @@ select {
   font-weight: 700;
 }
 
+body.light-theme .status-pill {
+  color: #28a745;
+}
+
 .about {
   padding-top: 8px;
 }
@@ -363,6 +460,12 @@ select {
   border-radius: 24px;
   border: 1px dashed var(--border);
   background: rgba(255, 255, 255, 0.04);
+}
+
+.card.playing {
+  border-color: var(--accent);
+  box-shadow: 0 0 25px rgba(77, 215, 255, 0.3);
+  transform: scale(1.02);
 }
 
 @media (max-width: 900px) {
