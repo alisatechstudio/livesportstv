@@ -6,7 +6,7 @@
     <title>Live Sports TV</title>
     <meta
       name="description"
-      content="Browse IPTV sports channels around the world with a built-in player, filtered by country and sport type."
+      content="Watch public IPTV sports channels from around the world. Filter by country, sport, and language with a built-in player."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,12 +25,14 @@
 
     <header class="hero">
       <div class="hero-content">
-        <div class="hero-badge">LIVE SPORTS</div>
+        <div class="hero-badge">
+          <span class="pulse"></span> Live Sports
+        </div>
         <h1>World Sports TV</h1>
-        <p>Browse public sports channels by country, sport, and language.</p>
+        <p>Stream public sports channels from every country. Filter by region and sport, then pick a channel to watch instantly.</p>
         <div class="hero-actions">
-          <a href="#directory" class="btn btn-primary">Explore channels</a>
-          <a href="#about" class="btn btn-secondary">About this directory</a>
+          <a href="#directory" class="btn btn-primary">Browse channels</a>
+          <a href="#about" class="btn btn-secondary">How it works</a>
         </div>
       </div>
     </header>
@@ -38,52 +40,26 @@
     <main id="directory" class="container">
       <section class="player-section" aria-label="Embedded IPTV player">
         <div class="player-card">
-          <div class="player-header">
-            <div>
-              <div class="hero-badge">NOW PLAYING</div>
-              <h2 id="playerTitle">Select a channel</h2>
-            </div>
-            <div class="player-state">Public Stream</div>
-          </div>
-
           <div class="video-frame">
             <video id="iptvPlayer" controls playsinline preload="metadata"></video>
-          </div>
-
-          <div class="player-meta">
-            <p id="playerDescription"></p>
-            <div class="meta-row">
-              <span id="playerCountry" class="badge"></span>
-              <span id="playerSport" class="badge"></span>
+            <div class="video-overlay" id="videoOverlay">
+              <div class="spinner"></div>
+              <span id="overlayText">Connecting to stream…</span>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section class="toolbar" aria-label="Channel filters">
-        <div class="search-box">
-          <label for="searchInput">Search by name or language</label>
-          <input id="searchInput" type="text" placeholder="Search channels" />
-        </div>
-
-        <div class="filter-group">
-          <label for="countryFilter">Country</label>
-          <select id="countryFilter">
-            <option value="all">All countries</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label for="sportFilter">Sport</label>
-          <select id="sportFilter">
-            <option value="all">All sports</option>
-          </select>
-        </div>
-
-        <div class="filter-group-toggle">
-          <label for="favoritesFilter">
-            <input type="checkbox" id="favoritesFilter" />
-            <span>Show Favorites Only</span></label>
+          <div class="player-info">
+            <div class="player-titles">
+              <div class="hero-badge now-playing">Now Playing</div>
+              <h2 id="playerTitle">Select a channel</h2>
+              <p id="playerDescription"></p>
+            </div>
+            <div class="player-badges">
+              <span id="playerCountry" class="badge">—</span>
+              <span id="playerSport" class="badge">—</span>
+              <span class="badge badge-live">Public Stream</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -102,17 +78,52 @@
         </article>
       </section>
 
+      <section class="toolbar" aria-label="Channel filters">
+        <div class="search-box">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="text" placeholder="Search by name or country…" />
+        </div>
+
+        <div class="filter-group">
+          <label for="countryFilter">Country</label>
+          <select id="countryFilter">
+            <option value="all">All countries</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="sportFilter">Sport</label>
+          <select id="sportFilter">
+            <option value="all">All sports</option>
+          </select>
+        </div>
+
+        <div class="filter-group-toggle">
+          <label class="switch">
+            <input type="checkbox" id="favoritesFilter" />
+            <span class="slider"></span>
+            <span class="switch-label">Favorites only</span>
+          </label>
+        </div>
+      </section>
+
       <section class="channel-select-section">
         <label for="channelSelect">Select a channel</label>
-        <select id="channelSelect" class="channel-select">
-          <option value="">-- Choose a channel --</option>
-        </select>
+        <div class="select-wrap">
+          <select id="channelSelect" class="channel-select">
+            <option value="">-- Choose a channel --</option>
+          </select>
+          <span class="select-count" id="channelCount"></span>
+        </div>
       </section>
     </main>
 
     <section id="about" class="about container">
       <h3>About this directory</h3>
-      <p>This directory helps fans discover public sports TV channels by country, sport, and language.</p>
+      <p>
+        This directory helps fans discover public sports TV channels by country, sport, and language.
+        Streams are sourced from public IPTV playlists and played directly in your browser.
+      </p>
     </section>
 
     <footer class="footer">
@@ -121,6 +132,6 @@
 
     <script src="https://pl30444345.effectivecpmnetwork.com/97/0f/11/970f112cc56a513a8e5d1561cbe3558c.js"></script>
     <script src="https://pl30444344.effectivecpmnetwork.com/82/48/78/824878b0986e4439539f1f4e2a716cbb.js"></script>
-    <script src="app.js?v=20260720c"></script>
+    <script src="app.js?v=20260720d"></script>
   </body>
 </html>

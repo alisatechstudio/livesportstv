@@ -20,6 +20,9 @@ const playerDescription = document.getElementById('playerDescription');
 const playerCountry = document.getElementById('playerCountry');
 const playerSport = document.getElementById('playerSport');
 const themeToggle = document.getElementById('themeToggle');
+const videoOverlay = document.getElementById('videoOverlay');
+const overlayText = document.getElementById('overlayText');
+const channelCount = document.getElementById('channelCount');
 
 // Use the browser's Intl API to get full country names from codes.
 const countryNameProvider = new Intl.DisplayNames(['en'], { type: 'region' });
@@ -179,8 +182,8 @@ function loadChannel(channel) {
   playerSport.textContent = formatBadge(channel.sport);
 
   // Set initial loading state
-  playerDescription.textContent = 'Connecting to stream...';
-  videoFrame.classList.add('loading');
+  playerDescription.textContent = 'Connecting to stream…';
+  showOverlay('Connecting to stream…');
 
   // Update the visual indicator for the playing channel in the dropdown
   if (currentlyPlayingId !== channel.id) {
@@ -197,7 +200,7 @@ function loadChannel(channel) {
   if (!channel.streamUrl) {
     player.removeAttribute('src');
     playerDescription.textContent = 'No stream URL available for this channel.';
-    videoFrame.classList.remove('loading');
+    hideOverlay();
     return;
   }
 
@@ -211,7 +214,7 @@ function loadChannel(channel) {
   hls.on(Hls.Events.MANIFEST_PARSED, function () {
     // Stream manifest loaded successfully, update description
     playerDescription.textContent = channel.description;
-    videoFrame.classList.remove('loading');
+    hideOverlay();
   });
 
   hls.on(Hls.Events.ERROR, function (event, data) {
@@ -225,7 +228,7 @@ function loadChannel(channel) {
       }
 
       playerDescription.textContent = errorMessage;
-      videoFrame.classList.remove('loading');
+      showOverlay(errorMessage, true);
       hls.destroy();
     }
   });
@@ -233,6 +236,18 @@ function loadChannel(channel) {
   hls.loadSource(channel.streamUrl);
   hls.attachMedia(player);
   player.play().catch(() => {});
+}
+
+function showOverlay(text, isError = false) {
+  if (!videoOverlay) return;
+  overlayText.textContent = text;
+  videoOverlay.classList.toggle('error', isError);
+  videoOverlay.classList.add('visible');
+}
+
+function hideOverlay() {
+  if (!videoOverlay) return;
+  videoOverlay.classList.remove('visible');
 }
 
 function renderChannels() {
@@ -270,10 +285,14 @@ function renderChannels() {
 
   if (!filtered.length) {
     channelSelect.disabled = true;
+    if (channelCount) channelCount.textContent = '0 channels';
     return filtered;
   }
 
   channelSelect.disabled = false;
+  if (channelCount) {
+    channelCount.textContent = `${filtered.length} channel${filtered.length === 1 ? '' : 's'}`;
+  }
 
   filtered.forEach((channel) => {
     const option = document.createElement('option');
