@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,14 +53,16 @@
       }
     </script>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JWH1BZW037"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JWH1BZW037"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-JWH1BZW037');
-</script>
+      gtag("config", "G-JWH1BZW037");
+    </script>
 
     <!-- Resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -76,143 +78,328 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="freetv.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              base: "var(--bg)",
+              surface: "var(--bg-2)",
+              card: "var(--card)",
+              "card-hover": "var(--card-hover)",
+              ink: "var(--text)",
+              muted: "var(--muted)",
+              edge: "var(--border)",
+              primary: "var(--primary)",
+              "primary-soft": "var(--primary-soft)",
+              accent: "var(--accent)",
+              emerald: "var(--emerald)",
+            },
+            borderRadius: {
+              xl: "14px",
+              "2xl": "18px",
+            },
+            boxShadow: {
+              glass: "0 10px 30px rgba(0, 0, 0, 0.45)",
+              card: "0 14px 30px rgba(0, 0, 0, 0.35)",
+            },
+            transitionDuration: {
+              160: "160ms",
+            },
+            keyframes: {
+              livepulse: {
+                "0%": { boxShadow: "0 0 0 0 rgba(255, 77, 77, 0.6)" },
+                "70%": { boxShadow: "0 0 0 8px rgba(255, 77, 77, 0)" },
+                "100%": { boxShadow: "0 0 0 0 rgba(255, 77, 77, 0)" },
+              },
+              spin: {
+                to: { transform: "rotate(360deg)" },
+              },
+            },
+            animation: {
+              livepulse: "livepulse 1.8s infinite",
+              spin: "spin 0.9s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
   </head>
-  <body>
+  <body class="bg-base text-ink antialiased">
     <!-- Header -->
-    <header class="site-header">
-      <div class="header-inner">
-        <a href="#" class="brand" aria-label="FreeTV home">
-          <span class="brand-mark">▶</span>
-          <span class="brand-name">ALISA<span class="brand-accent">TV</span></span>
+    <header
+      class="sticky top-0 z-40 backdrop-blur-md border-b border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)]"
+    >
+      <div
+        class="max-w-[1180px] mx-auto px-5 py-3 flex items-center gap-[18px]"
+      >
+        <a href="#" class="brand flex items-center gap-2 font-extrabold text-lg tracking-tight flex-none">
+          <span
+            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-sm"
+          >
+            ▶
+          </span>
+          <span>ALISA<span class="text-primary">TV</span></span>
         </a>
 
-        <div class="search-box">
-          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="search-box relative flex-1 max-w-[560px] mx-auto">
+          <svg
+            class="search-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-muted w-[18px] h-[18px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <circle cx="11" cy="11" r="7"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input id="searchInput" type="text" placeholder="Search channels, countries, or what's on now…" />
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search channels, countries, or what's on now…"
+            class="w-full py-2.5 px-3.5 pl-10 rounded-full border border-edge bg-surface text-ink font-[inherit] text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+          />
         </div>
 
-        <nav class="main-nav">
-          <a href="#" data-nav="trending">Trending</a>
-          <a href="#" data-nav="sports">Sports</a>
-          <a href="#" data-nav="news">News</a>
-          <a href="#" data-nav="movies">Movies</a>
-          <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">☀️</button>
+        <nav class="main-nav flex items-center gap-[18px] flex-none">
+          <a
+            href="#"
+            data-nav="trending"
+            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
+          >
+            Trending
+          </a>
+          <a
+            href="#"
+            data-nav="sports"
+            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
+          >
+            Sports
+          </a>
+          <a
+            href="#"
+            data-nav="news"
+            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
+          >
+            News
+          </a>
+          <a
+            href="#"
+            data-nav="movies"
+            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
+          >
+            Movies
+          </a>
+          <button
+            id="themeToggle"
+            class="theme-toggle bg-transparent border border-edge text-ink w-9 h-9 rounded-full cursor-pointer text-base flex items-center justify-center hover:scale-110 transition-transform duration-160"
+            aria-label="Toggle theme"
+          >
+            ☀️
+          </button>
         </nav>
       </div>
     </header>
 
     <!-- Hero -->
-    <section class="hero">
-      <div class="hero-inner">
-        <span class="hero-badge">Free • No account • No apps</span>
-        <h1>Watch free live TV from <span class="grad">175+ countries</span></h1>
-        
-        <div class="hero-stats">
-          <div><strong id="statChannels">—</strong><span>Channels</span></div>
-          <div><strong id="statCountries">—</strong><span>Countries</span></div>
-          <div><strong id="statCategories">—</strong><span>Categories</span></div>
+    <section
+      class="hero border-b border-edge bg-[color:radial-gradient(120%_120%_at_50%_0%,rgba(109,94,252,0.16),transparent_60%)]"
+    >
+      <div class="max-w-[1180px] mx-auto px-5 py-16 text-center">
+        <span
+          class="inline-block px-3.5 py-1.5 rounded-full bg-primary-soft text-primary font-bold text-xs tracking-[0.04em] mb-5"
+        >
+          Free • No account • No apps
+        </span>
+        <h1 class="text-4xl lg:text-5xl leading-tight mb-4 tracking-tight">
+          Watch free live TV from
+          <span
+            class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+          >
+            175+ countries
+          </span>
+        </h1>
+
+        <div class="hero-stats flex justify-center gap-9 flex-wrap">
+          <div>
+            <strong id="statChannels" class="block text-3xl">—</strong
+            ><span class="text-muted text-sm">Channels</span>
+          </div>
+          <div>
+            <strong id="statCountries" class="block text-3xl">—</strong
+            ><span class="text-muted text-sm">Countries</span>
+          </div>
+          <div>
+            <strong id="statCategories" class="block text-3xl">—</strong
+            ><span class="text-muted text-sm">Categories</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Filters -->
-    <section class="filters" aria-label="Filters">
-      <div class="filters-inner">
-        <div class="filter-group">
-          <label for="countryFilter">Country</label>
-          <select id="countryFilter">
+    <section class="filters border-b border-edge bg-base" aria-label="Filters">
+      <div
+        class="max-w-[1180px] mx-auto px-5 py-4 flex gap-[14px] items-end flex-wrap"
+      >
+        <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
+          <label for="countryFilter" class="text-xs font-semibold text-muted uppercase tracking-[0.04em]">
+            Country
+          </label>
+          <select
+            id="countryFilter"
+            class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+          >
             <option value="all">All countries</option>
           </select>
         </div>
-        <div class="filter-group">
-          <label for="categoryFilter">Category</label>
-          <select id="categoryFilter">
-          <option value="all">All categories</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label for="languageFilter">Language</label>
-        <select id="languageFilter">
-          <option value="all">All languages</option>
-        </select>
-      </div>
-      <button id="favoritesToggle" class="pill-toggle" aria-pressed="false">
+        <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
+          <label for="categoryFilter" class="text-xs font-semibold text-muted uppercase tracking-[0.04em]">
+            Category
+          </label>
+          <select
+            id="categoryFilter"
+            class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+          >
+            <option value="all">All categories</option>
+          </select>
+        </div>
+        <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
+          <label for="languageFilter" class="text-xs font-semibold text-muted uppercase tracking-[0.04em]">
+            Language
+          </label>
+          <select
+            id="languageFilter"
+            class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+          >
+            <option value="all">All languages</option>
+          </select>
+        </div>
+        <button
+          id="favoritesToggle"
+          class="pill-toggle ml-auto p-2.5 rounded-full border border-edge bg-surface text-ink font-semibold cursor-pointer transition-all duration-160"
+          aria-pressed="false"
+        >
           ★ Favorites
         </button>
       </div>
     </section>
 
     <!-- Channel sections -->
-    <main class="container">
-      <section class="row" id="rowTrending">
-        <div class="row-head">
-          <h2>Trending</h2>
+    <main class="max-w-[1180px] mx-auto px-5 py-8 pb-14">
+      <section class="row mb-10" id="rowTrending">
+        <div class="row-head flex items-baseline gap-3 mb-4">
+          <h2 class="m-0 text-2xl tracking-tight">Trending</h2>
         </div>
-        <div class="grid" id="gridTrending"></div>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[14px]" id="gridTrending"></div>
       </section>
 
-      <section class="row" id="rowSports">
-        <div class="row-head">
-          <h2>Sports on now</h2>
+      <section class="row mb-10" id="rowSports">
+        <div class="row-head flex items-baseline gap-3 mb-4">
+          <h2 class="m-0 text-2xl tracking-tight">Sports on now</h2>
         </div>
-        <div class="grid" id="gridSports"></div>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[14px]" id="gridSports"></div>
       </section>
 
-      <section class="row" id="rowNews">
-        <div class="row-head">
-          <h2>News</h2>
+      <section class="row mb-10" id="rowNews">
+        <div class="row-head flex items-baseline gap-3 mb-4">
+          <h2 class="m-0 text-2xl tracking-tight">News</h2>
         </div>
-        <div class="grid" id="gridNews"></div>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[14px]" id="gridNews"></div>
       </section>
 
       <section class="row" id="rowAll">
-        <div class="row-head">
-          <h2>Browse all channels</h2>
-          <span class="row-count" id="allCount"></span>
+        <div class="row-head flex items-baseline gap-3 mb-4">
+          <h2 class="m-0 text-2xl tracking-tight">Browse all channels</h2>
+          <span class="row-count text-muted text-sm" id="allCount"></span>
         </div>
-        <div class="grid" id="gridAll"></div>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[14px]" id="gridAll"></div>
       </section>
     </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
-      <p>
+    <footer class="site-footer border-t border-edge px-5 py-7 pb-12 text-center">
+      <p
+        class="text-muted max-w-[620px] mx-auto mb-3 leading-relaxed text-sm"
+      >
         FreeTV indexes publicly available streams published by broadcasters. We host no video
         content and honor the iptv-org blocklist. Channels are streamed directly via HLS.
       </p>
-      <a href="#" class="report-link">Report a channel</a>
+      <a href="#" class="report-link text-primary font-semibold text-sm">
+        Report a channel
+      </a>
     </footer>
 
     <!-- Player modal -->
     <div class="player-modal" id="playerModal" aria-hidden="true">
-      <div class="player-backdrop" data-close></div>
-      <div class="player-dialog" role="dialog" aria-modal="true" aria-label="Channel player">
-        <div class="player-top">
-          <div class="player-now">
-            <span class="live-dot"></span> Now playing
+      <div class="player-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" data-close></div>
+      <div
+        class="player-dialog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(960px,94vw)] max-h-[92vh] overflow-auto bg-surface border border-edge rounded-2xl p-4 shadow-glass"
+      >
+        <div class="player-top flex items-center justify-between mb-3">
+          <div
+            class="player-now inline-flex items-center gap-2 font-bold text-xs text-muted uppercase tracking-wider"
+          >
+            <span
+              class="live-dot w-2.5 h-2.5 rounded-full bg-red-500 animate-livepulse"
+            ></span>
+            Now playing
           </div>
-          <button class="player-close" data-close aria-label="Close player">✕</button>
+          <button
+            class="player-close bg-transparent border border-edge text-ink w-9 h-9 rounded-full cursor-pointer text-base flex items-center justify-center"
+            data-close
+            aria-label="Close player"
+          >
+            ✕
+          </button>
         </div>
 
-        <div class="video-frame">
-          <video id="player" controls playsinline preload="metadata"></video>
-          <div class="video-overlay" id="videoOverlay">
-            <div class="spinner"></div>
+        <div class="video-frame relative rounded-xl overflow-hidden bg-black aspect-video">
+          <video
+            id="player"
+            controls
+            playsinline
+            preload="metadata"
+            class="w-full h-full block bg-black"
+          ></video>
+          <div
+            class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/72 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5"
+            id="videoOverlay"
+          >
+            <div
+              class="spinner w-9 h-9 rounded-full border-[3px] border-white/18 border-t-accent animate-spin"
+            ></div>
             <span id="overlayText">Connecting to stream…</span>
           </div>
         </div>
 
-        <div class="player-meta">
+        <div class="player-meta flex justify-between items-start gap-4 mt-[14px] flex-wrap">
           <div>
-            <h3 id="playerTitle">Select a channel</h3>
-            <p id="playerDesc"></p>
+            <h3 id="playerTitle" class="m-0 mb-1 text-xl">Select a channel</h3>
+            <p id="playerDesc" class="m-0 text-muted leading-relaxed"></p>
           </div>
-          <div class="player-badges">
-            <span class="badge"><img id="playerFlag" alt="" class="flag" /> <span id="playerCountry">—</span></span>
-            <span class="badge" id="playerCategory">—</span>
+          <div class="player-badges flex gap-2 flex-wrap">
+            <span
+              class="badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 bg-primary-soft text-ink text-xs font-semibold"
+            >
+              <img
+                id="playerFlag"
+                alt=""
+                class="flag w-5 h-[14px] rounded-sm object-cover flex-none"
+              />
+              <span id="playerCountry">—</span>
+            </span>
+            <span
+              class="badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 bg-primary-soft text-ink text-xs font-semibold"
+              id="playerCategory"
+            >
+              —
+            </span>
           </div>
         </div>
       </div>
@@ -224,5 +411,41 @@
     <script async src="https://pl30444344.effectivecpmnetwork.com/82/48/78/824878b0986e4439539f1f4e2a716cbb.js"></script>
     <script async src="https://pl30444345.effectivecpmnetwork.com/97/0f/11/970f112cc56a513a8e5d1561cbe3558c.js"></script>
 
+    <!-- Tailwind safelist for dynamic classes -->
+    <div class="hidden" aria-hidden="true">
+      <article
+        class="group relative border border-edge bg-card rounded-xl p-3.5 cursor-pointer transition-all duration-160 flex flex-col gap-2.5 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover"
+      >
+        <button
+          class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110"
+        >
+          ★
+        </button>
+        <div class="flex items-center gap-2.5">
+          <img
+            class="w-10 h-10 rounded-lg object-cover bg-black border border-edge flex-none"
+            alt=""
+          />
+          <div class="font-bold text-sm leading-snug overflow-hidden line-clamp-2"></div>
+        </div>
+        <div class="flex items-center justify-between gap-2 mt-auto">
+          <span class="flex items-center gap-1.5 text-muted text-xs">
+            <img class="w-5 h-[14px] rounded-sm object-cover flex-none" alt="" />
+             </span
+            ><span
+              class="text-muted text-xs bg-[var(--lang-bg)] px-2 py-0.5 rounded-full whitespace-nowrap"
+            ></span
+            ><span
+              class="inline-flex items-center gap-[5px] text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"
+            >
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span
+            >
+          </span>
+        </div>
+      </article>
+      <div
+        class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl"
+      ></div>
+    </div>
   </body>
 </html>

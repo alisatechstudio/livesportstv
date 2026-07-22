@@ -220,30 +220,32 @@ function cardHtml(channel) {
   const fav = isFav(channel.id);
   const logo = logoUrl(channel);
   const initials = channel.name.replace(/[^A-Za-z0-9 ]/g, '').slice(0, 2).toUpperCase();
+  const favStyle = fav ? 'opacity:1;color:#ffc83d' : '';
+  
   const logoEl = logo
-    ? `<img class="card-logo" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'card-logo card-logo-fallback\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
-    : `<div class="card-logo card-logo-fallback" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
+    ? `<img class="w-10 h-10 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
+    : `<div class="w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
   return `
-    <article class="channel-card" data-id="${channel.id}">
-      <button class="fav-btn ${fav ? 'favorited' : ''}" data-fav="${channel.id}" aria-label="Toggle favorite">★</button>
-      <div class="card-top">
+    <article class="group relative border border-edge bg-card rounded-xl p-3.5 cursor-pointer transition-all duration-160 flex flex-col gap-2.5 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
+      <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite" class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
+      <div class="flex items-center gap-2.5">
         ${logoEl}
-        <div class="card-name">${channel.name}</div>
+        <div class="font-bold text-sm leading-snug overflow-hidden line-clamp-2">${channel.name}</div>
       </div>
-      <div class="card-meta">
-        <span class="card-country">
-          <img class="flag" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
+      <div class="flex items-center justify-between gap-2 mt-auto">
+        <span class="flex items-center gap-1.5 text-muted text-xs">
+          <img class="w-5 h-[14px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
         </span>
-        <span class="card-lang">${channel.language !== 'Unknown' ? channel.language : ''}</span>
-        <span class="status"><span class="dot"></span> Live</span>
+        <span class="text-muted text-xs bg-[var(--lang-bg)] px-2 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : ''}</span>
+        <span class="inline-flex items-center gap-[5px] text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span> Live</span>
       </div>
     </article>`;
 }
 
 function renderGrid(grid, list) {
   if (!list.length) {
-    grid.innerHTML = '<div class="empty-state">No channels match your filters right now.</div>';
+    grid.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">No channels match your filters right now.</div>';
     return;
   }
   grid.innerHTML = list.map(cardHtml).join('');
@@ -413,7 +415,7 @@ async function init() {
   bindEvents();
 
   const allGrids = Object.values(els.grids);
-  allGrids.forEach((g) => (g.innerHTML = '<div class="empty-state">Loading channels from iptv-org…</div>'));
+  allGrids.forEach((g) => (g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading channels from iptv-org…</div>'));
 
   try {
     // Country + language metadata and the channel list in parallel.
@@ -449,7 +451,7 @@ async function init() {
   } catch (err) {
     console.error(err);
     allGrids.forEach((g) => {
-      g.innerHTML = `<div class="empty-state">Could not load channels: ${err.message}</div>`;
+      g.innerHTML = `<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Could not load channels: ${err.message}</div>`;
     });
   }
 }
