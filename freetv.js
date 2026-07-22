@@ -227,7 +227,7 @@ function cardHtml(channel) {
     : `<div class="w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
   return `
-    <article class="group relative border border-edge bg-card rounded-xl p-3.5 cursor-pointer transition-all duration-160 flex flex-col gap-2.5 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
+    <article class="channel-card group relative border border-edge bg-card rounded-xl p-3.5 cursor-pointer transition-all duration-160 flex flex-col gap-2.5 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
       <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite" class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
       <div class="flex items-center gap-2.5">
         ${logoEl}
