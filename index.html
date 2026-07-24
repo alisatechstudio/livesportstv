@@ -26,9 +26,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AlisaTV — Watch Free Live TV from 175+ Countries" />
     <meta
-      name="twitter:description"
-      content="Browse thousands of free, publicly available live TV channels from 175+ countries."
-    />
+      name="twitter:description" content="Browse thousands of free, publicly available live TV channels from 175+ countries. Watch news, sports, movies and more with no account required." />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -43,14 +41,6 @@
           "target": "https://livesportstv.store/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
-      }
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "name": "Free Live TV Channels",
-        "description": "Publicly available IPTV sports and entertainment channels from around the world."
       }
     </script>
     <!-- Google tag (gtag.js) -->
@@ -137,9 +127,9 @@
       class="sticky top-0 z-40 backdrop-blur-md border-b border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)]"
     >
       <div
-        class="max-w-[1180px] mx-auto px-5 py-3 flex items-center gap-[18px]"
+        class="max-w-[1180px] mx-auto px-5 py-3 flex items-center gap-[18px] flex-wrap"
       >
-        <a href="#" class="brand flex items-center gap-2 font-extrabold text-lg tracking-tight flex-none">
+        <a href="/" class="brand flex items-center gap-2 font-extrabold text-lg tracking-tight flex-none">
           <span
             class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-sm"
           >
@@ -171,28 +161,28 @@
 
         <nav class="main-nav flex items-center gap-[18px] flex-none">
           <a
-            href="#"
+            href="#rowTrending"
             data-nav="trending"
             class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
           >
             Trending
           </a>
           <a
-            href="#"
+            href="#rowSports"
             data-nav="sports"
             class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
           >
             Sports
           </a>
           <a
-            href="#"
+            href="#rowNews"
             data-nav="news"
             class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
           >
             News
           </a>
           <a
-            href="#"
+            href="#rowAll"
             data-nav="movies"
             class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
           >
@@ -333,7 +323,7 @@
         FreeTV indexes publicly available streams published by broadcasters. We host no video
         content and honor the iptv-org blocklist. Channels are streamed directly via HLS.
       </p>
-      <a href="#" class="report-link text-primary font-semibold text-sm">
+      <a href="mailto:support@livesportstv.store?subject=Report a channel" class="report-link text-primary font-semibold text-sm">
         Report a channel
       </a>
     </footer>
