@@ -1,12 +1,8 @@
-// FreeTV clone — uses server-cached iptv-org data embedded by Flask
+const M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
 const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
 const LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json';
-const API_URL = '/api/channels';
-const FAV_KEY = 'freetvFavorites';
-const THEME_KEY = 'freetvTheme';
-
-let countryData = {};
-let langName = {};
+const FAV_KEY = 'livesportsFavorites';
+const THEME_KEY = 'livesportsTheme';
 
 const CATEGORY_MAP = {
   'news': 'News',
@@ -35,9 +31,10 @@ const CATEGORY_MAP = {
 };
 
 let channels = [];
+let countryData = {};
+let langName = {};
 let favorites = [];
 
-// Element refs
 const els = {
   search: document.getElementById('searchInput'),
   country: document.getElementById('countryFilter'),
@@ -59,7 +56,6 @@ const els = {
   categoryEl: document.getElementById('playerCategory'),
   flag: document.getElementById('playerFlag'),
   grids: {
-    trending: document.getElementById('gridTrending'),
     sports: document.getElementById('gridSports'),
     news: document.getElementById('gridNews'),
     all: document.getElementById('gridAll'),
@@ -80,14 +76,24 @@ function getCountryName(code) {
 
 function getCountryFlag(code, asImage = false) {
   if (countryData[code] && countryData[code].flag && !asImage) {
-    return countryData[code].flag; // emoji
+    return countryData[code].flag;
   }
-  return `https://flagcdn.com/24x18/${String(code).toLowerCase()}.png`; // image fallback
+  return `https://flagcdn.com/24x18/${String(code).toLowerCase()}.png`;
 }
 
 function categoryFor(channel) {
   const key = (channel.category || '').toLowerCase();
   return CATEGORY_MAP[key] || (channel.category ? channel.category : 'General');
+}
+
+function isSportChannel(channel) {
+  const cat = categoryFor(channel).toLowerCase();
+  return cat === 'sports' || cat === 'sport' || channel.name.toLowerCase().includes('sport');
+}
+
+function isNewsChannel(channel) {
+  const cat = categoryFor(channel).toLowerCase();
+  return cat === 'news' || cat === 'journalism' || channel.name.toLowerCase().includes('news');
 }
 
 function loadFavorites() {
@@ -121,55 +127,8 @@ function applyTheme(theme) {
   els.themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
 }
 
-function populateFilters() {
-  // Reset the selects before (re)populating.
-  els.country.innerHTML = '<option value="all">All countries</option>';
-  els.category.innerHTML = '<option value="all">All categories</option>';
-  els.language.innerHTML = '<option value="all">All languages</option>';
-
-  // Only show countries that actually have channels.
-  const present = new Set(channels.map((c) => c.country));
-  const countryOptions = [...present]
-    .filter((code) => code && code !== 'INT')
-    .map((code) => ({ code, name: getCountryName(code) }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-  if (present.has('INT')) {
-    countryOptions.unshift({ code: 'INT', name: 'International' });
-  }
-  countryOptions.forEach(({ code, name }) => {
-    const o = document.createElement('option');
-    o.value = code;
-    o.textContent = name;
-    els.country.appendChild(o);
-  });
-
-  const cats = [...new Set(channels.map((c) => categoryFor(c)))].sort();
-  cats.forEach((c) => {
-    const o = document.createElement('option');
-    o.value = c;
-    o.textContent = c;
-    els.category.appendChild(o);
-  });
-
-  // Languages derived from each channel's country.
-  const langs = [...new Set(channels.flatMap((c) => c.languages))]
-    .filter((l) => l && l !== 'Unknown')
-    .sort((a, b) => a.localeCompare(b));
-  langs.forEach((l) => {
-    const o = document.createElement('option');
-    o.value = l;
-    o.textContent = l;
-    els.language.appendChild(o);
-  });
-
-  els.statChannels.textContent = channels.length.toLocaleString();
-  els.statCountries.textContent = present.size;
-  els.statCategories.textContent = cats.length;
-}
-
 function logoUrl(channel) {
   if (channel.logo) return channel.logo;
-  // fall back to a letter tile
   return null;
 }
 
@@ -179,7 +138,7 @@ function cardHtml(channel) {
   const logo = logoUrl(channel);
   const initials = channel.name.replace(/[^A-Za-z0-9 ]/g, '').slice(0, 2).toUpperCase();
   const favStyle = fav ? 'opacity:1;color:#ffc83d' : '';
-  
+
   const logoEl = logo
     ? `<img class="w-10 h-10 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
     : `<div class="w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
@@ -196,7 +155,7 @@ function cardHtml(channel) {
           <img class="w-5 h-[14px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
         </span>
         <span class="text-muted text-xs bg-[var(--lang-bg)] px-2 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : ''}</span>
-        <span class="inline-flex items-center gap-[5px] text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span> Live</span>
+        <span class="inline-flex items-center gap-[5px] text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>
       </div>
     </article>`;
 }
@@ -237,26 +196,63 @@ function renderAll() {
   const f = getFilters();
   const all = filtered(f);
 
-  // Section rows reflect the same filtered set but highlighted by category
-  const trending = all.slice(0, 12);
-  const sports = all.filter((c) => categoryFor(c) === 'Sports').slice(0, 12);
-  const news = all.filter((c) => categoryFor(c) === 'News').slice(0, 12);
+  const sports = all.filter((c) => isSportChannel(c)).slice(0, 12);
+  const news = all.filter((c) => isNewsChannel(c)).slice(0, 12);
 
-  // When a specific search/filter is active, hide the themed rows and show everything in "all"
   const focused = f.q || f.country !== 'all' || f.category !== 'all' || f.language !== 'all' || f.favOnly;
 
-  els.grids.trending.parentElement.style.display = focused ? 'none' : '';
   els.grids.sports.parentElement.style.display = focused ? 'none' : '';
   els.grids.news.parentElement.style.display = focused ? 'none' : '';
 
-  renderGrid(els.grids.trending, trending);
   renderGrid(els.grids.sports, sports);
   renderGrid(els.grids.news, news);
   renderGrid(els.grids.all, all);
   els.allCount.textContent = `${all.length} channel${all.length === 1 ? '' : 's'}`;
 }
 
-// Player
+function populateFilters() {
+  els.country.innerHTML = '<option value="all">All countries</option>';
+  els.category.innerHTML = '<option value="all">All categories</option>';
+  els.language.innerHTML = '<option value="all">All languages</option>';
+
+  const present = new Set(channels.map((c) => c.country));
+  const countryOptions = [...present]
+    .filter((code) => code && code !== 'INT')
+    .map((code) => ({ code, name: getCountryName(code) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  if (present.has('INT')) {
+    countryOptions.unshift({ code: 'INT', name: 'International' });
+  }
+  countryOptions.forEach(({ code, name }) => {
+    const o = document.createElement('option');
+    o.value = code;
+    o.textContent = name;
+    els.country.appendChild(o);
+  });
+
+  const cats = [...new Set(channels.map((c) => categoryFor(c)))].sort();
+  cats.forEach((c) => {
+    const o = document.createElement('option');
+    o.value = c;
+    o.textContent = c;
+    els.category.appendChild(o);
+  });
+
+  const langs = [...new Set(channels.flatMap((c) => c.languages))]
+    .filter((l) => l && l !== 'Unknown')
+    .sort((a, b) => a.localeCompare(b));
+  langs.forEach((l) => {
+    const o = document.createElement('option');
+    o.value = l;
+    o.textContent = l;
+    els.language.appendChild(o);
+  });
+
+  els.statChannels.textContent = channels.length.toLocaleString();
+  els.statCountries.textContent = present.size;
+  els.statCategories.textContent = cats.length;
+}
+
 let hls = null;
 
 function openPlayer(channel) {
@@ -331,7 +327,6 @@ function hideOverlay() {
   els.overlay.classList.remove('visible');
 }
 
-// Events
 function bindEvents() {
   [els.search, els.country, els.category, els.language].forEach((el) => {
     el.addEventListener('input', renderAll);
@@ -344,13 +339,11 @@ function bindEvents() {
     renderAll();
   });
 
-  // Delegated card clicks
   document.querySelector('.container').addEventListener('click', (e) => {
     const favBtn = e.target.closest('[data-fav]');
     if (favBtn) {
       e.stopPropagation();
       toggleFav(favBtn.dataset.fav);
-      favBtn.classList.toggle('favorited');
       renderAll();
       return;
     }
@@ -367,65 +360,123 @@ function bindEvents() {
   });
 }
 
+async function fetchM3U() {
+  try {
+    const res = await fetch(M3U_URL);
+    if (!res.ok) throw new Error(`M3U: ${res.statusText}`);
+    return await res.text();
+  } catch (err) {
+    console.error('Failed to fetch M3U:', err);
+    return null;
+  }
+}
+
+async function fetchJSON(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API: ${res.statusText}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Failed to fetch:', url, err);
+    return null;
+  }
+}
+
+function parseM3U(m3uText) {
+  const lines = m3uText.split('\n');
+  const result = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line.startsWith('#EXTINF:')) continue;
+    const nextIdx = i + 1;
+    if (nextIdx >= lines.length) continue;
+    const nextLine = lines[nextIdx].trim();
+    if (!nextLine || nextLine.startsWith('#') || !nextLine.endsWith('.m3u8')) continue;
+
+    const groupMatch = line.match(/group-title="([^"]*)"/);
+    const category = groupMatch ? groupMatch[1] : 'General';
+
+    const tvgIdMatch = line.match(/tvg-id="([^"]*)"/);
+    const channelId = tvgIdMatch ? tvgIdMatch[1] : 'ch-' + result.length;
+
+    const nameMatch = line.match(/,(.+)$/);
+    const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
+
+    const logoMatch = line.match(/tvg-logo="([^"]*)"/);
+    const logo = logoMatch ? logoMatch[1] : '';
+
+    const ccMatch = channelId.match(/\.([a-zA-Z]{2})(@|$)/);
+    const country = ccMatch ? ccMatch[1].toUpperCase() : 'INT';
+
+    result.push({
+      id: channelId,
+      name: name,
+      category: category,
+      country: country,
+      languages: [],
+      language: 'Unknown',
+      logo: logo,
+      streamUrl: nextLine,
+    });
+  }
+
+  result.sort((a, b) => (a.country === 'INT') - (b.country === 'INT'));
+  return result;
+}
+
 async function init() {
   loadFavorites();
   setupTheme();
   bindEvents();
 
   const allGrids = Object.values(els.grids);
-  allGrids.forEach((g) => (g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading channels…</div>'));
+  allGrids.forEach((g) => {
+    g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading channels…</div>';
+  });
 
-  const embedded = window.__CHANNELS__;
-  if (embedded && embedded.length) {
-    channels = embedded;
-    finishInit();
+  const m3uText = await fetchM3U();
+  if (!m3uText) {
+    allGrids.forEach((g) => {
+      g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Could not load channel data. Please refresh.</div>';
+    });
     return;
   }
 
-  try {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error(`API: ${res.statusText}`);
-    const data = await res.json();
-    channels = data.channels || [];
-    finishInit();
-  } catch (err) {
-    console.error(err);
-    allGrids.forEach((g) => {
-      g.innerHTML = `<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Could not load channels: ${err.message}</div>`;
+  const [countriesData, langsData] = await Promise.all([
+    fetchJSON(COUNTRIES_URL),
+    fetchJSON(LANGUAGES_URL),
+  ]);
+
+  if (countriesData) {
+    countriesData.forEach((c) => {
+      countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
     });
   }
-}
 
-function finishInit() {
-  if (!channels.length) throw new Error('No channels were loaded.');
+  if (langsData) {
+    langsData.forEach((l) => {
+      langName[l.code] = l.name;
+    });
+  }
 
-  const countriesPromise = fetch(COUNTRIES_URL)
-    .then((r) => (r.ok ? r.json() : []))
-    .then((list) => {
-      (list || []).forEach((c) => {
-        countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
-      });
-    })
-    .catch((err) => console.warn('Could not load country data:', err));
+  channels = parseM3U(m3uText);
 
-  const languagesPromise = fetch(LANGUAGES_URL)
-    .then((r) => (r.ok ? r.json() : []))
-    .then((list) => {
-      (list || []).forEach((l) => {
-        langName[l.code] = l.name;
-      });
-    })
-    .catch((err) => console.warn('Could not load language data:', err));
-
-  Promise.all([countriesPromise, languagesPromise]).then(() => {
-    populateFilters();
-    renderAll();
+  channels.forEach((ch) => {
+    const langsForCountry = (countryData[ch.country] || {}).languages || [];
+    const languages = langsForCountry
+      .map((code) => langName[code] || code)
+      .filter(Boolean);
+    ch.languages = languages;
+    ch.language = languages[0] || 'Unknown';
   });
+
+  populateFilters();
+  renderAll();
 }
 
 window.addEventListener('error', (e) => {
   if (e.target && e.target.tagName === 'IMG' && e.target.src.includes('effectivecpmnetwork')) return true;
-  if (e.message && e.message.includes('Cannot read') && e.filename && !e.filename.includes('freetv')) return true;
+  if (e.message && e.message.includes('Cannot read') && e.filename && !e.filename.includes('app')) return true;
   return false;
 }, true);
 
