@@ -475,8 +475,6 @@ async function init() {
 }
 
 window.addEventListener('error', (e) => {
-  if (e.target && e.target.tagName === 'IMG' && e.target.src.includes('effectivecpmnetwork')) return true;
-  if (e.message && e.message.includes('Cannot read') && e.filename && !e.filename.includes('app')) return true;
   return false;
 }, true);
 
