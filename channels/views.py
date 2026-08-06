@@ -4,19 +4,10 @@ import re
 import time
 import urllib.request
 import urllib.error
-from flask import Flask, render_template, jsonify, send_from_directory
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
+from django.conf import settings
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
-
-M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u'
-COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json'
-LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json'
-CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cache')
-CACHE_TTL = 3600
-SITE_URL = 'https://livesportstv.store'
-SITE_NAME = 'AlisaTV'
-
-os.makedirs(CACHE_DIR, exist_ok=True)
 
 CATEGORY_MAP = {
     'news': 'News',
@@ -46,8 +37,8 @@ CATEGORY_MAP = {
 
 
 def get_cached(key):
-    filepath = os.path.join(CACHE_DIR, key + '.cache')
-    if os.path.exists(filepath) and (time.time() - os.path.getmtime(filepath)) < CACHE_TTL:
+    filepath = settings.CACHE_DIR / (key + '.cache')
+    if filepath.exists() and (time.time() - filepath.stat().st_mtime) < settings.CACHE_TTL:
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 return json.load(f)
@@ -57,7 +48,7 @@ def get_cached(key):
 
 
 def set_cached(key, data):
-    filepath = os.path.join(CACHE_DIR, key + '.cache')
+    filepath = settings.CACHE_DIR / (key + '.cache')
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
 
@@ -130,15 +121,14 @@ def parse_m3u(m3u_text, country_map, lang_name):
     }
 
 
-@app.route('/')
-def index():
+def index(request):
     channels_data = get_cached('channels')
     if channels_data is False:
-        m3u_text = fetch_url(M3U_URL)
+        m3u_text = fetch_url(settings.M3U_URL)
         if m3u_text is not False:
             countries_data = get_cached('countries')
             if countries_data is False:
-                countries_text = fetch_url(COUNTRIES_URL)
+                countries_text = fetch_url(settings.COUNTRIES_URL)
                 if countries_text is not False:
                     countries_data = json.loads(countries_text) if countries_text else []
                     set_cached('countries', countries_data)
@@ -147,7 +137,7 @@ def index():
 
             langs_data = get_cached('languages')
             if langs_data is False:
-                langs_text = fetch_url(LANGUAGES_URL)
+                langs_text = fetch_url(settings.LANGUAGES_URL)
                 if langs_text is not False:
                     langs_data = json.loads(langs_text) if langs_text else []
                     set_cached('languages', langs_data)
@@ -170,22 +160,26 @@ def index():
             set_cached('channels', channels_data)
 
     channels_json = json.dumps(channels_data.get('channels', []), ensure_ascii=False) if channels_data else '[]'
-    return render_template('index.html', channels_json=channels_json, channels_data=channels_data)
+    return render(request, 'channels/index.html', {
+        'channels_json': channels_json,
+        'channels_data': channels_data,
+        'site_name': settings.SITE_NAME,
+        'site_url': settings.SITE_URL,
+    })
 
 
-@app.route('/api/channels')
-def api_channels():
+def api_channels(request):
     channels_data = get_cached('channels')
     if channels_data is not False:
-        return jsonify(channels_data)
+        return JsonResponse(channels_data)
 
-    m3u_text = fetch_url(M3U_URL)
+    m3u_text = fetch_url(settings.M3U_URL)
     if m3u_text is False:
-        return jsonify({'error': 'Failed to fetch channel data'}), 502
+        return JsonResponse({'error': 'Failed to fetch channel data'}, status=502)
 
     countries_data = get_cached('countries')
     if countries_data is False:
-        countries_text = fetch_url(COUNTRIES_URL)
+        countries_text = fetch_url(settings.COUNTRIES_URL)
         if countries_text is not False:
             countries_data = json.loads(countries_text) if countries_text else []
             set_cached('countries', countries_data)
@@ -194,7 +188,7 @@ def api_channels():
 
     langs_data = get_cached('languages')
     if langs_data is False:
-        langs_text = fetch_url(LANGUAGES_URL)
+        langs_text = fetch_url(settings.LANGUAGES_URL)
         if langs_text is not False:
             langs_data = json.loads(langs_text) if langs_text else []
             set_cached('languages', langs_data)
@@ -215,23 +209,4 @@ def api_channels():
 
     result = parse_m3u(m3u_text, country_map, lang_name)
     set_cached('channels', result)
-    return jsonify(result)
-
-
-@app.route('/static/<path:filename>')
-def static_files(filename):
-    return send_from_directory(app.static_folder, filename)
-
-
-@app.route('/freetv.css')
-def serve_css():
-    return send_from_directory(app.static_folder, 'css/freetv.css')
-
-
-@app.route('/freetv.js')
-def serve_js():
-    return send_from_directory(app.static_folder, 'js/freetv.js')
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    return JsonResponse(result)

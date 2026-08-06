@@ -6,11 +6,13 @@
 - Always run `git status` / `git diff` before committing; only stage intended project files. Never commit secrets or keys.
 
 ## Project
-- Python Flask webapp served at `livesportstv.store` (CNAME present).
-- Entry point: `app.py` (the FreeTV clone). Static assets: `static/css/freetv.css`, `static/js/freetv.js`.
+- Python Django webapp served at `livesportstv.store` (CNAME present).
+- Entry point: `manage.py` (the FreeTV clone). Static assets: `static/css/freetv.css`, `static/js/freetv.js`.
+- Django project package: `livesportstv/` (settings, urls, wsgi).
+- Django app: `channels/` (views, urls, templates).
 - Server-side M3U caching via `/api/channels` route with 1-hour TTL in `cache/` directory.
-- Templates: `templates/base.html`, `templates/index.html` (Jinja2).
+- Templates: `channels/templates/channels/base.html`, `channels/templates/channels/index.html` (Django templates).
 - Country metadata: fetched from iptv-org API (`https://iptv-org.github.io/api/countries.json`).
 - Player: HLS.js (with native HLS fallback in Safari).
 - Ad monetization: Google AdSense + multiple ad network scripts embedded in base.html.
-- Run with: `python app.py` or `gunicorn app:app` for production.
+- Run with: `python manage.py runserver` for development or `gunicorn livesportstv.wsgi:application` for production.

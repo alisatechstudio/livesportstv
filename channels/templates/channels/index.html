@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "channels/base.html" %}
 
 {% block content %}
     <!-- Hero -->
@@ -22,15 +22,15 @@
 
         <div class="hero-stats flex justify-center gap-9 flex-wrap">
           <div>
-            <strong id="statChannels" class="block text-3xl">{{ channels_data.count if channels_data else 0 }}</strong
+            <strong id="statChannels" class="block text-3xl">{{ channels_data.count|default:0 }}</strong
             ><span class="text-muted text-sm">Channels</span>
           </div>
           <div>
-            <strong id="statCountries" class="block text-3xl">{{ channels_data.countries if channels_data else 0 }}</strong
+            <strong id="statCountries" class="block text-3xl">{{ channels_data.countries|default:0 }}</strong
             ><span class="text-muted text-sm">Countries</span>
           </div>
           <div>
-            <strong id="statCategories" class="block text-3xl">{{ channels_data.categories if channels_data else 0 }}</strong
+            <strong id="statCategories" class="block text-3xl">{{ channels_data.categories|default:0 }}</strong
             ><span class="text-muted text-sm">Categories</span>
           </div>
         </div>
