@@ -1,110 +1,6 @@
-<?php
-require_once __DIR__ . '/includes/config.php';
+{% extends "base.html" %}
 
-$channels_json = '[]';
-$channels_data = get_cached('channels');
-if ($channels_data === false) {
-    $m3uText = fetch_url(M3U_URL);
-    if ($m3uText !== false) {
-        $countries = get_cached('countries');
-        if ($countries === false) {
-            $countriesText = fetch_url(COUNTRIES_URL);
-            if ($countriesText !== false) {
-                $countries = json_decode($countriesText, true) ?: [];
-                set_cached('countries', $countries);
-            } else {
-                $countries = [];
-            }
-        }
-
-        $langs = get_cached('languages');
-        if ($langs === false) {
-            $langsText = fetch_url(LANGUAGES_URL);
-            if ($langsText !== false) {
-                $langs = json_decode($langsText, true) ?: [];
-                set_cached('languages', $langs);
-            } else {
-                $langs = [];
-            }
-        }
-
-        $countryMap = [];
-        foreach ($countries as $c) {
-            $countryMap[$c['code']] = [
-                'name' => $c['name'],
-                'flag' => $c['flag'] ?? '',
-                'languages' => $c['languages'] ?? [],
-            ];
-        }
-
-        $langName = [];
-        foreach ($langs as $l) {
-            $langName[$l['code']] = $l['name'];
-        }
-
-        $lines = explode("\n", $m3uText);
-        $channels = [];
-        for ($i = 0; $i < count($lines); $i++) {
-            $line = trim($lines[$i]);
-            if (strpos($line, '#EXTINF:') !== 0) continue;
-            $next = isset($lines[$i + 1]) ? trim($lines[$i + 1]) : '';
-            if (!$next || strpos($next, '#') === 0 || substr($next, -6) !== '.m3u8') continue;
-
-            $group = [];
-            preg_match('/group-title="([^"]*)"/', $line, $group);
-            $category = $group[1] ?? 'General';
-
-            $tvgId = [];
-            preg_match('/tvg-id="([^"]*)"/', $line, $tvgId);
-            $id = $tvgId[1] ?? 'ch-' . count($channels);
-
-            $name = (preg_match('/,(.+)$/', $line, $m) ? $m[1] : 'Unknown');
-            $logo = (preg_match('/tvg-logo="([^"]*)"/', $line, $m) ? $m[1] : '');
-
-            $cc = [];
-            preg_match('/\.([a-zA-Z]{2})(@|$)/', $id, $cc);
-            $country = $cc ? strtoupper($cc[1]) : 'INT';
-
-            $langsForCountry = ($countryMap[$country]['languages'] ?? []) ?: [];
-            $languages = array_filter(array_map(function ($code) use ($langName) {
-                return $langName[$code] ?? $code;
-            }, $langsForCountry));
-
-            $channels[] = [
-                'id' => $id,
-                'name' => trim($name),
-                'category' => $category,
-                'country' => $country,
-                'languages' => array_values($languages),
-                'language' => ($languages[0] ?? 'Unknown'),
-                'logo' => $logo,
-                'streamUrl' => $next,
-            ];
-        }
-
-        usort($channels, function ($a, $b) {
-            return ($a['country'] === 'INT') - ($b['country'] === 'INT');
-        });
-
-        $channels_data = [
-            'channels' => $channels,
-            'count' => count($channels),
-            'countries' => count(array_unique(array_column($channels, 'country'))),
-            'categories' => count(array_unique(array_map(function ($c) {
-                return $c['category'];
-            }, $channels))),
-        ];
-        set_cached('channels', $channels_data);
-    }
-}
-
-if ($channels_data !== false) {
-    $channels_json = json_encode($channels_data['channels'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-}
-
-require_once __DIR__ . '/includes/header.php';
-?>
-
+{% block content %}
     <!-- Hero -->
     <section
       class="hero border-b border-edge bg-[color:radial-gradient(120%_120%_at_50%_0%,rgba(109,94,252,0.16),transparent_60%)]"
@@ -126,15 +22,15 @@ require_once __DIR__ . '/includes/header.php';
 
         <div class="hero-stats flex justify-center gap-9 flex-wrap">
           <div>
-            <strong id="statChannels" class="block text-3xl"><?php echo number_format($channels_data['count'] ?? 0); ?></strong
+            <strong id="statChannels" class="block text-3xl">{{ channels_data.count if channels_data else 0 }}</strong
             ><span class="text-muted text-sm">Channels</span>
           </div>
           <div>
-            <strong id="statCountries" class="block text-3xl"><?php echo $channels_data['countries'] ?? 0; ?></strong
+            <strong id="statCountries" class="block text-3xl">{{ channels_data.countries if channels_data else 0 }}</strong
             ><span class="text-muted text-sm">Countries</span>
           </div>
           <div>
-            <strong id="statCategories" class="block text-3xl"><?php echo $channels_data['categories'] ?? 0; ?></strong
+            <strong id="statCategories" class="block text-3xl">{{ channels_data.categories if channels_data else 0 }}</strong
             ><span class="text-muted text-sm">Categories</span>
           </div>
         </div>
@@ -220,5 +116,4 @@ require_once __DIR__ . '/includes/header.php';
         <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[14px]" id="gridAll"></div>
       </section>
     </main>
-
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+{% endblock %}

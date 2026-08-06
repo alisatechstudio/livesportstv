@@ -1,7 +1,7 @@
-// FreeTV clone — uses server-cached iptv-org data embedded by PHP
+// FreeTV clone — uses server-cached iptv-org data embedded by Flask
 const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
 const LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json';
-const API_URL = 'api/channels.php';
+const API_URL = '/api/channels';
 const FAV_KEY = 'freetvFavorites';
 const THEME_KEY = 'freetvTheme';
 

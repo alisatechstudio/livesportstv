@@ -6,10 +6,11 @@
 - Always run `git status` / `git diff` before committing; only stage intended project files. Never commit secrets or keys.
 
 ## Project
-- PHP site served at `livesportstv.store` (CNAME present).
-- Entry point: `index.php` (the FreeTV clone). Assets: `freetv.css`, `freetv.js`.
-- Server-side M3U caching via `api/channels.php` with 1-hour TTL in `cache/` directory.
-- PHP includes: `includes/header.php`, `includes/footer.php`, `includes/config.php`.
+- Python Flask webapp served at `livesportstv.store` (CNAME present).
+- Entry point: `app.py` (the FreeTV clone). Static assets: `static/css/freetv.css`, `static/js/freetv.js`.
+- Server-side M3U caching via `/api/channels` route with 1-hour TTL in `cache/` directory.
+- Templates: `templates/base.html`, `templates/index.html` (Jinja2).
 - Country metadata: fetched from iptv-org API (`https://iptv-org.github.io/api/countries.json`).
 - Player: HLS.js (with native HLS fallback in Safari).
-- URL rewriting via `.htaccess` for Apache.
+- Ad monetization: Google AdSense + multiple ad network scripts embedded in base.html.
+- Run with: `python app.py` or `gunicorn app:app` for production.
