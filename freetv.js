@@ -1,17 +1,13 @@
-// FreeTV clone — uses the public iptv-org data
-const M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
+// FreeTV clone — uses server-cached iptv-org data embedded by PHP
 const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
 const LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json';
+const API_URL = 'api/channels.php';
 const FAV_KEY = 'freetvFavorites';
 const THEME_KEY = 'freetvTheme';
 
-// Country data sourced from iptv-org/database via their public API.
-// Maps ISO alpha-2 code -> { name, flag (emoji), languages: [iso639-3,...] }
 let countryData = {};
-// Maps ISO 639-3 language code -> human-readable name.
 let langName = {};
 
-// Category mapping derived from iptv-org group-title values
 const CATEGORY_MAP = {
   'news': 'News',
   'sports': 'Sports',
@@ -123,44 +119,6 @@ function setupTheme() {
 function applyTheme(theme) {
   document.body.classList.toggle('light-theme', theme === 'light');
   els.themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
-}
-
-// Parse the main M3U into channels. Country is extracted from the tvg-id,
-// which uses the form "Name.cc@Quality" (e.g. "BBCNews.uk@SD").
-function parseM3U(text) {
-  const lines = text.split('\n');
-  const out = [];
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line.startsWith('#EXTINF:')) continue;
-    const next = lines[i + 1] ? lines[i + 1].trim() : '';
-    if (!next || next.startsWith('#') || !next.endsWith('.m3u8')) continue;
-
-    const group = line.match(/group-title="([^"]*)"/);
-    const category = group ? group[1] : 'General';
-    const tvgId = line.match(/tvg-id="([^"]*)"/);
-    const id = tvgId ? tvgId[1] : `ch-${out.length}`;
-    const name = (line.match(/,(.+)$/) || [, 'Unknown'])[1];
-    const logo = (line.match(/tvg-logo="([^"]*)"/) || [])[1] || '';
-    const cc = id.match(/\.([a-zA-Z]{2})(@|$)/);
-    const country = cc ? cc[1].toUpperCase() : 'INT';
-
-    // Derive language(s) from the country's official languages.
-    const langs = (countryData[country] && countryData[country].languages) || [];
-    const languages = langs.map((code) => langName[code] || code).filter(Boolean);
-
-    out.push({
-      id: id || name,
-      name: name.trim(),
-      category,
-      country,
-      languages,
-      language: languages[0] || 'Unknown',
-      logo,
-      streamUrl: next,
-    });
-  }
-  return out;
 }
 
 function populateFilters() {
@@ -415,45 +373,54 @@ async function init() {
   bindEvents();
 
   const allGrids = Object.values(els.grids);
-  allGrids.forEach((g) => (g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading channels from iptv-org…</div>'));
+  allGrids.forEach((g) => (g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading channels…</div>'));
+
+  const embedded = window.__CHANNELS__;
+  if (embedded && embedded.length) {
+    channels = embedded;
+    finishInit();
+    return;
+  }
 
   try {
-    // Country + language metadata and the channel list in parallel.
-    const countriesPromise = fetch(COUNTRIES_URL)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((list) => {
-        (list || []).forEach((c) => {
-          countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
-        });
-      })
-      .catch((err) => console.warn('Could not load country data:', err));
-
-    const languagesPromise = fetch(LANGUAGES_URL)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((list) => {
-        (list || []).forEach((l) => {
-          langName[l.code] = l.name;
-        });
-      })
-      .catch((err) => console.warn('Could not load language data:', err));
-
-    const [m3uRes] = await Promise.all([fetch(M3U_URL), countriesPromise, languagesPromise]);
-    if (!m3uRes.ok) throw new Error(`channels: ${m3uRes.statusText}`);
-    channels = parseM3U(await m3uRes.text());
-
-    // Surface channels that have a known country first; "International"
-    // (no country metadata in the playlist) sinks to the bottom.
-    channels.sort((a, b) => (a.country === 'INT') - (b.country === 'INT'));
-
-    if (!channels.length) throw new Error('No channels were loaded.');
-    populateFilters();
-    renderAll();
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error(`API: ${res.statusText}`);
+    const data = await res.json();
+    channels = data.channels || [];
+    finishInit();
   } catch (err) {
     console.error(err);
     allGrids.forEach((g) => {
       g.innerHTML = `<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Could not load channels: ${err.message}</div>`;
     });
   }
+}
+
+function finishInit() {
+  if (!channels.length) throw new Error('No channels were loaded.');
+
+  const countriesPromise = fetch(COUNTRIES_URL)
+    .then((r) => (r.ok ? r.json() : []))
+    .then((list) => {
+      (list || []).forEach((c) => {
+        countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
+      });
+    })
+    .catch((err) => console.warn('Could not load country data:', err));
+
+  const languagesPromise = fetch(LANGUAGES_URL)
+    .then((r) => (r.ok ? r.json() : []))
+    .then((list) => {
+      (list || []).forEach((l) => {
+        langName[l.code] = l.name;
+      });
+    })
+    .catch((err) => console.warn('Could not load language data:', err));
+
+  Promise.all([countriesPromise, languagesPromise]).then(() => {
+    populateFilters();
+    renderAll();
+  });
 }
 
 window.addEventListener('error', (e) => {

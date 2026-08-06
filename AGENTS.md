@@ -6,8 +6,10 @@
 - Always run `git status` / `git diff` before committing; only stage intended project files. Never commit secrets or keys.
 
 ## Project
-- Static site served at `livesportstv.store` (CNAME present).
-- Entry point: `index.html` (the FreeTV clone). Assets: `freetv.css`, `freetv.js`.
-- Channel/stream data: fetched at runtime from iptv-org public M3U (`https://iptv-org.github.io/iptv/index.m3u`).
+- PHP site served at `livesportstv.store` (CNAME present).
+- Entry point: `index.php` (the FreeTV clone). Assets: `freetv.css`, `freetv.js`.
+- Server-side M3U caching via `api/channels.php` with 1-hour TTL in `cache/` directory.
+- PHP includes: `includes/header.php`, `includes/footer.php`, `includes/config.php`.
 - Country metadata: fetched from iptv-org API (`https://iptv-org.github.io/api/countries.json`).
 - Player: HLS.js (with native HLS fallback in Safari).
+- URL rewriting via `.htaccess` for Apache.

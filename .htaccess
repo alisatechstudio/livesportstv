@@ -1,0 +1,15 @@
+# PHP URL rewriting for AlisaTV
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Cache static assets
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff2?)$">
+    Header set Cache-Control "public, max-age=86400"
+</FilesMatch>
+
+# Deny access to cache directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^cache/ - [F,L]
+</IfModule>
