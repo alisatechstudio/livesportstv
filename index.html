@@ -206,11 +206,11 @@
       class="sticky top-0 z-40 backdrop-blur-md border-b border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)]"
     >
       <div
-        class="max-w-[1180px] mx-auto px-5 py-3 flex items-center gap-[18px] flex-wrap"
+        class="max-w-[1180px] mx-auto px-4 py-2 flex items-center gap-3 flex-wrap"
       >
-        <a href="/" class="brand flex items-center gap-2 font-extrabold text-lg tracking-tight flex-none">
+        <a href="/" class="brand flex items-center gap-2 font-extrabold text-base tracking-tight flex-none">
           <span
-            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-sm"
+            class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-xs"
           >
             ▶
           </span>
@@ -219,7 +219,7 @@
 
         <div class="search-box relative flex-1 max-w-[560px] mx-auto">
           <svg
-            class="search-icon absolute left-3.5 top-1/2 -translate-y-1/2 text-muted w-[18px] h-[18px]"
+            class="search-icon absolute left-3 top-1/2 -translate-y-1/2 text-muted w-4 h-4"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -234,28 +234,28 @@
             id="searchInput"
             type="text"
             placeholder="Search channels, countries, or sports…"
-            class="w-full py-2.5 px-3.5 pl-10 rounded-full border border-edge bg-surface text-ink font-[inherit] text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+            class="w-full py-1.5 px-3 pl-9 rounded-full border border-edge bg-surface text-ink font-[inherit] text-xs focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
           />
         </div>
 
-        <nav class="main-nav flex items-center gap-[18px] flex-none">
+        <nav class="main-nav flex items-center gap-3 flex-none">
           <a
             href="#rowSports"
             data-nav="sports"
-            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
+            class="text-muted font-semibold text-xs hover:text-ink transition-colors duration-160"
           >
             Featured Sports
           </a>
           <a
             href="#rowAll"
             data-nav="all"
-            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
+            class="text-muted font-semibold text-xs hover:text-ink transition-colors duration-160"
           >
             All Sports Channels
           </a>
           <button
             id="themeToggle"
-            class="theme-toggle bg-transparent border border-edge text-ink w-9 h-9 rounded-full cursor-pointer text-base flex items-center justify-center hover:scale-110 transition-transform duration-160"
+            class="theme-toggle bg-transparent border border-edge text-ink w-8 h-8 rounded-full cursor-pointer text-sm flex items-center justify-center hover:scale-110 transition-transform duration-160"
             aria-label="Toggle theme"
           >
             ☀️
@@ -268,13 +268,13 @@
     <section
       class="hero border-b border-edge bg-[color:radial-gradient(120%_120%_at_50%_0%,rgba(109,94,252,0.16),transparent_60%)]"
     >
-      <div class="max-w-[1180px] mx-auto px-5 py-16 text-center">
+      <div class="max-w-[1180px] mx-auto px-4 py-5 text-center">
         <span
-          class="inline-block px-3.5 py-1.5 rounded-full bg-primary-soft text-primary font-bold text-xs tracking-[0.04em] mb-5"
+          class="inline-block px-3 py-1 rounded-full bg-primary-soft text-primary font-bold text-[11px] tracking-[0.04em] mb-2"
         >
           Free • No account • No apps
         </span>
-        <h1 class="text-4xl lg:text-5xl leading-tight mb-4 tracking-tight">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl leading-tight mb-2.5 tracking-tight font-extrabold">
           Watch free live sports TV from
           <span
             class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
@@ -283,18 +283,18 @@
           </span>
         </h1>
 
-        <div class="hero-stats flex justify-center gap-9 flex-wrap">
+        <div class="hero-stats flex justify-center gap-6 flex-wrap">
           <div>
-            <strong id="statChannels" class="block text-3xl">—</strong
-            ><span class="text-muted text-sm">Sports Channels</span>
+            <strong id="statChannels" class="block text-xl font-extrabold">—</strong
+            ><span class="text-muted text-xs">Sports Channels</span>
           </div>
           <div>
-            <strong id="statCountries" class="block text-3xl">—</strong
-            ><span class="text-muted text-sm">Countries</span>
+            <strong id="statCountries" class="block text-xl font-extrabold">—</strong
+            ><span class="text-muted text-xs">Countries</span>
           </div>
           <div>
-            <strong id="statLanguages" class="block text-3xl">—</strong
-            ><span class="text-muted text-sm">Languages</span>
+            <strong id="statLanguages" class="block text-xl font-extrabold">—</strong
+            ><span class="text-muted text-xs">Languages</span>
           </div>
         </div>
       </div>
@@ -303,33 +303,33 @@
     <!-- Filters -->
     <section class="filters border-b border-edge bg-base" aria-label="Filters">
       <div
-        class="max-w-[1180px] mx-auto px-5 py-4 flex gap-[14px] items-end flex-wrap"
+        class="max-w-[1180px] mx-auto px-4 py-2 flex gap-2.5 items-end flex-wrap"
       >
-        <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
-          <label for="countryFilter" class="text-xs font-semibold text-muted uppercase tracking-[0.04em]">
+        <div class="filter-group flex flex-col gap-1 min-w-[140px] flex-1 basis-[140px]">
+          <label for="countryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
             Country
           </label>
           <select
             id="countryFilter"
-            class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+            class="py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
           >
             <option value="all">All countries</option>
           </select>
         </div>
-        <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
-          <label for="languageFilter" class="text-xs font-semibold text-muted uppercase tracking-[0.04em]">
+        <div class="filter-group flex flex-col gap-1 min-w-[140px] flex-1 basis-[140px]">
+          <label for="languageFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
             Language
           </label>
           <select
             id="languageFilter"
-            class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
+            class="py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
           >
             <option value="all">All languages</option>
           </select>
         </div>
         <button
           id="favoritesToggle"
-          class="pill-toggle ml-auto p-2.5 rounded-full border border-edge bg-surface text-ink font-semibold cursor-pointer transition-all duration-160"
+          class="pill-toggle ml-auto py-1.5 px-3 rounded-full border border-edge bg-surface text-ink text-xs font-semibold cursor-pointer transition-all duration-160"
           aria-pressed="false"
         >
           ★ Favorites
@@ -338,9 +338,9 @@
     </section>
 
     <!-- Channel sections -->
-    <main class="container max-w-[1180px] mx-auto px-5 py-8 pb-14">
+    <main class="container max-w-[1180px] mx-auto px-4 py-4 pb-6">
       <!-- Top Display Ad Unit -->
-      <div class="ad-unit-top mb-8 text-center overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[90px] flex items-center justify-center">
+      <div class="ad-unit-top mb-3 text-center overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
         <ins class="adsbygoogle"
              style="display:block; width:100%;"
              data-ad-client="ca-pub-2862340185854650"
@@ -352,15 +352,15 @@
         </script>
       </div>
 
-      <section class="row mb-10" id="rowSports">
-        <div class="row-head flex items-baseline gap-3 mb-4">
-          <h2 class="m-0 text-2xl tracking-tight">Featured Sports</h2>
+      <section class="row mb-4" id="rowSports">
+        <div class="row-head flex items-baseline gap-2 mb-2">
+          <h2 class="m-0 text-lg font-bold tracking-tight">Featured Sports</h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-[14px]" id="gridSports"></div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5" id="gridSports"></div>
       </section>
 
       <!-- In-Feed Ad Unit -->
-      <div class="ad-unit-feed my-8 text-center overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[90px] flex items-center justify-center">
+      <div class="ad-unit-feed my-3 text-center overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
         <ins class="adsbygoogle"
              style="display:block; width:100%;"
              data-ad-format="fluid"
@@ -373,7 +373,7 @@
       </div>
 
       <!-- In-Article Ad Unit -->
-      <div class="ad-unit-article my-8 text-center overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[90px] flex items-center justify-center">
+      <div class="ad-unit-article my-3 text-center overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
         <ins class="adsbygoogle"
              style="display:block; text-align:center; width:100%;"
              data-ad-layout="in-article"
@@ -385,16 +385,16 @@
         </script>
       </div>
 
-      <section class="row mb-10" id="rowAll">
-        <div class="row-head flex items-baseline gap-3 mb-4">
-          <h2 class="m-0 text-2xl tracking-tight">All Sports Channels</h2>
-          <span class="row-count text-muted text-sm" id="allCount"></span>
+      <section class="row mb-4" id="rowAll">
+        <div class="row-head flex items-baseline gap-2 mb-2">
+          <h2 class="m-0 text-lg font-bold tracking-tight">All Sports Channels</h2>
+          <span class="row-count text-muted text-xs" id="allCount"></span>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-[14px]" id="gridAll"></div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5" id="gridAll"></div>
       </section>
 
       <!-- Multiplex Ad Unit -->
-      <div class="ad-unit-multiplex mt-10 mb-4 overflow-hidden rounded-xl border border-edge bg-card p-3 min-h-[140px]">
+      <div class="ad-unit-multiplex mt-4 mb-2 overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[120px]">
         <ins class="adsbygoogle"
              style="display:block; width:100%;"
              data-ad-format="autorelaxed"
@@ -407,25 +407,25 @@
     </main>
 
     <!-- Footer -->
-    <footer class="site-footer border-t border-edge px-5 py-7 pb-12 text-center">
+    <footer class="site-footer border-t border-edge px-4 py-3 pb-6 text-center">
       <p
-        class="text-muted max-w-[620px] mx-auto mb-3 leading-relaxed text-sm"
+        class="text-muted max-w-[620px] mx-auto mb-1 leading-relaxed text-xs"
       >
         LiveSportsTV indexes publicly available streams published by broadcasters. We host no video
         content and honor the iptv-org blocklist. Channels are streamed directly via HLS.
       </p>
-      <a href="mailto:support@livesportstv.store?subject=Report a channel" class="report-link text-primary font-semibold text-sm">
+      <a href="mailto:support@livesportstv.store?subject=Report a channel" class="report-link text-primary font-semibold text-xs">
         Report a channel
       </a>
     </footer>
 
     <!-- Player modal -->
-    <div class="player-modal fixed inset-0 z-50 items-center justify-center p-4 overflow-y-auto" id="playerModal" aria-hidden="true">
+    <div class="player-modal fixed inset-0 z-50 items-center justify-center p-2.5 overflow-y-auto" id="playerModal" aria-hidden="true">
       <div class="player-backdrop fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
       <div
-        class="player-dialog relative z-10 w-full max-w-[960px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-4 sm:p-5 shadow-glass my-auto"
+        class="player-dialog relative z-10 w-full max-w-[960px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-3 sm:p-4 shadow-glass my-auto"
       >
-        <div class="player-top flex items-center justify-between mb-3">
+        <div class="player-top flex items-center justify-between mb-2">
           <div
             class="player-now inline-flex items-center gap-2 font-bold text-xs text-muted uppercase tracking-wider"
           >
@@ -642,22 +642,22 @@
         const favStyle = fav ? 'opacity:1;color:#ffc83d' : '';
 
         const logoEl = logo
-          ? `<img class="w-10 h-10 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
-          : `<div class="w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-white flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
+          ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
+          : `<div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
         return `
-          <article class="channel-card group relative border border-edge bg-card rounded-xl p-3.5 cursor-pointer transition-all duration-160 flex flex-col gap-2.5 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
-            <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite" class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
-            <div class="flex items-center gap-2.5">
+          <article class="channel-card group relative border border-edge bg-card rounded-xl p-2.5 cursor-pointer transition-all duration-160 flex flex-col gap-2 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
+            <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite" class="absolute top-2 right-2 w-7 h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-xs flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
+            <div class="flex items-center gap-2">
               ${logoEl}
-              <div class="font-bold text-sm leading-snug overflow-hidden line-clamp-2">${channel.name}</div>
+              <div class="font-bold text-xs leading-snug overflow-hidden line-clamp-2">${channel.name}</div>
             </div>
-            <div class="flex items-center justify-between gap-2 mt-auto">
-              <span class="flex items-center gap-1.5 text-muted text-xs">
-                <img class="w-5 h-[14px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
+            <div class="flex items-center justify-between gap-1.5 mt-auto">
+              <span class="flex items-center gap-1 text-muted text-[11px]">
+                <img class="w-4 h-[12px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
               </span>
-              <span class="text-muted text-xs bg-[var(--lang-bg)] px-2 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : ''}</span>
-              <span class="inline-flex items-center gap-[5px] text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>
+              <span class="text-muted text-[11px] bg-[var(--lang-bg)] px-1.5 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : ''}</span>
+              <span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>
             </div>
           </article>`;
       }
