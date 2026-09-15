@@ -776,7 +776,7 @@
       }
 
       function bindEvents() {
-        [els.search, els.country, els.category, els.language].forEach((el) => {
+        [els.search, els.country, els.language].filter(Boolean).forEach((el) => {
           el.addEventListener('input', renderAll);
           el.addEventListener('change', renderAll);
         });
