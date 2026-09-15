@@ -434,16 +434,50 @@
             ></span>
             Now playing
           </div>
-          <button
-            class="player-close bg-transparent border border-edge text-ink w-9 h-9 rounded-full cursor-pointer text-base flex items-center justify-center"
-            data-close
-            aria-label="Close player"
-          >
-            ✕
-          </button>
+          <div class="player-controls flex items-center gap-2">
+            <button
+              id="playerPrev"
+              class="player-nav-btn bg-surface hover:bg-card border border-edge text-ink px-3 py-1.5 rounded-full cursor-pointer text-xs font-semibold flex items-center gap-1 transition-all duration-160 hover:scale-105"
+              aria-label="Previous channel"
+              title="Previous channel (Left Arrow)"
+            >
+              ‹ Prev
+            </button>
+            <button
+              id="playerNext"
+              class="player-nav-btn bg-surface hover:bg-card border border-edge text-ink px-3 py-1.5 rounded-full cursor-pointer text-xs font-semibold flex items-center gap-1 transition-all duration-160 hover:scale-105"
+              aria-label="Next channel"
+              title="Next channel (Right Arrow)"
+            >
+              Next ›
+            </button>
+            <button
+              class="player-close bg-transparent border border-edge text-ink w-9 h-9 rounded-full cursor-pointer text-base flex items-center justify-center hover:scale-110 transition-transform duration-160 ml-1"
+              data-close
+              aria-label="Close player"
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
-        <div class="video-frame relative rounded-xl overflow-hidden bg-black aspect-video">
+        <div class="video-frame group relative rounded-xl overflow-hidden bg-black aspect-video">
+          <button
+            id="prevOverlayBtn"
+            class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 cursor-pointer flex items-center justify-center text-xl opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110"
+            aria-label="Previous channel"
+            title="Previous channel"
+          >
+            ‹
+          </button>
+          <button
+            id="nextOverlayBtn"
+            class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 cursor-pointer flex items-center justify-center text-xl opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110"
+            aria-label="Next channel"
+            title="Next channel"
+          >
+            ›
+          </button>
           <video
             id="player"
             controls
@@ -452,7 +486,7 @@
             class="w-full h-full block bg-black"
           ></video>
           <div
-            class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/72 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5"
+            class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/72 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10"
             id="videoOverlay"
           >
             <div
@@ -502,6 +536,7 @@
       let countryData = {};
       let langName = {};
       let favorites = [];
+      let currentChannelId = null;
 
       const els = {
         search: document.getElementById('searchInput'),
@@ -515,6 +550,10 @@
         themeToggle: document.getElementById('themeToggle'),
         modal: document.getElementById('playerModal'),
         player: document.getElementById('player'),
+        playerPrev: document.getElementById('playerPrev'),
+        playerNext: document.getElementById('playerNext'),
+        prevOverlayBtn: document.getElementById('prevOverlayBtn'),
+        nextOverlayBtn: document.getElementById('nextOverlayBtn'),
         overlay: document.getElementById('videoOverlay'),
         overlayText: document.getElementById('overlayText'),
         title: document.getElementById('playerTitle'),
@@ -704,6 +743,7 @@
       let hls = null;
 
       function openPlayer(channel) {
+        currentChannelId = channel.id;
         els.title.textContent = channel.name;
         els.desc.textContent = `${categoryFor(channel)} • ${getCountryName(channel.country)}${channel.language !== 'Unknown' ? ' • ' + channel.language : ''}`;
         els.countryEl.textContent = getCountryName(channel.country);
@@ -775,6 +815,18 @@
         els.overlay.classList.remove('visible');
       }
 
+      function playAdjacentChannel(direction) {
+        const activeList = filtered(getFilters());
+        const list = activeList.length ? activeList : channels;
+        if (!list.length) return;
+
+        let index = list.findIndex((c) => c.id === currentChannelId);
+        if (index === -1) index = 0;
+        else index = (index + direction + list.length) % list.length;
+
+        openPlayer(list[index]);
+      }
+
       function bindEvents() {
         [els.search, els.country, els.language].filter(Boolean).forEach((el) => {
           el.addEventListener('input', renderAll);
@@ -786,6 +838,11 @@
           els.favoritesToggle.setAttribute('aria-pressed', String(!pressed));
           renderAll();
         });
+
+        if (els.playerPrev) els.playerPrev.addEventListener('click', () => playAdjacentChannel(-1));
+        if (els.playerNext) els.playerNext.addEventListener('click', () => playAdjacentChannel(1));
+        if (els.prevOverlayBtn) els.prevOverlayBtn.addEventListener('click', () => playAdjacentChannel(-1));
+        if (els.nextOverlayBtn) els.nextOverlayBtn.addEventListener('click', () => playAdjacentChannel(1));
 
         document.querySelector('.container').addEventListener('click', (e) => {
           const favBtn = e.target.closest('[data-fav]');
@@ -804,7 +861,10 @@
 
         els.modal.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', closePlayer));
         document.addEventListener('keydown', (e) => {
+          if (!els.modal.classList.contains('open')) return;
           if (e.key === 'Escape') closePlayer();
+          else if (e.key === 'ArrowLeft') playAdjacentChannel(-1);
+          else if (e.key === 'ArrowRight') playAdjacentChannel(1);
         });
       }
 
