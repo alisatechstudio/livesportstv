@@ -842,10 +842,17 @@
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i].trim();
           if (!line.startsWith('#EXTINF:')) continue;
-          const nextIdx = i + 1;
-          if (nextIdx >= lines.length) continue;
-          const nextLine = lines[nextIdx].trim();
-          if (!nextLine || nextLine.startsWith('#') || !nextLine.endsWith('.m3u8')) continue;
+
+          let streamUrl = '';
+          for (let j = i + 1; j < lines.length; j++) {
+            const candidate = lines[j].trim();
+            if (candidate.startsWith('#EXTINF:')) break;
+            if (candidate && !candidate.startsWith('#')) {
+              streamUrl = candidate;
+              break;
+            }
+          }
+          if (!streamUrl) continue;
 
           const groupMatch = line.match(/group-title="([^"]*)"/);
           const category = groupMatch ? groupMatch[1] : 'Sports';
@@ -853,8 +860,8 @@
           const tvgIdMatch = line.match(/tvg-id="([^"]*)"/);
           const channelId = tvgIdMatch ? tvgIdMatch[1] : 'ch-' + result.length;
 
-          const nameMatch = line.match(/,(.+)$/);
-          const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
+          const lastComma = line.lastIndexOf(',');
+          const name = lastComma !== -1 ? line.slice(lastComma + 1).trim() : 'Unknown';
 
           const logoMatch = line.match(/tvg-logo="([^"]*)"/);
           const logo = logoMatch ? logoMatch[1] : '';
@@ -870,7 +877,7 @@
             languages: [],
             language: 'Unknown',
             logo: logo,
-            streamUrl: nextLine,
+            streamUrl: streamUrl,
           });
         }
 
