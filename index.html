@@ -129,7 +129,7 @@
         display: none;
       }
       .player-modal.open {
-        display: block;
+        display: flex;
       }
       .video-overlay {
         opacity: 0;
@@ -420,10 +420,10 @@
     </footer>
 
     <!-- Player modal -->
-    <div class="player-modal" id="playerModal" aria-hidden="true">
-      <div class="player-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" data-close></div>
+    <div class="player-modal fixed inset-0 z-50 items-center justify-center p-4 overflow-y-auto" id="playerModal" aria-hidden="true">
+      <div class="player-backdrop fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
       <div
-        class="player-dialog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(960px,94vw)] max-h-[92vh] overflow-auto bg-surface border border-edge rounded-2xl p-4 shadow-glass"
+        class="player-dialog relative z-10 w-full max-w-[960px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-4 sm:p-5 shadow-glass my-auto"
       >
         <div class="player-top flex items-center justify-between mb-3">
           <div
