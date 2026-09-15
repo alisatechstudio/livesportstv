@@ -1,45 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="google-adsense-account" content="ca-pub-2862340185854650" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LiveSportsTV — Watch Free Live Sports TV Streams</title>
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>LiveSportsTV — Free Live Sports TV Channels & Streaming Directory | Watch Football, Cricket, F1 & More</title>
+  <meta name="title" content="LiveSportsTV — Free Live Sports TV Channels & Streaming Directory | Watch Football, Cricket, F1 & More" />
   <meta name="description"
-    content="Watch free live sports TV streams from around the world. Browse thousands of live sports channels by country and category." />
+    content="Watch 1,000+ free live sports TV streams from 175+ countries. Official directory for free-to-air football, cricket, basketball, motorsport, tennis, combat sports, and Olympic TV channels with instant in-browser playback." />
+  <meta name="keywords"
+    content="live sports tv, free sports streaming, watch live football, live cricket tv, watch f1 stream free, live basketball channels, iptv sports, free to air sports tv, sports channels live stream, live sports directory, online sports broadcast, stream sports free" />
+  <meta name="author" content="LiveSportsTV" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://livesportstv.store/" />
 
-  <!-- Open Graph -->
+  <!-- Favicon & Mobile Icons -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236d5efc'/%3E%3Cstop offset='100%25' stop-color='%2338e1ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpolygon points='12,9 24,16 12,23' fill='white'/%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="LiveSportsTV" />
+
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="LiveSportsTV — Watch Free Live Sports TV Streams" />
-  <meta property="og:description"
-    content="Watch free live sports TV streams from around the world. Browse thousands of live sports channels by country and category." />
   <meta property="og:url" content="https://livesportstv.store/" />
+  <meta property="og:title" content="LiveSportsTV — Free Live Sports TV Channels & Streaming Directory" />
+  <meta property="og:description"
+    content="Watch 1,000+ free live sports TV streams from 175+ countries. Official directory for free-to-air football, cricket, basketball, motorsport, tennis, combat sports, and Olympic TV channels." />
+  <meta property="og:image" content="https://livesportstv.store/og-image.png" />
+  <meta property="og:image:alt" content="LiveSportsTV Live Sports TV Directory" />
   <meta property="og:site_name" content="LiveSportsTV" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="LiveSportsTV — Watch Free Live Sports TV Streams" />
+  <meta name="twitter:url" content="https://livesportstv.store/" />
+  <meta name="twitter:title" content="LiveSportsTV — Free Live Sports TV Channels & Streaming Directory" />
   <meta name="twitter:description"
-    content="Watch free live sports TV streams from around the world. Browse thousands of live sports channels by country and category." />
+    content="Watch 1,000+ free live sports TV streams from 175+ countries. Official directory for free-to-air football, cricket, basketball, motorsport, tennis, and combat sports." />
+  <meta name="twitter:image" content="https://livesportstv.store/og-image.png" />
+  <meta name="twitter:image:alt" content="LiveSportsTV Live Sports TV Directory" />
 
-  <!-- Structured Data -->
+  <!-- Structured Data: WebSite, Organization, BreadcrumbList, ItemList & FAQPage -->
   <script type="application/ld+json">
+    [
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": "https://livesportstv.store/#website",
         "name": "LiveSportsTV",
         "url": "https://livesportstv.store/",
-        "description": "Watch free live sports TV streams from around the world.",
+        "description": "Global directory and high-speed web player for publicly available free-to-air sports TV broadcasts.",
+        "inLanguage": "en-US",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://livesportstv.store/?q={search_term_string}",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://livesportstv.store/?q={search_term_string}"
+          },
           "query-input": "required name=search_term_string"
         }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://livesportstv.store/#organization",
+        "name": "LiveSportsTV",
+        "url": "https://livesportstv.store/",
+        "logo": "https://livesportstv.store/logo.png",
+        "description": "Open indexing platform for international free-to-air sports broadcast channels.",
+        "email": "support@livesportstv.store"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://livesportstv.store/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Live Sports Directory",
+            "item": "https://livesportstv.store/#rowAll"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Sports Broadcasting Guide",
+            "item": "https://livesportstv.store/#sportsGuide"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Popular Sports Broadcast Categories",
+        "description": "List of major sporting broadcast disciplines covered on LiveSportsTV.",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Football & Soccer TV Channels"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Motorsport, F1 & Racing Channels"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Cricket & Test Series TV"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Basketball & Court Sports TV"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Combat Sports, UFC & Boxing Channels"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "Tennis & Racquet Sports TV"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": "https://livesportstv.store/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is LiveSportsTV completely free and legal to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, LiveSportsTV is 100% free with no subscription or account required. We index publicly broadcasted free-to-air HLS television streams legally published on the open internet."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which sports can I watch on LiveSportsTV?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can browse verified channels broadcasting football (soccer), cricket, motorsport (Formula, GT, rally), basketball, tennis, combat sports (boxing, MMA), golf, rugby, baseball, hockey, and Olympic athletics."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does LiveSportsTV host or store any video on its servers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. LiveSportsTV is purely a search directory and indexing interface. We do not host, store, transcode, or re-transmit media files. All streams connect directly from the original broadcaster's content servers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I watch live sports TV on mobile devices and Smart TVs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. LiveSportsTV runs natively on modern HTML5 web browsers across iOS (Safari), Android (Chrome), Windows, macOS, Linux, and Smart TV browsers with zero external app downloads."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do some channels display a 403 Forbidden error?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A 403 error typically indicates that the broadcaster restricts the stream to specific geographic regions (geo-blocking) or only activates the stream during live match broadcasts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often is the channel list updated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Our channel index is automatically updated daily from verified open-source IPTV databases, ensuring dead channels are flagged and new sports channels are added."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can copyright owners request removal of a stream listing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Copyright holders can submit a DMCA takedown notice to support@livesportstv.store. We process and de-index verified requests within 24-48 business hours."
+            }
+          }
+        ]
       }
-    </script>
+    ]
+  </script>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JWH1BZW037"></script>
@@ -52,12 +213,18 @@
     gtag("config", "G-JWH1BZW037");
   </script>
 
-  <!-- Resource hints -->
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2862340185854650"
+    crossorigin="anonymous"></script>
+
+  <!-- Resource hints for speed & Core Web Vitals -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
   <link rel="dns-prefetch" href="https://flagcdn.com" />
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <style>
     :root {
       color-scheme: dark;
@@ -119,11 +286,9 @@
       0% {
         box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.6);
       }
-
       70% {
         box-shadow: 0 0 0 8px rgba(255, 77, 77, 0);
       }
-
       100% {
         box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
       }
@@ -135,10 +300,12 @@
       }
     }
 
+    .policy-modal,
     .player-modal {
       display: none;
     }
 
+    .policy-modal.open,
     .player-modal.open {
       display: flex;
     }
@@ -160,6 +327,20 @@
 
     .video-overlay.error .spinner {
       display: none;
+    }
+
+    details[open] summary svg {
+      transform: rotate(180deg);
+    }
+
+    .ad-label {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: block;
+      font-weight: 600;
     }
 
     @media (max-width: 640px) {
@@ -200,38 +381,21 @@
           transitionDuration: {
             160: "160ms",
           },
-          keyframes: {
-            livepulse: {
-              "0%": { boxShadow: "0 0 0 0 rgba(255, 77, 77, 0.6)" },
-              "70%": { boxShadow: "0 0 0 8px rgba(255, 77, 77, 0)" },
-              "100%": { boxShadow: "0 0 0 0 rgba(255, 77, 77, 0)" },
-            },
-            spin: {
-              to: { transform: "rotate(360deg)" },
-            },
-          },
-          animation: {
-            livepulse: "livepulse 1.8s infinite",
-            spin: "spin 0.9s linear infinite",
-          },
         },
       },
     };
   </script>
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2862340185854650"
-    crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-base text-ink antialiased">
-  <!-- Header -->
+<body class="bg-base text-ink antialiased flex flex-col min-h-screen">
+  <!-- Header Navigation -->
   <header
-    class="sticky top-0 z-40 backdrop-blur-md border-b border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)]">
-    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 flex flex-wrap items-center justify-between gap-2.5">
-      <div class="flex items-center justify-between w-full sm:w-auto gap-2">
-        <a href="/" class="brand flex items-center gap-2 font-extrabold text-base tracking-tight flex-none">
+    class="sticky top-0 z-40 backdrop-blur-md border-b border-edge bg-[color:color-mix(in_srgb,var(--bg)_85%,transparent)]">
+    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center justify-between w-full sm:w-auto gap-3">
+        <a href="/" class="brand flex items-center gap-2 font-extrabold text-base tracking-tight flex-none" aria-label="LiveSportsTV Home">
           <span
-            class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-xs">
+            class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-xs shadow-md">
             ▶
           </span>
           <span>LIVE<span class="text-primary">SPORTS</span>TV</span>
@@ -239,34 +403,42 @@
 
         <div class="flex items-center gap-2 sm:hidden">
           <button id="themeToggleMobile"
-            class="theme-toggle bg-transparent border border-edge text-ink w-8 h-8 rounded-full cursor-pointer text-sm flex items-center justify-center"
-            aria-label="Toggle theme">
+            class="theme-toggle bg-surface border border-edge text-ink w-8 h-8 rounded-full cursor-pointer text-xs flex items-center justify-center"
+            aria-label="Toggle light and dark mode">
             ☀️
           </button>
         </div>
       </div>
 
-      <div class="search-box relative w-full sm:w-auto flex-1 max-w-full sm:max-w-[480px]">
+      <div class="search-box relative w-full sm:w-auto flex-1 max-w-full sm:max-w-[420px]" role="search">
         <svg class="search-icon absolute left-3 top-1/2 -translate-y-1/2 text-muted w-4 h-4" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input id="searchInput" type="text" placeholder="Search channels, countries, or sports…"
-          class="w-full py-1.5 px-3 pl-9 rounded-full border border-edge bg-surface text-ink font-[inherit] text-xs focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft" />
+        <input id="searchInput" type="search" placeholder="Search channels (e.g. Football, ESPN, F1, Cricket)…"
+          aria-label="Search live sports channels"
+          class="w-full py-1.5 px-3 pl-9 rounded-full border border-edge bg-surface text-ink font-[inherit] text-xs focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft transition-all" />
       </div>
 
-      <nav class="main-nav hidden sm:flex items-center gap-3 flex-none">
-        <a href="#rowSports" data-nav="sports"
-          class="text-muted font-semibold text-xs hover:text-ink transition-colors duration-160">
+      <nav class="main-nav hidden sm:flex items-center gap-4 flex-none text-xs font-semibold" aria-label="Main Navigation">
+        <a href="#rowSports" class="text-muted hover:text-ink transition-colors duration-160">
           Featured
         </a>
-        <a href="#rowAll" data-nav="all"
-          class="text-muted font-semibold text-xs hover:text-ink transition-colors duration-160">
+        <a href="#rowAll" class="text-muted hover:text-ink transition-colors duration-160">
           All Channels
         </a>
+        <a href="#sportsGuide" class="text-muted hover:text-ink transition-colors duration-160">
+          Directory Guide
+        </a>
+        <a href="#regionsSection" class="text-muted hover:text-ink transition-colors duration-160">
+          Regions
+        </a>
+        <a href="#faqSection" class="text-muted hover:text-ink transition-colors duration-160">
+          FAQ
+        </a>
         <button id="themeToggle"
-          class="theme-toggle bg-transparent border border-edge text-ink w-8 h-8 rounded-full cursor-pointer text-sm flex items-center justify-center hover:scale-110 transition-transform duration-160"
+          class="theme-toggle bg-surface border border-edge text-ink w-8 h-8 rounded-full cursor-pointer text-xs flex items-center justify-center hover:scale-110 transition-transform duration-160"
           aria-label="Toggle theme">
           ☀️
         </button>
@@ -274,44 +446,60 @@
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section
     class="hero border-b border-edge bg-[color:radial-gradient(120%_120%_at_50%_0%,rgba(109,94,252,0.16),transparent_60%)]">
-    <div class="max-w-[1180px] mx-auto px-4 py-5 text-center">
+    <div class="max-w-[1180px] mx-auto px-4 py-6 sm:py-8 text-center">
       <span
-        class="inline-block px-3 py-1 rounded-full bg-primary-soft text-primary font-bold text-[11px] tracking-[0.04em] mb-2">
-        Free • No account • No apps
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-soft text-primary font-bold text-[11px] tracking-[0.04em] mb-2.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>
+        Free Public TV Directory • 100% Legal Public Streams • No Subscription Needed
       </span>
       <h1 class="text-2xl sm:text-3xl lg:text-4xl leading-tight mb-2.5 tracking-tight font-extrabold">
-        Watch free live sports TV from
+        Free Live Sports TV Channels & Broadcasts from
         <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-          175+ countries
+          175+ Countries
         </span>
       </h1>
+      <p class="text-muted text-xs sm:text-sm max-w-[700px] mx-auto mb-4 leading-relaxed">
+        Browse and stream official free-to-air sports channels online. Search football, cricket, basketball, motorsport, and combat sports TV with direct in-browser HLS playback.
+      </p>
 
-      <div class="hero-stats flex justify-center gap-6 flex-wrap">
-        <div>
-          <strong id="statChannels" class="block text-xl font-extrabold">—</strong><span
-            class="text-muted text-xs">Sports Channels</span>
+      <!-- Quick Sport Filter Pills for SEO & UX -->
+      <div class="flex flex-wrap justify-center items-center gap-1.5 max-w-[850px] mx-auto mb-4 text-xs font-semibold">
+        <span class="text-muted text-[11px] mr-1">Popular:</span>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="football">⚽ Football</button>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="cricket">🏏 Cricket</button>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="f1">🏎️ Racing / F1</button>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="basketball">🏀 Basketball</button>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="tennis">🎾 Tennis</button>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="fight">🥊 Combat / UFC</button>
+        <button class="quick-filter-btn px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer" data-sport="all">⚡ All Sports</button>
+      </div>
+
+      <div class="hero-stats flex justify-center gap-6 sm:gap-10 flex-wrap pt-2">
+        <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
+          <strong id="statChannels" class="block text-xl font-extrabold text-primary">—</strong>
+          <span class="text-muted text-[11px]">Sports Channels</span>
         </div>
-        <div>
-          <strong id="statCountries" class="block text-xl font-extrabold">—</strong><span
-            class="text-muted text-xs">Countries</span>
+        <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
+          <strong id="statCountries" class="block text-xl font-extrabold text-accent">—</strong>
+          <span class="text-muted text-[11px]">Countries</span>
         </div>
-        <div>
-          <strong id="statLanguages" class="block text-xl font-extrabold">—</strong><span
-            class="text-muted text-xs">Languages</span>
+        <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
+          <strong id="statLanguages" class="block text-xl font-extrabold text-emerald">—</strong>
+          <span class="text-muted text-[11px]">Languages</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Filters -->
-  <section class="filters border-b border-edge bg-base" aria-label="Filters">
-    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:flex gap-2 sm:gap-2.5 sm:items-end">
+  <!-- Interactive Filters -->
+  <section class="filters border-b border-edge bg-base sticky top-[57px] z-30 shadow-sm" aria-label="Channel Filters">
+    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:flex gap-2 sm:gap-3 sm:items-end">
       <div class="filter-group flex flex-col gap-1 col-span-1 sm:flex-1">
         <label for="countryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
-          Country
+          Filter by Country
         </label>
         <select id="countryFilter"
           class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
@@ -320,7 +508,7 @@
       </div>
       <div class="filter-group flex flex-col gap-1 col-span-1 sm:flex-1">
         <label for="languageFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
-          Language
+          Filter by Language
         </label>
         <select id="languageFilter"
           class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
@@ -328,82 +516,360 @@
         </select>
       </div>
       <button id="favoritesToggle"
-        class="pill-toggle col-span-2 sm:col-span-auto sm:ml-auto w-full sm:w-auto py-1.5 px-3 rounded-full border border-edge bg-surface text-ink text-xs font-semibold cursor-pointer transition-all duration-160"
+        class="pill-toggle col-span-2 sm:col-span-auto sm:ml-auto w-full sm:w-auto py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all duration-160 flex items-center justify-center gap-1.5"
         aria-pressed="false">
-        ★ Favorites
+        <span class="text-yellow-400">★</span> Favorites
       </button>
     </div>
   </section>
 
-  <!-- Channel sections -->
-  <main class="container max-w-[1180px] mx-auto px-4 py-4 pb-6">
+  <!-- Channel Grid & Core Main Content -->
+  <main class="container max-w-[1180px] mx-auto px-4 py-5 flex-1">
     <!-- Top Display Ad Unit -->
-    <div
-      class="ad-unit-top mb-3 text-center overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
-      <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-client="ca-pub-2862340185854650"
-        data-ad-slot="7702440124" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+    <div class="ad-container-top mb-5 text-center">
+      <span class="ad-label">Advertisement</span>
+      <div
+        class="ad-unit-top overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
+        <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-client="ca-pub-2862340185854650"
+          data-ad-slot="7702440124" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
     </div>
 
-    <section class="row mb-4" id="rowSports">
-      <div class="row-head flex items-baseline gap-2 mb-2">
-        <h2 class="m-0 text-lg font-bold tracking-tight">Featured Sports</h2>
+    <!-- Featured Channels Section -->
+    <section class="row mb-6" id="rowSports" aria-labelledby="featuredHeading">
+      <div class="row-head flex items-baseline justify-between gap-2 mb-3">
+        <h2 id="featuredHeading" class="m-0 text-base sm:text-lg font-bold tracking-tight flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true"></span>
+          Featured Live Sports Channels
+        </h2>
+        <span class="text-muted text-xs">Top free-to-air broadcast feeds</span>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5" id="gridSports"></div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5"
+        id="gridSports"></div>
     </section>
 
     <!-- In-Feed Ad Unit -->
-    <div
-      class="ad-unit-feed my-3 text-center overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
-      <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-format="fluid"
-        data-ad-layout-key="-6t+ed+2i-1n-4w" data-ad-client="ca-pub-2862340185854650" data-ad-slot="3188480041"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+    <div class="ad-container-feed my-5 text-center">
+      <span class="ad-label">Advertisement</span>
+      <div
+        class="ad-unit-feed overflow-hidden rounded-xl border border-edge bg-card p-1 min-h-[90px] flex items-center justify-center">
+        <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-format="fluid"
+          data-ad-layout-key="-6t+ed+2i-1n-4w" data-ad-client="ca-pub-2862340185854650"
+          data-ad-slot="3188480041"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
     </div>
 
-    <section class="row mb-4" id="rowAll">
-      <div class="row-head flex items-baseline gap-2 mb-2">
-        <h2 class="m-0 text-lg font-bold tracking-tight">All Sports Channels</h2>
-        <span class="row-count text-muted text-xs" id="allCount"></span>
+    <!-- All Sports Channels Section -->
+    <section class="row mb-8" id="rowAll" aria-labelledby="allChannelsHeading">
+      <div class="row-head flex items-baseline justify-between gap-2 mb-3">
+        <h2 id="allChannelsHeading" class="m-0 text-base sm:text-lg font-bold tracking-tight flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-accent" aria-hidden="true"></span>
+          All Live Sports Channels Directory
+        </h2>
+        <span class="row-count text-muted text-xs font-semibold" id="allCount"></span>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5" id="gridAll"></div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5"
+        id="gridAll"></div>
     </section>
 
     <!-- Multiplex Ad Unit -->
-    <div class="ad-unit-multiplex mt-4 mb-2 overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[120px]">
-      <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-format="autorelaxed"
-        data-ad-client="ca-pub-2862340185854650" data-ad-slot="9340534434"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+    <div class="ad-container-multiplex my-6 text-center">
+      <span class="ad-label">Advertisement</span>
+      <div class="ad-unit-multiplex overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[120px]">
+        <ins class="adsbygoogle" style="display:block; width:100%;" data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-2862340185854650" data-ad-slot="9340534434"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
     </div>
+
+    <!-- Why LiveSportsTV Section (SEO Keyword & Trust Boost) -->
+    <section class="features-overview my-8 pt-6 border-t border-edge" id="platformBenefits">
+      <div class="max-w-[960px] mx-auto text-center mb-6">
+        <span class="text-xs font-bold text-primary uppercase tracking-wider">Fast • Legal • Accessible</span>
+        <h2 class="text-xl sm:text-2xl font-extrabold mt-1 tracking-tight">Why Choose LiveSportsTV for Live Sports Broadcasts?</h2>
+        <p class="text-muted text-xs sm:text-sm mt-2 max-w-[640px] mx-auto leading-relaxed">
+          The cleanest, most accessible open-web directory for sports enthusiasts seeking verified free-to-air television coverage.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5 max-w-[1020px] mx-auto mb-8">
+        <div class="bg-card border border-edge rounded-xl p-4 text-center">
+          <div class="text-2xl mb-2">⚡</div>
+          <h3 class="font-bold text-xs sm:text-sm mb-1">Instant Playback</h3>
+          <p class="text-muted text-xs leading-relaxed">Direct origin HLS stream connection with native player acceleration.</p>
+        </div>
+        <div class="bg-card border border-edge rounded-xl p-4 text-center">
+          <div class="text-2xl mb-2">🛡️</div>
+          <h3 class="font-bold text-xs sm:text-sm mb-1">100% Legal Public TV</h3>
+          <p class="text-muted text-xs leading-relaxed">Strictly indexes official free-to-air public broadcasts and open channels.</p>
+        </div>
+        <div class="bg-card border border-edge rounded-xl p-4 text-center">
+          <div class="text-2xl mb-2">📱</div>
+          <h3 class="font-bold text-xs sm:text-sm mb-1">All Devices Supported</h3>
+          <p class="text-muted text-xs leading-relaxed">Optimized for iPhone, Android, PC, Mac, tablets, and Smart TV browsers.</p>
+        </div>
+        <div class="bg-card border border-edge rounded-xl p-4 text-center">
+          <div class="text-2xl mb-2">🔓</div>
+          <h3 class="font-bold text-xs sm:text-sm mb-1">No Sign-Up or App</h3>
+          <p class="text-muted text-xs leading-relaxed">Zero barrier to entry. No account, no credit card, no app download required.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editorial Sports Directory Guide (SEO Cornerstone Content) -->
+    <section class="sports-guide my-8 pt-6 border-t border-edge" id="sportsGuide" aria-labelledby="guideHeading">
+      <div class="max-w-[960px] mx-auto">
+        <div class="text-center mb-8">
+          <span class="text-xs font-bold text-primary uppercase tracking-wider">Directory Guide & Overview</span>
+          <h2 id="guideHeading" class="text-xl sm:text-2xl font-extrabold mt-1 tracking-tight">Global Sports TV Broadcasting & Categories</h2>
+          <p class="text-muted text-xs sm:text-sm mt-2 max-w-[680px] mx-auto leading-relaxed">
+            LiveSportsTV categorizes over 1,000 sports channels across all major athletic disciplines. Explore what each category offers:
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <article class="bg-card border border-edge rounded-xl p-4">
+            <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold mb-2.5" aria-hidden="true">
+              ⚽
+            </div>
+            <h3 class="font-bold text-sm mb-1.5">Football & Soccer TV</h3>
+            <p class="text-muted text-xs leading-relaxed">
+              Watch European national league matches, domestic cup finals, international tournament qualifiers, continental club championships, and women's leagues broadcast on free-to-air public networks worldwide.
+            </p>
+          </article>
+
+          <article class="bg-card border border-edge rounded-xl p-4">
+            <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold mb-2.5" aria-hidden="true">
+              🏎️
+            </div>
+            <h3 class="font-bold text-sm mb-1.5">Motorsport & Formula Racing</h3>
+            <p class="text-muted text-xs leading-relaxed">
+              Catch live open-wheel racing, Grand Prix weekends, endurance 24h classics, GT championships, rally events, and superbike circuits with real-time commentary and pit analysis.
+            </p>
+          </article>
+
+          <article class="bg-card border border-edge rounded-xl p-4">
+            <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold mb-2.5" aria-hidden="true">
+              🏏
+            </div>
+            <h3 class="font-bold text-sm mb-1.5">Cricket & Test Series</h3>
+            <p class="text-muted text-xs leading-relaxed">
+              Stream bilateral international test series, ODIs, T20 cricket tournaments, and domestic leagues broadcast across South Asia, the UK, Australia, the Caribbean, and Southern Africa.
+            </p>
+          </article>
+
+          <article class="bg-card border border-edge rounded-xl p-4">
+            <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold mb-2.5" aria-hidden="true">
+              🥊
+            </div>
+            <h3 class="font-bold text-sm mb-1.5">Combat, MMA & Boxing</h3>
+            <p class="text-muted text-xs leading-relaxed">
+              Experience world title boxing bouts, professional MMA leagues, kickboxing cards, submission wrestling, and international martial arts championships on dedicated sports channels.
+            </p>
+          </article>
+
+          <article class="bg-card border border-edge rounded-xl p-4">
+            <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold mb-2.5" aria-hidden="true">
+              🏀
+            </div>
+            <h3 class="font-bold text-sm mb-1.5">Basketball & Court Sports</h3>
+            <p class="text-muted text-xs leading-relaxed">
+              Tune in to domestic basketball championships, European continental cups, international FIBA federation tournaments, and collegiate basketball broadcasts.
+            </p>
+          </article>
+
+          <article class="bg-card border border-edge rounded-xl p-4">
+            <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold mb-2.5" aria-hidden="true">
+              🎾
+            </div>
+            <h3 class="font-bold text-sm mb-1.5">Tennis & Olympic Sports</h3>
+            <p class="text-muted text-xs leading-relaxed">
+              Grand Slam qualifiers, tour-level tennis matches, athletics meets, gymnastics, swimming, volleyball, rugby, cycling, and winter games broadcast on public television networks.
+            </p>
+          </article>
+        </div>
+
+        <!-- Regional Broadcasting Coverage Guide for Long-Tail SEO -->
+        <div class="bg-card border border-edge rounded-2xl p-5 sm:p-6 mb-8" id="regionsSection">
+          <h3 class="text-base sm:text-lg font-bold mb-3 flex items-center gap-2">
+            <span>🌍</span> Regional Sports TV Broadcast Index
+          </h3>
+          <p class="text-muted text-xs sm:text-sm leading-relaxed mb-4">
+            Our directory indexes public television channels from over 175 sovereign nations across all continents:
+          </p>
+          <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+            <div class="bg-surface p-3 rounded-lg border border-edge">
+              <strong class="block text-ink mb-1 font-bold">🇪🇺 Europe</strong>
+              <p class="text-muted text-[11px] leading-relaxed">UK, Spain, Italy, Germany, France, Portugal, Netherlands, Turkey, and Scandinavia.</p>
+            </div>
+            <div class="bg-surface p-3 rounded-lg border border-edge">
+              <strong class="block text-ink mb-1 font-bold">🌎 Americas</strong>
+              <p class="text-muted text-[11px] leading-relaxed">United States, Canada, Mexico, Brazil, Argentina, Colombia, and Chile.</p>
+            </div>
+            <div class="bg-surface p-3 rounded-lg border border-edge">
+              <strong class="block text-ink mb-1 font-bold">🌏 Asia-Pacific</strong>
+              <p class="text-muted text-[11px] leading-relaxed">India, Pakistan, Japan, Australia, New Zealand, Indonesia, and Southeast Asia.</p>
+            </div>
+            <div class="bg-surface p-3 rounded-lg border border-edge">
+              <strong class="block text-ink mb-1 font-bold">🌍 MENA & Africa</strong>
+              <p class="text-muted text-[11px] leading-relaxed">UAE, Saudi Arabia, Egypt, South Africa, Nigeria, Kenya, and Morocco.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- How It Works / Technical Streaming Guide -->
+        <div class="bg-surface border border-edge rounded-2xl p-5 sm:p-6 mb-8">
+          <h3 class="text-base sm:text-lg font-bold mb-3 flex items-center gap-2">
+            <span>📺</span> How HTTP Live Streaming (HLS) Works on LiveSportsTV
+          </h3>
+          <p class="text-muted text-xs sm:text-sm leading-relaxed mb-3">
+            LiveSportsTV is an open web index that links to publicly distributed <strong>HTTP Live Streaming (HLS / m3u8)</strong> endpoints. When you select a channel:
+          </p>
+          <ul class="text-muted text-xs sm:text-sm space-y-2 list-disc pl-5 leading-relaxed">
+            <li><strong>Direct Origin Delivery:</strong> The video stream is transmitted directly from the broadcaster's origin server or content delivery network to your browser via HTML5 Video or HLS.js.</li>
+            <li><strong>No Intermediate Hosting:</strong> LiveSportsTV does not store, transcode, or re-stream content. All media remains under the exclusive control of the respective rights-holding broadcaster.</li>
+            <li><strong>Cross-Platform Compatibility:</strong> Modern web standards allow seamless playback across Google Chrome, Apple Safari (native HLS), Mozilla Firefox, Microsoft Edge, Android, iOS, and Smart TV browsers.</li>
+            <li><strong>Geo-Availability:</strong> Channel accessibility is subject to the broadcaster's own regional transmission terms and IP licensing parameters.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comprehensive FAQ Section (Rich Snippet Target) -->
+    <section class="faq-section my-8 pt-6 border-t border-edge" id="faqSection" aria-labelledby="faqHeading">
+      <div class="max-w-[840px] mx-auto">
+        <div class="text-center mb-6">
+          <span class="text-xs font-bold text-primary uppercase tracking-wider">Help & Frequently Asked Questions</span>
+          <h2 id="faqHeading" class="text-xl sm:text-2xl font-extrabold mt-1 tracking-tight">Everything You Need to Know About LiveSportsTV</h2>
+          <p class="text-muted text-xs sm:text-sm mt-1.5">Common questions about free live sports streaming, devices, and legality.</p>
+        </div>
+
+        <div class="space-y-3">
+          <details class="bg-card border border-edge rounded-xl p-4 group cursor-pointer" open>
+            <summary class="font-semibold text-xs sm:text-sm list-none flex justify-between items-center select-none">
+              <span>Is LiveSportsTV completely free and legal to use?</span>
+              <svg class="w-4 h-4 text-muted transition-transform duration-200" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <p class="text-muted text-xs leading-relaxed mt-2.5 pt-2.5 border-t border-edge">
+              Yes. LiveSportsTV is 100% free to access with no account registration or subscriptions. Our directory strictly indexes publicly available, free-to-air broadcast feeds provided openly by official television networks and open-source iptv-org databases.
+            </p>
+          </details>
+
+          <details class="bg-card border border-edge rounded-xl p-4 group cursor-pointer">
+            <summary class="font-semibold text-xs sm:text-sm list-none flex justify-between items-center select-none">
+              <span>Which sports channels are available on the website?</span>
+              <svg class="w-4 h-4 text-muted transition-transform duration-200" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <p class="text-muted text-xs leading-relaxed mt-2.5 pt-2.5 border-t border-edge">
+              We index thousands of sports channels covering football (soccer), cricket, motorsport (Formula racing, rally, motocross), basketball, tennis, combat sports (boxing, MMA), rugby, hockey, baseball, golf, cycling, and Olympic athletics from 175+ countries.
+            </p>
+          </details>
+
+          <details class="bg-card border border-edge rounded-xl p-4 group cursor-pointer">
+            <summary class="font-semibold text-xs sm:text-sm list-none flex justify-between items-center select-none">
+              <span>Does LiveSportsTV host or broadcast video streams on its own servers?</span>
+              <svg class="w-4 h-4 text-muted transition-transform duration-200" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <p class="text-muted text-xs leading-relaxed mt-2.5 pt-2.5 border-t border-edge">
+              No. LiveSportsTV is solely an indexer and search interface. We do not host, store, cache, or re-transmit any video or audio files. Streams are delivered directly from the original broadcaster's content servers to your browser client.
+            </p>
+          </details>
+
+          <details class="bg-card border border-edge rounded-xl p-4 group cursor-pointer">
+            <summary class="font-semibold text-xs sm:text-sm list-none flex justify-between items-center select-none">
+              <span>Can I stream sports channels on iPhone, Android, and Smart TVs?</span>
+              <svg class="w-4 h-4 text-muted transition-transform duration-200" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <p class="text-muted text-xs leading-relaxed mt-2.5 pt-2.5 border-t border-edge">
+              Yes! LiveSportsTV is built on responsive HTML5 Video and HLS.js. It works without apps on iOS Safari, Android Chrome, Windows PC, Mac, Linux, and connected Smart TV web browsers.
+            </p>
+          </details>
+
+          <details class="bg-card border border-edge rounded-xl p-4 group cursor-pointer">
+            <summary class="font-semibold text-xs sm:text-sm list-none flex justify-between items-center select-none">
+              <span>Why do certain channels fail to load or show a 403 Forbidden error?</span>
+              <svg class="w-4 h-4 text-muted transition-transform duration-200" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <p class="text-muted text-xs leading-relaxed mt-2.5 pt-2.5 border-t border-edge">
+              A 403 Forbidden error indicates that the broadcaster has restricted the stream by geographic region (geo-blocking) or tokenized their broadcast during non-live event intervals. Some streams may also experience temporary server downtime.
+            </p>
+          </details>
+
+          <details class="bg-card border border-edge rounded-xl p-4 group cursor-pointer">
+            <summary class="font-semibold text-xs sm:text-sm list-none flex justify-between items-center select-none">
+              <span>How do I report a broken channel or submit a DMCA removal request?</span>
+              <svg class="w-4 h-4 text-muted transition-transform duration-200" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <p class="text-muted text-xs leading-relaxed mt-2.5 pt-2.5 border-t border-edge">
+              You can contact our support and compliance team at <a href="mailto:support@livesportstv.store" class="text-primary underline">support@livesportstv.store</a>. For copyright notices, please review our DMCA policy in the footer for required statutory information. All valid requests are processed within 24-48 hours.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Footer -->
-  <footer class="site-footer border-t border-edge px-4 py-3 pb-6 text-center">
-    <p class="text-muted max-w-[620px] mx-auto mb-1 leading-relaxed text-xs">
-      LiveSportsTV indexes publicly available streams published by broadcasters. We host no video
-      content and honor the iptv-org blocklist. Channels are streamed directly via HLS.
-    </p>
-    <a href="mailto:support@livesportstv.store?subject=Report a channel"
-      class="report-link text-primary font-semibold text-xs">
-      Report a channel
-    </a>
+  <footer class="site-footer border-t border-edge bg-surface px-4 py-8 text-center mt-auto" role="contentinfo">
+    <div class="max-w-[960px] mx-auto">
+      <nav class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-semibold text-muted mb-4" aria-label="Footer Navigation">
+        <a href="#aboutModal" class="hover:text-ink transition-colors policy-link" data-modal="aboutModal">About Us</a>
+        <span class="text-edge" aria-hidden="true">•</span>
+        <a href="#privacyModal" class="hover:text-ink transition-colors policy-link" data-modal="privacyModal">Privacy Policy</a>
+        <span class="text-edge" aria-hidden="true">•</span>
+        <a href="#termsModal" class="hover:text-ink transition-colors policy-link" data-modal="termsModal">Terms of Service</a>
+        <span class="text-edge" aria-hidden="true">•</span>
+        <a href="#dmcaModal" class="hover:text-ink transition-colors policy-link" data-modal="dmcaModal">DMCA & Copyright</a>
+        <span class="text-edge" aria-hidden="true">•</span>
+        <a href="#contactModal" class="hover:text-ink transition-colors policy-link" data-modal="contactModal">Contact & Support</a>
+      </nav>
+
+      <p class="text-muted max-w-[700px] mx-auto mb-3 leading-relaxed text-[11px]">
+        <strong>Disclaimer:</strong> LiveSportsTV is a search index and directory for publicly accessible live TV streams. We do not host, store, or broadcast media files. All trademarks, channel logos, and streams belong to their respective copyright holders. We honor the iptv-org blocklist and standard DMCA takedown procedures.
+      </p>
+
+      <div class="text-muted text-[11px]">
+        © <span id="currentYear">2026</span> LiveSportsTV. All rights reserved. • The open directory for international sports broadcasting.
+      </div>
+    </div>
   </footer>
 
   <!-- Player modal -->
   <div class="player-modal fixed inset-0 z-50 items-center justify-center p-2 sm:p-4 overflow-y-auto" id="playerModal"
-    aria-hidden="true">
+    aria-hidden="true" role="dialog" aria-labelledby="playerTitle">
     <div class="player-backdrop fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
     <div
       class="player-dialog relative z-10 w-full max-w-[960px] max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-xl sm:rounded-2xl p-2.5 sm:p-4 shadow-glass my-auto">
       <div class="player-top flex items-center justify-between mb-2">
         <div class="player-now inline-flex items-center gap-2 font-bold text-xs text-muted uppercase tracking-wider">
-          <span class="live-dot w-2.5 h-2.5 rounded-full bg-red-500 animate-livepulse"></span>
-          Now playing
+          <span class="live-dot w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" aria-hidden="true"></span>
+          Now Playing
         </div>
         <div class="player-controls flex items-center gap-2">
           <button id="playerPrev"
@@ -437,22 +903,22 @@
         </button>
         <video id="player" controls playsinline preload="metadata" class="w-full h-full block bg-black"></video>
         <div
-          class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/72 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10"
+          class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/75 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10"
           id="videoOverlay">
-          <div class="spinner w-9 h-9 rounded-full border-[3px] border-white/18 border-t-accent animate-spin"></div>
-          <span id="overlayText">Connecting to stream…</span>
+          <div class="spinner w-9 h-9 rounded-full border-[3px] border-white/20 border-t-accent animate-spin" aria-hidden="true"></div>
+          <span id="overlayText">Connecting to broadcast stream…</span>
         </div>
       </div>
 
-      <div class="player-meta flex justify-between items-start gap-4 mt-[14px] flex-wrap">
+      <div class="player-meta flex justify-between items-start gap-4 mt-3 flex-wrap">
         <div>
-          <h3 id="playerTitle" class="m-0 mb-1 text-xl">Select a channel</h3>
-          <p id="playerDesc" class="m-0 text-muted leading-relaxed"></p>
+          <h3 id="playerTitle" class="m-0 mb-1 text-lg sm:text-xl font-bold">Select a channel</h3>
+          <p id="playerDesc" class="m-0 text-muted text-xs sm:text-sm leading-relaxed"></p>
         </div>
         <div class="player-badges flex gap-2 flex-wrap">
           <span
             class="badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 bg-primary-soft text-ink text-xs font-semibold">
-            <img id="playerFlag" alt="" class="flag w-5 h-[14px] rounded-sm object-cover flex-none" />
+            <img id="playerFlag" alt="Country Flag" class="flag w-5 h-[14px] rounded-sm object-cover flex-none" />
             <span id="playerCountry">—</span>
           </span>
           <span
@@ -465,6 +931,222 @@
     </div>
   </div>
 
+  <!-- Policy Modals for Google AdSense & Regulatory Compliance -->
+
+  <!-- 1. Privacy Policy Modal -->
+  <div class="policy-modal fixed inset-0 z-50 items-center justify-center p-3 sm:p-6 overflow-y-auto" id="privacyModal"
+    aria-hidden="true" role="dialog" aria-labelledby="privacyTitle">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
+    <div
+      class="relative z-10 w-full max-w-[840px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-5 sm:p-7 shadow-glass text-ink text-xs sm:text-sm my-auto leading-relaxed">
+      <div class="flex items-center justify-between pb-3 border-b border-edge mb-4">
+        <h2 id="privacyTitle" class="text-lg sm:text-xl font-extrabold text-primary">Privacy Policy</h2>
+        <button class="text-muted hover:text-ink text-xl cursor-pointer p-1" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="space-y-4 text-muted">
+        <p><strong class="text-ink">Effective Date:</strong> January 1, 2026 (Updated for AdSense & GDPR/CCPA Compliance)</p>
+        
+        <h3 class="text-ink font-bold text-sm">1. Introduction & Overview</h3>
+        <p>LiveSportsTV ("we", "us", or "our") respects your privacy. This Privacy Policy explains our practices regarding the collection, use, and disclosure of information when you visit <a href="https://livesportstv.store/" class="text-primary underline">https://livesportstv.store/</a>.</p>
+
+        <h3 class="text-ink font-bold text-sm">2. Information We Collect</h3>
+        <ul class="list-disc pl-5 space-y-1">
+          <li><strong>Log Files & Device Data:</strong> Like most websites, we record standard internet log details including your IP address, browser type, operating system, referring/exit pages, date/time stamps, and clickstream data.</li>
+          <li><strong>Local Storage:</strong> We use your browser's local storage solely to store your favorite channels list (<code class="bg-card px-1 py-0.5 rounded text-ink">livesportsFavorites</code>) and visual theme preferences (<code class="bg-card px-1 py-0.5 rounded text-ink">livesportsTheme</code>). No personally identifiable information is stored.</li>
+        </ul>
+
+        <h3 class="text-ink font-bold text-sm">3. Google AdSense & Third-Party Advertising</h3>
+        <p>We partner with Google AdSense to serve advertisements when you visit our website.</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Third-party vendors, including <strong>Google</strong>, use cookies (such as the DoubleClick DART cookie) to serve ads based on a user's prior visits to this website or other websites across the internet.</li>
+          <li>Google's use of advertising cookies enables it and its partners to serve personalized ads to users based on their browsing activity.</li>
+          <li><strong>Opting Out:</strong> Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="text-primary underline">Google Ads Settings</a> or through the <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" class="text-primary underline">Network Advertising Initiative / AboutAds Opt-Out Page</a>.</li>
+        </ul>
+
+        <h3 class="text-ink font-bold text-sm">4. Google Analytics</h3>
+        <p>We use Google Analytics (gtag.js) to measure website traffic, user interactions, and aggregate audience metrics. Google Analytics uses cookies to collect anonymous usage information. You can prevent Google Analytics tracking by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-primary underline">Google Analytics Opt-out Browser Add-on</a>.</p>
+
+        <h3 class="text-ink font-bold text-sm">5. GDPR & European Privacy Rights</h3>
+        <p>If you are a resident of the European Economic Area (EEA) or UK, you hold rights under the General Data Protection Regulation (GDPR), including rights of access, correction, deletion, and data portability. Contact us at <a href="mailto:support@livesportstv.store" class="text-primary underline">support@livesportstv.store</a> to exercise your rights.</p>
+
+        <h3 class="text-ink font-bold text-sm">6. California Consumer Privacy Act (CCPA)</h3>
+        <p>California residents have the right to request disclosure of categories of personal information collected and to request deletion. We do not sell user personal information to third parties.</p>
+
+        <h3 class="text-ink font-bold text-sm">7. Contact Us</h3>
+        <p>If you have questions regarding this Privacy Policy, please email our privacy team at <a href="mailto:support@livesportstv.store" class="text-primary underline">support@livesportstv.store</a>.</p>
+      </div>
+
+      <div class="mt-6 pt-3 border-t border-edge text-right">
+        <button class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold cursor-pointer" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Terms of Service Modal -->
+  <div class="policy-modal fixed inset-0 z-50 items-center justify-center p-3 sm:p-6 overflow-y-auto" id="termsModal"
+    aria-hidden="true" role="dialog" aria-labelledby="termsTitle">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
+    <div
+      class="relative z-10 w-full max-w-[840px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-5 sm:p-7 shadow-glass text-ink text-xs sm:text-sm my-auto leading-relaxed">
+      <div class="flex items-center justify-between pb-3 border-b border-edge mb-4">
+        <h2 id="termsTitle" class="text-lg sm:text-xl font-extrabold text-primary">Terms of Service</h2>
+        <button class="text-muted hover:text-ink text-xl cursor-pointer p-1" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="space-y-4 text-muted">
+        <p><strong class="text-ink">Last Updated:</strong> January 2026</p>
+
+        <h3 class="text-ink font-bold text-sm">1. Agreement to Terms</h3>
+        <p>By accessing or using LiveSportsTV (<a href="https://livesportstv.store/" class="text-primary underline">livesportstv.store</a>), you agree to be bound by these Terms of Service. If you do not agree to all terms, do not access or use the website.</p>
+
+        <h3 class="text-ink font-bold text-sm">2. Non-Hosting & Indexing Disclaimer</h3>
+        <p>LiveSportsTV is strictly an informational index and directory of free-to-air public television broadcasts. We do not broadcast, encode, transcode, upload, or host any audio/video media on our infrastructure. All video content is delivered directly from the original broadcaster's public CDN or server endpoints.</p>
+
+        <h3 class="text-ink font-bold text-sm">3. Acceptable Use</h3>
+        <p>You agree to use the service only for lawful, personal, non-commercial purposes. You may not attempt to disrupt the website infrastructure, deploy automated scrapers that degrade performance, or use the service in violation of applicable international laws.</p>
+
+        <h3 class="text-ink font-bold text-sm">4. Disclaimer of Warranties & Limitation of Liability</h3>
+        <p>The service is provided on an "AS IS" and "AS AVAILABLE" basis. We do not guarantee continuous, uninterrupted stream availability or video quality, as streams are maintained by third-party broadcasters. LiveSportsTV shall not be liable for any indirect, incidental, or consequential damages arising from your use of the website.</p>
+
+        <h3 class="text-ink font-bold text-sm">5. Inquiries</h3>
+        <p>For questions regarding our terms, reach out to <a href="mailto:support@livesportstv.store" class="text-primary underline">support@livesportstv.store</a>.</p>
+      </div>
+
+      <div class="mt-6 pt-3 border-t border-edge text-right">
+        <button class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold cursor-pointer" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. DMCA & Copyright Policy Modal -->
+  <div class="policy-modal fixed inset-0 z-50 items-center justify-center p-3 sm:p-6 overflow-y-auto" id="dmcaModal"
+    aria-hidden="true" role="dialog" aria-labelledby="dmcaTitle">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
+    <div
+      class="relative z-10 w-full max-w-[840px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-5 sm:p-7 shadow-glass text-ink text-xs sm:text-sm my-auto leading-relaxed">
+      <div class="flex items-center justify-between pb-3 border-b border-edge mb-4">
+        <h2 id="dmcaTitle" class="text-lg sm:text-xl font-extrabold text-primary">DMCA & Copyright Compliance Policy</h2>
+        <button class="text-muted hover:text-ink text-xl cursor-pointer p-1" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="space-y-4 text-muted">
+        <p>LiveSportsTV respects the intellectual property rights of content creators and copyright holders. In accordance with the <strong>Digital Millennium Copyright Act (17 U.S.C. § 512)</strong>, we respond expeditiously to valid copyright infringement notifications.</p>
+
+        <h3 class="text-ink font-bold text-sm">Notice of Non-Hosting & Indexing Nature</h3>
+        <p>LiveSportsTV does not store, host, or upload video media. We function as a search engine and directory indexing publicly broadcasted HLS media streams made available on the open web. However, upon receiving a verified notice, we promptly remove the corresponding stream listing and indexing entry from our catalog within 24 to 48 hours.</p>
+
+        <h3 class="text-ink font-bold text-sm">Submitting a Takedown Notification</h3>
+        <p>To file a copyright infringement notice with our designated agent, please provide an email with the following elements:</p>
+        <ol class="list-decimal pl-5 space-y-1.5">
+          <li>Identification of the copyrighted work claimed to have been infringed, or a representative list of works.</li>
+          <li>Identification of the material/channel on LiveSportsTV that is claimed to be infringing, including the specific channel name and URL on our site.</li>
+          <li>Information reasonably sufficient to permit us to contact you (full name, company name, postal address, telephone number, and official corporate email address).</li>
+          <li>A statement that you have a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law.</li>
+          <li>A statement that the information in the notification is accurate, and under penalty of perjury, that you are authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.</li>
+          <li>A physical or electronic signature of the authorized copyright owner or representative.</li>
+        </ol>
+
+        <h3 class="text-ink font-bold text-sm">Designated Copyright Agent</h3>
+        <p>Please send all formal DMCA notices to: <br />
+          <strong>Email:</strong> <a href="mailto:support@livesportstv.store?subject=DMCA%20Takedown%20Notice" class="text-primary underline">support@livesportstv.store</a> (Subject: "DMCA Takedown Notice")
+        </p>
+      </div>
+
+      <div class="mt-6 pt-3 border-t border-edge text-right">
+        <button class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold cursor-pointer" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. About Us Modal -->
+  <div class="policy-modal fixed inset-0 z-50 items-center justify-center p-3 sm:p-6 overflow-y-auto" id="aboutModal"
+    aria-hidden="true" role="dialog" aria-labelledby="aboutTitle">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
+    <div
+      class="relative z-10 w-full max-w-[840px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-5 sm:p-7 shadow-glass text-ink text-xs sm:text-sm my-auto leading-relaxed">
+      <div class="flex items-center justify-between pb-3 border-b border-edge mb-4">
+        <h2 id="aboutTitle" class="text-lg sm:text-xl font-extrabold text-primary">About LiveSportsTV</h2>
+        <button class="text-muted hover:text-ink text-xl cursor-pointer p-1" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="space-y-4 text-muted">
+        <h3 class="text-ink font-bold text-sm">Our Mission</h3>
+        <p>LiveSportsTV was established to make discovering legal, free-to-air international sports broadcasts simple, fast, and accessible for sports enthusiasts worldwide. We curate television channels from over 175 countries into a streamlined, high-performance web directory.</p>
+
+        <h3 class="text-ink font-bold text-sm">How We Curate & Index</h3>
+        <p>Our platform aggregates verified public stream playlists maintained by the global open-source community (<a href="https://github.com/iptv-org/iptv" target="_blank" rel="noopener noreferrer" class="text-primary underline">iptv-org</a>). We continuously categorize channels by country, spoken language, and sporting disciplines, ensuring users can find local and international sports telecasts without complex software configurations.</p>
+
+        <h3 class="text-ink font-bold text-sm">Technology & Standards</h3>
+        <p>LiveSportsTV is built purely on modern web technologies (HTML5 Video, HLS.js, Tailwind CSS) prioritizing fast load times, accessibility, clean aesthetics, and minimal resource usage across desktop, mobile, and connected television devices.</p>
+      </div>
+
+      <div class="mt-6 pt-3 border-t border-edge text-right">
+        <button class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold cursor-pointer" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Contact & Support Modal -->
+  <div class="policy-modal fixed inset-0 z-50 items-center justify-center p-3 sm:p-6 overflow-y-auto" id="contactModal"
+    aria-hidden="true" role="dialog" aria-labelledby="contactTitle">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" data-close></div>
+    <div
+      class="relative z-10 w-full max-w-[640px] max-h-[90vh] overflow-y-auto bg-surface border border-edge rounded-2xl p-5 sm:p-7 shadow-glass text-ink text-xs sm:text-sm my-auto leading-relaxed">
+      <div class="flex items-center justify-between pb-3 border-b border-edge mb-4">
+        <h2 id="contactTitle" class="text-lg sm:text-xl font-extrabold text-primary">Contact & Support</h2>
+        <button class="text-muted hover:text-ink text-xl cursor-pointer p-1" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="space-y-4 text-muted">
+        <p>We welcome your feedback, channel suggestions, and inquiries. Reach out to our team via the channels below:</p>
+        
+        <div class="bg-card border border-edge rounded-xl p-4 space-y-2">
+          <div>
+            <span class="block font-bold text-ink">General Support & Feedback:</span>
+            <a href="mailto:support@livesportstv.store" class="text-primary font-semibold underline">support@livesportstv.store</a>
+          </div>
+          <div>
+            <span class="block font-bold text-ink">Channel Reporting:</span>
+            <a href="mailto:support@livesportstv.store?subject=Broken%20Channel%20Report" class="text-primary font-semibold underline">support@livesportstv.store (Broken Channel)</a>
+          </div>
+          <div>
+            <span class="block font-bold text-ink">Copyright / DMCA Inquiries:</span>
+            <a href="mailto:support@livesportstv.store?subject=DMCA%20Notice" class="text-primary font-semibold underline">support@livesportstv.store (DMCA Desk)</a>
+          </div>
+        </div>
+
+        <p class="text-[11px]">We strive to respond to all inquiries within 24–48 business hours.</p>
+      </div>
+
+      <div class="mt-6 pt-3 border-t border-edge text-right">
+        <button class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold cursor-pointer" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Consent Banner (GDPR / CCPA AdSense requirement) -->
+  <div id="cookieBanner"
+    class="fixed bottom-0 inset-x-0 z-50 p-3 sm:p-4 bg-surface border-t border-edge shadow-2xl transition-transform duration-300 transform translate-y-full"
+    role="region" aria-label="Cookie consent">
+    <div class="max-w-[1180px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+      <div class="text-muted leading-relaxed flex-1">
+        We use cookies and similar technologies to remember your preferences (like favorite channels and themes), analyze traffic with Google Analytics, and serve relevant advertisements through Google AdSense. Read our
+        <button class="text-primary underline font-semibold policy-link" data-modal="privacyModal">Privacy Policy</button> to learn more.
+      </div>
+      <div class="flex items-center gap-2 flex-none w-full sm:w-auto justify-end">
+        <button id="cookieDeclineBtn"
+          class="px-3 py-1.5 rounded-lg border border-edge bg-card hover:bg-card-hover text-ink text-xs font-semibold cursor-pointer transition-colors">
+          Essential Only
+        </button>
+        <button id="cookieAcceptBtn"
+          class="px-4 py-1.5 rounded-lg bg-primary hover:opacity-90 text-white text-xs font-semibold cursor-pointer transition-opacity">
+          Accept All
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
   <script>
     const M3U_URL = 'https://iptv-org.github.io/iptv/categories/sports.m3u';
@@ -473,6 +1155,7 @@
     const LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json';
     const FAV_KEY = 'livesportsFavorites';
     const THEME_KEY = 'livesportsTheme';
+    const COOKIE_KEY = 'livesportsCookieConsent';
 
     let channels = [];
     let countryData = {};
@@ -503,6 +1186,9 @@
       countryEl: document.getElementById('playerCountry'),
       categoryEl: document.getElementById('playerCategory'),
       flag: document.getElementById('playerFlag'),
+      cookieBanner: document.getElementById('cookieBanner'),
+      cookieAccept: document.getElementById('cookieAcceptBtn'),
+      cookieDecline: document.getElementById('cookieDeclineBtn'),
       grids: {
         sports: document.getElementById('gridSports'),
         all: document.getElementById('gridAll'),
@@ -575,6 +1261,68 @@
       toggles.forEach((t) => (t.textContent = theme === 'light' ? '🌙' : '☀️'));
     }
 
+    function setupCookieConsent() {
+      const consent = localStorage.getItem(COOKIE_KEY);
+      if (!consent && els.cookieBanner) {
+        setTimeout(() => {
+          els.cookieBanner.classList.remove('translate-y-full');
+        }, 1000);
+      }
+      if (els.cookieAccept) {
+        els.cookieAccept.addEventListener('click', () => {
+          localStorage.setItem(COOKIE_KEY, 'accepted');
+          els.cookieBanner.classList.add('translate-y-full');
+        });
+      }
+      if (els.cookieDecline) {
+        els.cookieDecline.addEventListener('click', () => {
+          localStorage.setItem(COOKIE_KEY, 'essential');
+          els.cookieBanner.classList.add('translate-y-full');
+        });
+      }
+    }
+
+    function setupPolicyModals() {
+      document.querySelectorAll('.policy-link').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.dataset.modal || link.getAttribute('href').replace('#', '');
+          const modal = document.getElementById(targetId);
+          if (modal) {
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+          }
+        });
+      });
+
+      document.querySelectorAll('.policy-modal').forEach((modal) => {
+        modal.querySelectorAll('[data-close]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+          });
+        });
+      });
+    }
+
+    function setupQuickFilters() {
+      document.querySelectorAll('.quick-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const sport = btn.dataset.sport;
+          if (sport === 'all') {
+            els.search.value = '';
+          } else {
+            els.search.value = sport;
+          }
+          renderAll();
+          const targetSection = document.getElementById('rowAll');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    }
+
     function logoUrl(channel) {
       if (channel.logo) return channel.logo;
       return null;
@@ -584,26 +1332,27 @@
       const flagUrl = getCountryFlag(channel.country, true);
       const fav = isFav(channel.id);
       const logo = logoUrl(channel);
-      const initials = channel.name.replace(/[^A-Za-z0-9 ]/g, '').slice(0, 2).toUpperCase();
+      const initials = channel.name.replace(/[^A-Za-z0-9 ]/g, '').slice(0, 2).toUpperCase() || 'TV';
       const favStyle = fav ? 'opacity:1;color:#ffc83d' : '';
+      const countryName = getCountryName(channel.country);
 
       const logoEl = logo
-        ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
+        ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="${channel.name} channel logo" width="32" height="32" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
         : `<div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
       return `
-          <article class="channel-card group relative border border-edge bg-card rounded-xl p-2.5 cursor-pointer transition-all duration-160 flex flex-col gap-2 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
-            <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite" class="absolute top-2 right-2 w-7 h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-xs flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
+          <article class="channel-card group relative border border-edge bg-card rounded-xl p-2.5 cursor-pointer transition-all duration-160 flex flex-col gap-2 hover:-translate-y-0.5 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
+            <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-2 right-2 w-7 h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-xs flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
             <div class="flex items-center gap-2">
               ${logoEl}
               <div class="font-bold text-xs leading-snug overflow-hidden line-clamp-2">${channel.name}</div>
             </div>
             <div class="flex items-center justify-between gap-1.5 mt-auto">
-              <span class="flex items-center gap-1 text-muted text-[11px]">
-                <img class="w-4 h-[12px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"> ${getCountryName(channel.country)}
+              <span class="flex items-center gap-1 text-muted text-[11px] truncate max-w-[100px]">
+                <img class="w-4 h-[12px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="${countryName} flag" width="16" height="12" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'"> ${countryName}
               </span>
               <span class="text-muted text-[11px] bg-[var(--lang-bg)] px-1.5 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : ''}</span>
-              <span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>
+              <span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald" aria-hidden="true"></span>Live</span>
             </div>
           </article>`;
     }
@@ -631,7 +1380,7 @@
         if (f.country !== 'all' && c.country !== f.country) return false;
         if (f.language !== 'all' && !(c.languages || []).includes(f.language)) return false;
         if (f.q) {
-          const hay = `${c.name} ${getCountryName(c.country)} ${(c.languages || []).join(' ')}`.toLowerCase();
+          const hay = `${c.name} ${getCountryName(c.country)} ${(c.languages || []).join(' ')} ${c.category || ''}`.toLowerCase();
           if (!hay.includes(f.q)) return false;
         }
         return true;
@@ -695,10 +1444,11 @@
       els.countryEl.textContent = getCountryName(channel.country);
       els.categoryEl.textContent = categoryFor(channel);
       els.flag.src = `https://flagcdn.com/24x18/${channel.country.toLowerCase()}.png`;
+      els.flag.alt = `${getCountryName(channel.country)} flag`;
       els.flag.referrerPolicy = 'no-referrer';
       els.flag.style.display = '';
 
-      showOverlay('Connecting to stream…');
+      showOverlay('Connecting to broadcast stream…');
 
       if (hls) {
         hls.destroy();
@@ -727,14 +1477,14 @@
           if (data.fatal) {
             let msg = 'This stream appears to be offline or unavailable.';
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code === 403) {
-              msg = 'Access to this stream is forbidden (403). It may be region-locked.';
+              msg = 'Access forbidden (403). The broadcaster may restrict this stream to specific regions.';
             }
             showOverlay(msg, true);
             hls.destroy();
           }
         });
       } else {
-        showOverlay('Your browser cannot play this stream.', true);
+        showOverlay('Your browser cannot play this stream natively.', true);
       }
 
       els.modal.classList.add('open');
@@ -807,10 +1557,16 @@
 
       els.modal.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', closePlayer));
       document.addEventListener('keydown', (e) => {
-        if (!els.modal.classList.contains('open')) return;
-        if (e.key === 'Escape') closePlayer();
-        else if (e.key === 'ArrowLeft') playAdjacentChannel(-1);
-        else if (e.key === 'ArrowRight') playAdjacentChannel(1);
+        if (e.key === 'Escape') {
+          if (els.modal.classList.contains('open')) closePlayer();
+          document.querySelectorAll('.policy-modal.open').forEach((m) => {
+            m.classList.remove('open');
+            m.setAttribute('aria-hidden', 'true');
+          });
+        } else if (els.modal.classList.contains('open')) {
+          if (e.key === 'ArrowLeft') playAdjacentChannel(-1);
+          else if (e.key === 'ArrowRight') playAdjacentChannel(1);
+        }
       });
     }
 
@@ -892,8 +1648,14 @@
     }
 
     async function init() {
+      const yearEl = document.getElementById('currentYear');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
       loadFavorites();
       setupTheme();
+      setupCookieConsent();
+      setupPolicyModals();
+      setupQuickFilters();
       bindEvents();
 
       const allGrids = Object.values(els.grids);
@@ -951,31 +1713,6 @@
 
     init();
   </script>
-
-  <!-- Tailwind safelist for dynamic classes -->
-  <div class="hidden" aria-hidden="true">
-    <article
-      class="group relative border border-edge bg-card rounded-xl p-3.5 cursor-pointer transition-all duration-160 flex flex-col gap-2.5 hover:-translate-y-0.75 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover">
-      <button
-        class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">
-        ★
-      </button>
-      <div class="flex items-center gap-2.5">
-        <img class="w-10 h-10 rounded-lg object-cover bg-black border border-edge flex-none" alt="" />
-        <div class="font-bold text-sm leading-snug overflow-hidden line-clamp-2"></div>
-      </div>
-      <div class="flex items-center justify-between gap-2 mt-auto">
-        <span class="flex items-center gap-1.5 text-muted text-xs">
-          <img class="w-5 h-[14px] rounded-sm object-cover flex-none" alt="" />
-           </span><span
-          class="text-muted text-xs bg-[var(--lang-bg)] px-2 py-0.5 rounded-full whitespace-nowrap"></span><span
-          class="inline-flex items-center gap-[5px] text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>
-        </span>
-      </div>
-    </article>
-    <div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl"></div>
-  </div>
 </body>
 
 </html>
