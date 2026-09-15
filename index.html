@@ -244,21 +244,14 @@
             data-nav="sports"
             class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
           >
-            Sports
-          </a>
-          <a
-            href="#rowNews"
-            data-nav="news"
-            class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
-          >
-            News
+            Featured Sports
           </a>
           <a
             href="#rowAll"
             data-nav="all"
             class="text-muted font-semibold text-sm hover:text-ink transition-colors duration-160"
           >
-            All Channels
+            All Sports Channels
           </a>
           <button
             id="themeToggle"
@@ -293,15 +286,15 @@
         <div class="hero-stats flex justify-center gap-9 flex-wrap">
           <div>
             <strong id="statChannels" class="block text-3xl">—</strong
-            ><span class="text-muted text-sm">Channels</span>
+            ><span class="text-muted text-sm">Sports Channels</span>
           </div>
           <div>
             <strong id="statCountries" class="block text-3xl">—</strong
             ><span class="text-muted text-sm">Countries</span>
           </div>
           <div>
-            <strong id="statCategories" class="block text-3xl">—</strong
-            ><span class="text-muted text-sm">Categories</span>
+            <strong id="statLanguages" class="block text-3xl">—</strong
+            ><span class="text-muted text-sm">Languages</span>
           </div>
         </div>
       </div>
@@ -321,17 +314,6 @@
             class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
           >
             <option value="all">All countries</option>
-          </select>
-        </div>
-        <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
-          <label for="categoryFilter" class="text-xs font-semibold text-muted uppercase tracking-[0.04em]">
-            Category
-          </label>
-          <select
-            id="categoryFilter"
-            class="p-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft"
-          >
-            <option value="all">All categories</option>
           </select>
         </div>
         <div class="filter-group flex flex-col gap-1.5 min-w-[160px] flex-1 basis-[160px]">
@@ -372,7 +354,7 @@
 
       <section class="row mb-10" id="rowSports">
         <div class="row-head flex items-baseline gap-3 mb-4">
-          <h2 class="m-0 text-2xl tracking-tight">Sports on now</h2>
+          <h2 class="m-0 text-2xl tracking-tight">Featured Sports</h2>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-[14px]" id="gridSports"></div>
       </section>
@@ -390,13 +372,6 @@
         </script>
       </div>
 
-      <section class="row mb-10" id="rowNews">
-        <div class="row-head flex items-baseline gap-3 mb-4">
-          <h2 class="m-0 text-2xl tracking-tight">News</h2>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-[14px]" id="gridNews"></div>
-      </section>
-
       <!-- In-Article Ad Unit -->
       <div class="ad-unit-article my-8 text-center overflow-hidden rounded-xl border border-edge bg-card p-2 min-h-[90px] flex items-center justify-center">
         <ins class="adsbygoogle"
@@ -412,7 +387,7 @@
 
       <section class="row mb-10" id="rowAll">
         <div class="row-head flex items-baseline gap-3 mb-4">
-          <h2 class="m-0 text-2xl tracking-tight">Browse all channels</h2>
+          <h2 class="m-0 text-2xl tracking-tight">All Sports Channels</h2>
           <span class="row-count text-muted text-sm" id="allCount"></span>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-[14px]" id="gridAll"></div>
@@ -522,31 +497,12 @@
       const FAV_KEY = 'livesportsFavorites';
       const THEME_KEY = 'livesportsTheme';
 
-      const CATEGORY_MAP = {
-        news: 'News',
-        sports: 'Sports',
-        movies: 'Movies',
-        music: 'Music',
-        entertainment: 'Entertainment',
-        general: 'General',
-        kids: 'Kids',
-        documentary: 'Documentary',
-        education: 'Education',
-        religious: 'Religious',
-        business: 'Business',
-        weather: 'Weather',
-        animation: 'Animation',
-        travel: 'Travel',
-        lifestyle: 'Lifestyle',
-        series: 'Series',
-        auto: 'Auto',
-        culture: 'Culture',
-        family: 'Family',
-        outdoor: 'Outdoor',
-        relax: 'Relax',
-        shop: 'Shop',
-        legislative: 'Legislative',
-      };
+      const M3U_URL = 'https://iptv-org.github.io/iptv/categories/sports.m3u';
+      const FALLBACK_M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
+      const COUNTRIES_URL = 'https://iptv-org.github.io/api/countries.json';
+      const LANGUAGES_URL = 'https://iptv-org.github.io/api/languages.json';
+      const FAV_KEY = 'livesportsFavorites';
+      const THEME_KEY = 'livesportsTheme';
 
       let channels = [];
       let countryData = {};
@@ -556,12 +512,11 @@
       const els = {
         search: document.getElementById('searchInput'),
         country: document.getElementById('countryFilter'),
-        category: document.getElementById('categoryFilter'),
         language: document.getElementById('languageFilter'),
         favoritesToggle: document.getElementById('favoritesToggle'),
         statChannels: document.getElementById('statChannels'),
         statCountries: document.getElementById('statCountries'),
-        statCategories: document.getElementById('statCategories'),
+        statLanguages: document.getElementById('statLanguages'),
         allCount: document.getElementById('allCount'),
         themeToggle: document.getElementById('themeToggle'),
         modal: document.getElementById('playerModal'),
@@ -575,7 +530,6 @@
         flag: document.getElementById('playerFlag'),
         grids: {
           sports: document.getElementById('gridSports'),
-          news: document.getElementById('gridNews'),
           all: document.getElementById('gridAll'),
         },
       };
@@ -600,18 +554,15 @@
       }
 
       function categoryFor(channel) {
-        const key = (channel.category || '').toLowerCase();
-        return CATEGORY_MAP[key] || (channel.category ? channel.category : 'General');
+        return channel.category || 'Sports';
       }
 
       function isSportChannel(channel) {
-        const cat = categoryFor(channel).toLowerCase();
-        return cat === 'sports' || cat === 'sport' || channel.name.toLowerCase().includes('sport');
-      }
-
-      function isNewsChannel(channel) {
-        const cat = categoryFor(channel).toLowerCase();
-        return cat === 'news' || cat === 'journalism' || channel.name.toLowerCase().includes('news');
+        const cat = (channel.category || '').toLowerCase();
+        const name = (channel.name || '').toLowerCase();
+        if (cat.includes('sport') || cat.includes('football') || cat.includes('soccer') || cat.includes('cricket') || cat.includes('tennis') || cat.includes('golf') || cat.includes('racing') || cat.includes('motorsport') || cat.includes('fight') || cat.includes('combat') || cat.includes('mma') || cat.includes('wrestling') || cat.includes('basketball') || cat.includes('hockey') || cat.includes('baseball') || cat.includes('rugby') || cat.includes('nfl') || cat.includes('nba') || cat.includes('ufc') || cat.includes('wwe')) return true;
+        if (name.includes('sport') || name.includes('espn') || name.includes('bein') || name.includes('sky sport') || name.includes('eurosport') || name.includes('fox sport') || name.includes('supersport') || name.includes('dazn') || name.includes('arena sport') || name.includes('tsn') || name.includes('bt sport') || name.includes('tnt sport') || name.includes('setanta') || name.includes('optus') || name.includes('canal+ sport') || name.includes('sport tv') || name.includes('astro super') || name.includes('sportsnet') || name.includes('star sports') || name.includes('sony ten') || name.includes('sony six') || name.includes('fight') || name.includes('racing') || name.includes('golf') || name.includes('tennis') || name.includes('cricket') || name.includes('motor') || name.includes('f1') || name.includes('nfl') || name.includes('nba') || name.includes('nhl') || name.includes('mlb') || name.includes('ufc') || name.includes('wwe')) return true;
+        return channel.category === 'Sports' || !channel.category;
       }
 
       function loadFavorites() {
@@ -690,7 +641,6 @@
         return {
           q: els.search.value.trim().toLowerCase(),
           country: els.country.value,
-          category: els.category.value,
           language: els.language.value,
           favOnly: els.favoritesToggle.getAttribute('aria-pressed') === 'true',
         };
@@ -700,10 +650,9 @@
         return channels.filter((c) => {
           if (f.favOnly && !isFav(c.id)) return false;
           if (f.country !== 'all' && c.country !== f.country) return false;
-          if (f.category !== 'all' && categoryFor(c) !== f.category) return false;
           if (f.language !== 'all' && !(c.languages || []).includes(f.language)) return false;
           if (f.q) {
-            const hay = `${c.name} ${getCountryName(c.country)} ${categoryFor(c)} ${(c.languages || []).join(' ')}`.toLowerCase();
+            const hay = `${c.name} ${getCountryName(c.country)} ${(c.languages || []).join(' ')}`.toLowerCase();
             if (!hay.includes(f.q)) return false;
           }
           return true;
@@ -714,23 +663,18 @@
         const f = getFilters();
         const all = filtered(f);
 
-        const sports = all.filter((c) => isSportChannel(c)).slice(0, 12);
-        const news = all.filter((c) => isNewsChannel(c)).slice(0, 12);
-
-        const focused = f.q || f.country !== 'all' || f.category !== 'all' || f.language !== 'all' || f.favOnly;
+        const sports = all.slice(0, 12);
+        const focused = f.q || f.country !== 'all' || f.language !== 'all' || f.favOnly;
 
         els.grids.sports.parentElement.style.display = focused ? 'none' : '';
-        els.grids.news.parentElement.style.display = focused ? 'none' : '';
 
         renderGrid(els.grids.sports, sports);
-        renderGrid(els.grids.news, news);
         renderGrid(els.grids.all, all);
         els.allCount.textContent = `${all.length} channel${all.length === 1 ? '' : 's'}`;
       }
 
       function populateFilters() {
         els.country.innerHTML = '<option value="all">All countries</option>';
-        els.category.innerHTML = '<option value="all">All categories</option>';
         els.language.innerHTML = '<option value="all">All languages</option>';
 
         const present = new Set(channels.map((c) => c.country));
@@ -748,14 +692,6 @@
           els.country.appendChild(o);
         });
 
-        const cats = [...new Set(channels.map((c) => categoryFor(c)))].sort();
-        cats.forEach((c) => {
-          const o = document.createElement('option');
-          o.value = c;
-          o.textContent = c;
-          els.category.appendChild(o);
-        });
-
         const langs = [...new Set(channels.flatMap((c) => c.languages))]
           .filter((l) => l && l !== 'Unknown')
           .sort((a, b) => a.localeCompare(b));
@@ -768,7 +704,7 @@
 
         els.statChannels.textContent = channels.length.toLocaleString();
         els.statCountries.textContent = present.size;
-        els.statCategories.textContent = cats.length;
+        els.statLanguages.textContent = langs.length;
       }
 
       let hls = null;
@@ -881,6 +817,12 @@
       async function fetchM3U() {
         try {
           const res = await fetch(M3U_URL);
+          if (res.ok) return await res.text();
+        } catch (err) {
+          console.warn('Sports M3U fetch failed, falling back:', err);
+        }
+        try {
+          const res = await fetch(FALLBACK_M3U_URL);
           if (!res.ok) throw new Error(`M3U: ${res.statusText}`);
           return await res.text();
         } catch (err) {
@@ -912,7 +854,7 @@
           if (!nextLine || nextLine.startsWith('#') || !nextLine.endsWith('.m3u8')) continue;
 
           const groupMatch = line.match(/group-title="([^"]*)"/);
-          const category = groupMatch ? groupMatch[1] : 'General';
+          const category = groupMatch ? groupMatch[1] : 'Sports';
 
           const tvgIdMatch = line.match(/tvg-id="([^"]*)"/);
           const channelId = tvgIdMatch ? tvgIdMatch[1] : 'ch-' + result.length;
@@ -949,7 +891,7 @@
 
         const allGrids = Object.values(els.grids);
         allGrids.forEach((g) => {
-          g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading channels…</div>';
+          g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading sports channels…</div>';
         });
 
         const m3uText = await fetchM3U();
@@ -977,7 +919,7 @@
           });
         }
 
-        channels = parseM3U(m3uText);
+        channels = parseM3U(m3uText).filter(isSportChannel);
 
         channels.forEach((ch) => {
           const langsForCountry = (countryData[ch.country] || {}).languages || [];
