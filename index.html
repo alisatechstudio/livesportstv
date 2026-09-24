@@ -699,6 +699,12 @@
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5"
         id="gridAll"></div>
+
+      <!-- Pagination Controls for All Channels Directory -->
+      <nav id="paginationControls" class="pagination-container mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs border-t border-edge pt-4" aria-label="Channels Pagination">
+        <div id="paginationInfo" class="text-muted text-xs font-medium"></div>
+        <div id="paginationButtons" class="flex flex-wrap items-center justify-center gap-1"></div>
+      </nav>
     </section>
 
     <!-- Mobile / Secondary Banner Ad (320x50) -->
@@ -1386,6 +1392,8 @@
     const FAV_KEY = 'livesportsFavorites';
     const THEME_KEY = 'livesportsTheme';
     const COOKIE_KEY = 'livesportsCookieConsent';
+    const PAGE_SIZE = 36;
+    let currentPage = 1;
 
     let channels = [];
     let countryData = {};
@@ -1544,7 +1552,7 @@
           } else {
             els.search.value = sport;
           }
-          renderAll();
+          renderAll(true);
           const targetSection = document.getElementById('rowAll');
           if (targetSection) {
             targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1617,7 +1625,8 @@
       });
     }
 
-    function renderAll() {
+    function renderAll(resetPage = false) {
+      if (resetPage) currentPage = 1;
       const f = getFilters();
       const all = filtered(f);
 
@@ -1627,8 +1636,89 @@
       els.grids.sports.parentElement.style.display = focused ? 'none' : '';
 
       renderGrid(els.grids.sports, sports);
-      renderGrid(els.grids.all, all);
-      els.allCount.textContent = `${all.length} channel${all.length === 1 ? '' : 's'}`;
+
+      // Pagination for All Channels Directory
+      const totalItems = all.length;
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const paginatedList = all.slice(startIndex, startIndex + PAGE_SIZE);
+
+      renderGrid(els.grids.all, paginatedList);
+      els.allCount.textContent = `${totalItems} channel${totalItems === 1 ? '' : 's'}`;
+
+      renderPagination(totalItems, currentPage, totalPages, startIndex);
+    }
+
+    function renderPagination(totalItems, current, totalPages, startIdx) {
+      const container = document.getElementById('paginationControls');
+      const infoEl = document.getElementById('paginationInfo');
+      const btnsEl = document.getElementById('paginationButtons');
+      if (!container || !infoEl || !btnsEl) return;
+
+      if (totalItems === 0) {
+        container.style.display = 'none';
+        return;
+      }
+
+      container.style.display = 'flex';
+      const endIdx = Math.min(startIdx + PAGE_SIZE, totalItems);
+      infoEl.innerHTML = `Showing <strong class="text-ink">${startIdx + 1}–${endIdx}</strong> of <strong class="text-ink">${totalItems.toLocaleString()}</strong> channels (Page <span class="text-primary font-bold">${current}</span> of ${totalPages})`;
+
+      if (totalPages <= 1) {
+        btnsEl.innerHTML = '';
+        return;
+      }
+
+      let pages = [];
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        if (current <= 4) {
+          pages = [1, 2, 3, 4, 5, '...', totalPages];
+        } else if (current >= totalPages - 3) {
+          pages = [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+        } else {
+          pages = [1, '...', current - 1, current, current + 1, '...', totalPages];
+        }
+      }
+
+      let html = '';
+      const prevDisabled = current === 1;
+      html += `<button class="px-2.5 sm:px-3 py-1.5 rounded-lg border border-edge bg-surface text-ink hover:bg-card text-xs font-semibold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed transition-all" data-page="${current - 1}" ${prevDisabled ? 'disabled' : ''} aria-label="Previous Page">‹ Prev</button>`;
+
+      pages.forEach((p) => {
+        if (p === '...') {
+          html += `<span class="px-1.5 py-1 text-muted text-xs font-semibold select-none">…</span>`;
+        } else {
+          const isActive = p === current;
+          const activeClasses = isActive
+            ? 'bg-primary text-white border-primary shadow-sm font-bold scale-105'
+            : 'bg-surface text-ink border-edge hover:bg-card hover:border-primary/50 font-semibold';
+          html += `<button class="min-w-[32px] h-[32px] sm:min-w-[34px] sm:h-[34px] px-1.5 rounded-lg border text-xs cursor-pointer transition-all duration-160 flex items-center justify-center ${activeClasses}" data-page="${p}" ${isActive ? 'aria-current="page"' : ''}>${p}</button>`;
+        }
+      });
+
+      const nextDisabled = current === totalPages;
+      html += `<button class="px-2.5 sm:px-3 py-1.5 rounded-lg border border-edge bg-surface text-ink hover:bg-card text-xs font-semibold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed transition-all" data-page="${current + 1}" ${nextDisabled ? 'disabled' : ''} aria-label="Next Page">Next ›</button>`;
+
+      btnsEl.innerHTML = html;
+
+      btnsEl.querySelectorAll('button[data-page]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const target = parseInt(btn.dataset.page, 10);
+          if (target && target !== currentPage && target >= 1 && target <= totalPages) {
+            currentPage = target;
+            renderAll(false);
+            const rowAll = document.getElementById('rowAll');
+            if (rowAll) {
+              rowAll.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
     }
 
     function populateFilters() {
@@ -1755,14 +1845,14 @@
 
     function bindEvents() {
       [els.search, els.country, els.language].filter(Boolean).forEach((el) => {
-        el.addEventListener('input', renderAll);
-        el.addEventListener('change', renderAll);
+        el.addEventListener('input', () => renderAll(true));
+        el.addEventListener('change', () => renderAll(true));
       });
 
       els.favoritesToggle.addEventListener('click', () => {
         const pressed = els.favoritesToggle.getAttribute('aria-pressed') === 'true';
         els.favoritesToggle.setAttribute('aria-pressed', String(!pressed));
-        renderAll();
+        renderAll(true);
       });
 
       if (els.playerPrev) els.playerPrev.addEventListener('click', () => playAdjacentChannel(-1));
