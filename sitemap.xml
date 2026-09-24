@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://livesportstv.store/</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>hourly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/og-image.png</image:loc>
+      <image:title>LiveSportsTV - Free Live Sports TV Channels &amp; Streaming Directory</image:title>
+      <image:caption>Free directory of 1,000+ live sports television channels worldwide</image:caption>
+    </image:image>
   </url>
 </urlset>
