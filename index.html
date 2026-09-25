@@ -544,31 +544,6 @@
         Browse and stream official free-to-air sports channels online. Search football, cricket, basketball, motorsport, and combat sports TV with direct in-browser HLS playback.
       </p>
 
-      <!-- Category Dropdown Filter in Hero -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-[560px] mx-auto mb-4">
-        <label for="heroCategoryFilter" class="text-xs font-semibold text-muted flex items-center gap-1.5 whitespace-nowrap">
-          <span class="text-primary font-bold">Filter Category:</span>
-        </label>
-        <div class="relative w-full sm:w-auto flex-1 min-w-[240px] max-w-[340px]">
-          <select id="heroCategoryFilter"
-            class="w-full appearance-none py-2 pl-3.5 pr-8 rounded-xl border border-edge bg-surface text-ink text-xs font-bold cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft shadow-sm transition-all hover:border-primary/60">
-            <option value="all">⚡ All Sport Categories</option>
-            <option value="football">⚽ Football / Soccer</option>
-            <option value="cricket">🏏 Cricket</option>
-            <option value="racing">🏎️ Motorsport &amp; F1</option>
-            <option value="basketball">🏀 Basketball</option>
-            <option value="tennis">🎾 Tennis</option>
-            <option value="combat">🥊 Combat / UFC &amp; MMA</option>
-            <option value="hockey">🏒 Hockey</option>
-            <option value="baseball">⚾ Baseball</option>
-            <option value="rugby">🏉 Rugby &amp; NFL</option>
-            <option value="golf">⛳ Golf</option>
-            <option value="general">🏆 General Sports</option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted text-[10px]">▼</div>
-        </div>
-      </div>
-
       <div class="hero-stats flex justify-center gap-6 sm:gap-10 flex-wrap pt-2">
         <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
           <strong id="statChannels" class="block text-xl font-extrabold text-primary">—</strong>
@@ -1108,7 +1083,6 @@
     const els = {
       search: document.getElementById('searchInput'),
       category: document.getElementById('categoryFilter'),
-      heroCategory: document.getElementById('heroCategoryFilter'),
       country: document.getElementById('countryFilter'),
       language: document.getElementById('languageFilter'),
       favoritesToggle: document.getElementById('favoritesToggle'),
@@ -1479,13 +1453,13 @@
         general: `🏆 General Sports (${catCounts.general})`,
       };
 
-      [els.category, els.heroCategory].filter(Boolean).forEach((sel) => {
-        const currentVal = sel.value || 'all';
-        sel.innerHTML = Object.entries(catLabels)
+      if (els.category) {
+        const currentVal = els.category.value || 'all';
+        els.category.innerHTML = Object.entries(catLabels)
           .map(([key, label]) => `<option value="${key}">${label}</option>`)
           .join('');
-        sel.value = currentVal;
-      });
+        els.category.value = currentVal;
+      }
 
       els.country.innerHTML = '<option value="all">All countries</option>';
       els.language.innerHTML = '<option value="all">All languages</option>';
@@ -1609,25 +1583,10 @@
     }
 
     function bindEvents() {
-      [els.search, els.country, els.language].filter(Boolean).forEach((el) => {
+      [els.search, els.category, els.country, els.language].filter(Boolean).forEach((el) => {
         el.addEventListener('input', () => renderAll(true));
         el.addEventListener('change', () => renderAll(true));
       });
-
-      if (els.category && els.heroCategory) {
-        els.category.addEventListener('change', () => {
-          els.heroCategory.value = els.category.value;
-          renderAll(true);
-        });
-        els.heroCategory.addEventListener('change', () => {
-          els.category.value = els.heroCategory.value;
-          renderAll(true);
-          const rowAll = document.getElementById('rowAll');
-          if (rowAll) rowAll.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      } else if (els.category) {
-        els.category.addEventListener('change', () => renderAll(true));
-      }
 
       els.favoritesToggle.addEventListener('click', () => {
         const pressed = els.favoritesToggle.getAttribute('aria-pressed') === 'true';
@@ -1802,9 +1761,8 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('category');
-      if (catParam) {
-        if (els.category) els.category.value = catParam;
-        if (els.heroCategory) els.heroCategory.value = catParam;
+      if (catParam && els.category) {
+        els.category.value = catParam;
       }
 
       populateFilters();
