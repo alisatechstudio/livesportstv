@@ -114,6 +114,8 @@
   </script>
 
   <!-- Resource hints for speed -->
+  <link rel="preconnect" href="https://iptv-org.github.io" crossorigin />
+  <link rel="preconnect" href="https://api.country.is" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
@@ -782,6 +784,7 @@
         });
         hls.on(Hls.Events.ERROR, (_, data) => {
           if (data.fatal) {
+            markStreamBroken(currentChannelId);
             els.overlay.classList.add('visible', 'error');
             els.overlayText.textContent = 'Stream unavailable or geo-blocked. Try another channel.';
           }
@@ -793,6 +796,7 @@
           els.overlay.classList.remove('visible');
         }, { once: true });
         video.addEventListener('error', () => {
+          markStreamBroken(currentChannelId);
           els.overlay.classList.add('visible', 'error');
           els.overlayText.textContent = 'Playback error or offline stream.';
         }, { once: true });
@@ -885,9 +889,92 @@
       return null;
     }
 
-    function parseM3U(m3uText) {
+    const BROKEN_STREAMS_KEY = 'livesports_broken_streams_v1';
+    function getBrokenStreamIds() {
+      try {
+        return new Set(JSON.parse(localStorage.getItem(BROKEN_STREAMS_KEY) || '[]'));
+      } catch (e) {
+        return new Set();
+      }
+    }
+    function markStreamBroken(channelId) {
+      if (!channelId) return;
+      try {
+        const list = JSON.parse(localStorage.getItem(BROKEN_STREAMS_KEY) || '[]');
+        if (!list.includes(channelId)) {
+          list.push(channelId);
+          localStorage.setItem(BROKEN_STREAMS_KEY, JSON.stringify(list));
+        }
+      } catch (e) {}
+    }
+
+    const GEO_KEY = 'livesports_visitor_country';
+    let visitorCountry = localStorage.getItem(GEO_KEY) || '';
+
+    async function detectVisitorLocation() {
+      if (visitorCountry) return visitorCountry;
+      try {
+        const res = await fetch('https://api.country.is');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.country) {
+            visitorCountry = data.country.toUpperCase();
+            localStorage.setItem(GEO_KEY, visitorCountry);
+            return visitorCountry;
+          }
+        }
+      } catch (e) {}
+      try {
+        const res2 = await fetch('https://ipapi.co/json/');
+        if (res2.ok) {
+          const data2 = await res2.json();
+          if (data2 && data2.country_code) {
+            visitorCountry = data2.country_code.toUpperCase();
+            localStorage.setItem(GEO_KEY, visitorCountry);
+            return visitorCountry;
+          }
+        }
+      } catch (e) {}
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      if (tz.includes('London')) visitorCountry = 'GB';
+      else if (tz.includes('New_York') || tz.includes('Chicago') || tz.includes('Los_Angeles') || tz.includes('Denver')) visitorCountry = 'US';
+      else if (tz.includes('Dhaka')) visitorCountry = 'BD';
+      else if (tz.includes('Kolkata') || tz.includes('Calcutta')) visitorCountry = 'IN';
+      else if (tz.includes('Paris')) visitorCountry = 'FR';
+      else if (tz.includes('Berlin')) visitorCountry = 'DE';
+      else if (tz.includes('Madrid')) visitorCountry = 'ES';
+      else if (tz.includes('Rome')) visitorCountry = 'IT';
+      else if (tz.includes('Toronto') || tz.includes('Vancouver')) visitorCountry = 'CA';
+      else if (tz.includes('Sydney') || tz.includes('Melbourne')) visitorCountry = 'AU';
+      else visitorCountry = 'INT';
+      localStorage.setItem(GEO_KEY, visitorCountry);
+      return visitorCountry;
+    }
+
+    const CACHE_KEY = 'livesports_football_channels_v3';
+    const CACHE_TTL = 2 * 60 * 60 * 1000;
+
+    function getCachedChannels() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveChannelsCache(data) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function parseM3U(m3uText, currentVisitorCountry) {
       const lines = m3uText.split('\n');
       const result = [];
+      const brokenIds = getBrokenStreamIds();
+
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line.startsWith('#EXTINF:')) continue;
@@ -898,7 +985,7 @@
           if (candidate.startsWith('#EXTINF:')) break;
           if (candidate && !candidate.startsWith('#')) { streamUrl = candidate; break; }
         }
-        if (!streamUrl) continue;
+        if (!streamUrl || !/^https?:\/\//i.test(streamUrl)) continue;
 
         const groupMatch = line.match(/group-title="([^"]*)"/);
         const category = groupMatch ? groupMatch[1] : 'Football';
@@ -906,8 +993,12 @@
         const tvgIdMatch = line.match(/tvg-id="([^"]*)"/);
         const channelId = tvgIdMatch ? tvgIdMatch[1] : 'ch-' + result.length;
 
+        if (brokenIds.has(channelId)) continue;
+
         const lastComma = line.lastIndexOf(',');
-        const name = lastComma !== -1 ? line.slice(lastComma + 1).trim() : 'Unknown';
+        let name = lastComma !== -1 ? line.slice(lastComma + 1).trim() : 'Unknown';
+
+        const isGeoBlocked = /\[geo-blocked\]/i.test(line) || /\[geo-blocked\]/i.test(name);
 
         const logoMatch = line.match(/tvg-logo="([^"]*)"/);
         const logo = logoMatch ? logoMatch[1] : '';
@@ -915,7 +1006,13 @@
         const ccMatch = channelId.match(/\.([a-zA-Z]{2})(@|$)/);
         const country = ccMatch ? ccMatch[1].toUpperCase() : 'INT';
 
-        result.push({ id: channelId, name, category, country, languages: [], language: 'Unknown', logo, streamUrl });
+        if (isGeoBlocked && currentVisitorCountry && currentVisitorCountry !== 'INT' && country !== currentVisitorCountry) {
+          continue;
+        }
+
+        name = name.replace(/\[geo-blocked\]/gi, '').trim();
+
+        result.push({ id: channelId, name, category, country, languages: [], language: 'Unknown', logo, streamUrl, isGeoBlocked });
       }
       return result;
     }
@@ -926,36 +1023,68 @@
       setupTheme();
       bindEvents();
 
-      const m3uText = await fetchM3U();
-      if (!m3uText) return;
+      visitorCountry = await detectVisitorLocation();
 
-      const [countriesData, langsData] = await Promise.all([
-        fetchJSON(COUNTRIES_URL),
-        fetchJSON(LANGUAGES_URL),
-      ]);
-
-      if (countriesData) {
-        countriesData.forEach((c) => { countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] }; });
-      }
-      if (langsData) {
-        langsData.forEach((l) => { langName[l.code] = l.name; });
+      const cached = getCachedChannels();
+      let hasRenderedCache = false;
+      if (cached && cached.channels && cached.channels.length > 0 && cached.visitorCountry === visitorCountry) {
+        channels = cached.channels;
+        countryData = cached.countryData || countryData;
+        langName = cached.langName || langName;
+        populateFilters();
+        renderAll();
+        hasRenderedCache = true;
       }
 
-      // Filter exclusively for football/soccer or top sports channels
-      const parsed = parseM3U(m3uText);
-      const footballList = parsed.filter(isFootballChannel);
-      // Fallback: If heuristic catches few, include general sports channels
-      channels = footballList.length >= 10 ? footballList : parsed.slice(0, 100);
+      const isCacheFresh = cached && (Date.now() - cached.timestamp < CACHE_TTL);
+      if (isCacheFresh && hasRenderedCache) {
+        return;
+      }
 
-      channels.forEach((ch) => {
-        const langsForCountry = (countryData[ch.country] || {}).languages || [];
-        const languages = langsForCountry.map((code) => langName[code] || code).filter(Boolean);
-        ch.languages = languages;
-        ch.language = languages[0] || 'Unknown';
-      });
+      if (!hasRenderedCache) {
+        els.grids.sports.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading live football channels…</div>';
+      }
 
-      populateFilters();
-      renderAll();
+      try {
+        const [m3uText, countriesData, langsData] = await Promise.all([
+          fetchM3U(),
+          fetchJSON(COUNTRIES_URL),
+          fetchJSON(LANGUAGES_URL)
+        ]);
+
+        if (!m3uText) return;
+
+        if (countriesData) {
+          countriesData.forEach((c) => { countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] }; });
+        }
+        if (langsData) {
+          langsData.forEach((l) => { langName[l.code] = l.name; });
+        }
+
+        const parsed = parseM3U(m3uText, visitorCountry);
+        const footballList = parsed.filter(isFootballChannel);
+        channels = footballList.length >= 10 ? footballList : parsed.slice(0, 100);
+
+        channels.forEach((ch) => {
+          const langsForCountry = (countryData[ch.country] || {}).languages || [];
+          const languages = langsForCountry.map((code) => langName[code] || code).filter(Boolean);
+          ch.languages = languages;
+          ch.language = languages[0] || 'Unknown';
+        });
+
+        populateFilters();
+        renderAll();
+
+        saveChannelsCache({
+          timestamp: Date.now(),
+          visitorCountry: visitorCountry,
+          channels: channels,
+          countryData: countryData,
+          langName: langName
+        });
+      } catch (e) {
+        console.error('Failed to refresh football channels:', e);
+      }
     }
 
     init();
