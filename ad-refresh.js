@@ -6,6 +6,14 @@
 (function () {
   'use strict';
 
+  // Prevent uncaught errors from third-party ad network resize listeners (e.g. AdsTargets contentWindow access on null iframe)
+  window.addEventListener('error', function (e) {
+    if (e.message && e.message.indexOf('contentWindow') !== -1) {
+      e.preventDefault();
+      return true;
+    }
+  }, true);
+
   const REFRESH_INTERVAL_MS = 20000; // 20 seconds (safe for ad networks, no layout jitter)
 
   /**
