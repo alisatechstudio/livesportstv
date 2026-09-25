@@ -66,28 +66,10 @@
     const containers = document.querySelectorAll('#adm-container-29969');
     containers.forEach(function (container) {
       const iframes = container.querySelectorAll('iframe');
-      let reloaded = false;
       if (iframes.length > 0) {
         iframes.forEach(function (iframe) {
-          if (reloadAdIframe(iframe)) reloaded = true;
+          reloadAdIframe(iframe);
         });
-      }
-
-      if (!reloaded) {
-        // Re-inject AdsTargets display script in-place without page reload
-        container.innerHTML = '';
-        const parent = container.parentNode;
-        if (parent) {
-          const oldScript = parent.querySelector('script[src*="adstargets.com"]');
-          if (oldScript) {
-            oldScript.remove();
-          }
-          const script = document.createElement('script');
-          script.src = 'https://adstargets.com/myAdstargets/display/items.php?29969&23914&0&0&4&1&0&_rb=' + Date.now();
-          script.async = true;
-          script.setAttribute('data-cfasync', 'false');
-          parent.appendChild(script);
-        }
       }
     });
   }
