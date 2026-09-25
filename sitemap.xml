@@ -4,7 +4,7 @@
   <!-- Main Home Directory -->
   <url>
     <loc>https://livesportstv.store/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>hourly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -89,12 +89,24 @@
   <!-- Directory Guide & Broadcasting Overview Page -->
   <url>
     <loc>https://livesportstv.store/guide.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
     <image:image>
       <image:loc>https://livesportstv.store/og-image.png</image:loc>
       <image:title>LiveSportsTV - Global Sports TV Directory Guide &amp; Broadcasting Overview</image:title>
+    </image:image>
+  </url>
+
+  <!-- FAQ & User Guide Page -->
+  <url>
+    <loc>https://livesportstv.store/faq.html</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/og-image.png</image:loc>
+      <image:title>LiveSportsTV - Frequently Asked Questions &amp; Directory Guide</image:title>
     </image:image>
   </url>
 
