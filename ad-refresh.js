@@ -6,8 +6,12 @@
 (function () {
   'use strict';
 
-  const REFRESH_INTERVAL_MS = 10000; // 10 seconds
+  const REFRESH_INTERVAL_MS = 20000; // 20 seconds (safe for ad networks, no layout jitter)
 
+  /**
+   * Reload an ad iframe in-place using cache-busting URL parameter.
+   * Completely isolated to the iframe element — NEVER reloads or touches the parent window.
+   */
   function reloadAdIframe(iframe) {
     if (!iframe) return false;
     try {
@@ -17,13 +21,6 @@
         url.searchParams.set('_rb', Date.now().toString());
         iframe.src = url.toString();
         return true;
-      } else if (iframe.contentWindow) {
-        try {
-          iframe.contentWindow.location.reload();
-          return true;
-        } catch (e) {
-          // Cross-origin restriction on contentWindow
-        }
       }
     } catch (err) {
       if (iframe.src) {
@@ -36,15 +33,23 @@
     return false;
   }
 
+  /**
+   * Reload the top native ad banner in-place without page reload.
+   */
   function reloadNativeBanner() {
     const container = document.getElementById('container-a3c27f6bb252fff26f976d0a2f4be494');
     if (!container) return;
 
     const iframes = container.querySelectorAll('iframe');
+    let reloaded = false;
     if (iframes.length > 0) {
-      iframes.forEach(reloadAdIframe);
-    } else {
-      // Re-execute native invoke script if no iframes exist
+      iframes.forEach(function (iframe) {
+        if (reloadAdIframe(iframe)) reloaded = true;
+      });
+    }
+
+    if (!reloaded) {
+      // Re-fetch script in-place inside container without page reload
       container.innerHTML = '';
       const script = document.createElement('script');
       script.src = 'https://windowthrilling.com/a3c27f6bb252fff26f976d0a2f4be494/invoke.js?_rb=' + Date.now();
@@ -54,13 +59,44 @@
     }
   }
 
+  /**
+   * Reload the AdsTargets banner in-place without page reload.
+   */
+  function reloadAdsTargetsBanner() {
+    const containers = document.querySelectorAll('#adm-container-29969');
+    containers.forEach(function (container) {
+      const iframes = container.querySelectorAll('iframe');
+      let reloaded = false;
+      if (iframes.length > 0) {
+        iframes.forEach(function (iframe) {
+          if (reloadAdIframe(iframe)) reloaded = true;
+        });
+      }
+
+      if (!reloaded) {
+        // Re-inject AdsTargets display script in-place without page reload
+        container.innerHTML = '';
+        const parent = container.parentNode;
+        if (parent) {
+          const oldScript = parent.querySelector('script[src*="adstargets.com"]');
+          if (oldScript) {
+            oldScript.remove();
+          }
+          const script = document.createElement('script');
+          script.src = 'https://adstargets.com/myAdstargets/display/items.php?29969&23914&0&0&4&1&0&_rb=' + Date.now();
+          script.async = true;
+          script.setAttribute('data-cfasync', 'false');
+          parent.appendChild(script);
+        }
+      }
+    });
+  }
+
   function refreshAllBanners() {
     // 1. Refresh all banner iframes in standard slots
     const selectors = [
       '.ad-slot-native',
       '.ad-slot-middle',
-      '.ad-slot-infeed',
-      '.ad-slot-bottom',
       '[class*="ad-slot"]'
     ];
     const containers = document.querySelectorAll(selectors.join(', '));
@@ -73,6 +109,9 @@
 
     // 2. Refresh native banner container
     reloadNativeBanner();
+
+    // 3. Refresh AdsTargets banner container
+    reloadAdsTargetsBanner();
   }
 
   // Set recurring auto-refresh every 10 seconds
