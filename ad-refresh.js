@@ -59,41 +59,9 @@
     }
   }
 
-  /**
-   * Reload the AdsTargets banner in-place without page reload.
-   */
-  function reloadAdsTargetsBanner() {
-    const containers = document.querySelectorAll('#adm-container-29969');
-    containers.forEach(function (container) {
-      const iframes = container.querySelectorAll('iframe');
-      if (iframes.length > 0) {
-        iframes.forEach(function (iframe) {
-          reloadAdIframe(iframe);
-        });
-      }
-    });
-  }
-
   function refreshAllBanners() {
-    // 1. Refresh all banner iframes in standard slots
-    const selectors = [
-      '.ad-slot-native',
-      '.ad-slot-middle',
-      '[class*="ad-slot"]'
-    ];
-    const containers = document.querySelectorAll(selectors.join(', '));
-    containers.forEach(function (container) {
-      const iframes = container.querySelectorAll('iframe');
-      iframes.forEach(function (iframe) {
-        reloadAdIframe(iframe);
-      });
-    });
-
-    // 2. Refresh native banner container
+    // 1. Refresh native banner container in-place
     reloadNativeBanner();
-
-    // 3. Refresh AdsTargets banner container
-    reloadAdsTargetsBanner();
   }
 
   // Set recurring auto-refresh every 10 seconds
