@@ -544,16 +544,29 @@
         Browse and stream official free-to-air sports channels online. Search football, cricket, basketball, motorsport, and combat sports TV with direct in-browser HLS playback.
       </p>
 
-      <!-- Quick Sport Filter Pills for SEO & UX -->
-      <div class="flex flex-wrap justify-center items-center gap-1.5 max-w-[850px] mx-auto mb-4 text-xs font-semibold">
-        <span class="text-muted text-[11px] mr-1">Categories:</span>
-        <a href="/football.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer">⚽ Football</a>
-        <a href="/cricket.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer">🏏 Cricket</a>
-        <a href="/f1.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer">🏎️ Racing / F1</a>
-        <a href="/basketball.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer">🏀 Basketball</a>
-        <a href="/tennis.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer">🎾 Tennis</a>
-        <a href="/combat.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors cursor-pointer">🥊 Combat / UFC</a>
-        <a href="#rowAll" class="px-2.5 py-1 rounded-full bg-primary-soft text-primary border border-primary/30 hover:border-primary transition-colors cursor-pointer">⚡ All Sports</a>
+      <!-- Category Dropdown Filter in Hero -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-[560px] mx-auto mb-4">
+        <label for="heroCategoryFilter" class="text-xs font-semibold text-muted flex items-center gap-1.5 whitespace-nowrap">
+          <span class="text-primary font-bold">Filter Category:</span>
+        </label>
+        <div class="relative w-full sm:w-auto flex-1 min-w-[240px] max-w-[340px]">
+          <select id="heroCategoryFilter"
+            class="w-full appearance-none py-2 pl-3.5 pr-8 rounded-xl border border-edge bg-surface text-ink text-xs font-bold cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft shadow-sm transition-all hover:border-primary/60">
+            <option value="all">⚡ All Sport Categories</option>
+            <option value="football">⚽ Football / Soccer</option>
+            <option value="cricket">🏏 Cricket</option>
+            <option value="racing">🏎️ Motorsport &amp; F1</option>
+            <option value="basketball">🏀 Basketball</option>
+            <option value="tennis">🎾 Tennis</option>
+            <option value="combat">🥊 Combat / UFC &amp; MMA</option>
+            <option value="hockey">🏒 Hockey</option>
+            <option value="baseball">⚾ Baseball</option>
+            <option value="rugby">🏉 Rugby &amp; NFL</option>
+            <option value="golf">⛳ Golf</option>
+            <option value="general">🏆 General Sports</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted text-[10px]">▼</div>
+        </div>
       </div>
 
       <div class="hero-stats flex justify-center gap-6 sm:gap-10 flex-wrap pt-2">
@@ -575,8 +588,28 @@
 
   <!-- Interactive Filters -->
   <section class="filters border-b border-edge bg-base sticky top-[57px] z-30 shadow-sm" aria-label="Channel Filters">
-    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:flex gap-2 sm:gap-3 sm:items-end">
-      <div class="filter-group flex flex-col gap-1 col-span-1 sm:flex-1">
+    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:grid-cols-3 lg:flex gap-2 sm:gap-3 sm:items-end">
+      <div class="filter-group flex flex-col gap-1 col-span-2 sm:col-span-1 lg:flex-1">
+        <label for="categoryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
+          Filter by Category
+        </label>
+        <select id="categoryFilter"
+          class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
+          <option value="all">⚡ All Categories</option>
+          <option value="football">⚽ Football / Soccer</option>
+          <option value="cricket">🏏 Cricket</option>
+          <option value="racing">🏎️ Motorsport &amp; F1</option>
+          <option value="basketball">🏀 Basketball</option>
+          <option value="tennis">🎾 Tennis</option>
+          <option value="combat">🥊 Combat / UFC &amp; MMA</option>
+          <option value="hockey">🏒 Hockey</option>
+          <option value="baseball">⚾ Baseball</option>
+          <option value="rugby">🏉 Rugby &amp; NFL</option>
+          <option value="golf">⛳ Golf</option>
+          <option value="general">🏆 General Sports</option>
+        </select>
+      </div>
+      <div class="filter-group flex flex-col gap-1 col-span-1 lg:flex-1">
         <label for="countryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
           Filter by Country
         </label>
@@ -585,7 +618,7 @@
           <option value="all">All countries</option>
         </select>
       </div>
-      <div class="filter-group flex flex-col gap-1 col-span-1 sm:flex-1">
+      <div class="filter-group flex flex-col gap-1 col-span-1 lg:flex-1">
         <label for="languageFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
           Filter by Language
         </label>
@@ -595,7 +628,7 @@
         </select>
       </div>
       <button id="favoritesToggle"
-        class="pill-toggle col-span-2 sm:col-span-auto sm:ml-auto w-full sm:w-auto py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all duration-160 flex items-center justify-center gap-1.5"
+        class="pill-toggle col-span-2 sm:col-span-auto lg:w-auto py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all duration-160 flex items-center justify-center gap-1.5 flex-none"
         aria-pressed="false">
         <span class="text-yellow-400">★</span> Favorites
       </button>
@@ -1074,6 +1107,8 @@
 
     const els = {
       search: document.getElementById('searchInput'),
+      category: document.getElementById('categoryFilter'),
+      heroCategory: document.getElementById('heroCategoryFilter'),
       country: document.getElementById('countryFilter'),
       language: document.getElementById('languageFilter'),
       favoritesToggle: document.getElementById('favoritesToggle'),
@@ -1125,6 +1160,21 @@
 
     function categoryFor(channel) {
       return channel.category || 'Sports';
+    }
+
+    function getSportCategory(channel) {
+      const text = `${channel.category || ''} ${channel.name || ''}`.toLowerCase();
+      if (text.includes('football') || text.includes('soccer') || text.includes('fifa') || text.includes('uefa') || text.includes('premier league') || text.includes('laliga') || text.includes('serie a') || text.includes('bundesliga') || text.includes('ligue 1') || text.includes('mls') || text.includes('eredivisie') || text.includes('brasileirao') || text.includes('calcio') || text.includes('super lig') || text.includes('afcon')) return 'football';
+      if (text.includes('cricket') || text.includes('ipl') || text.includes('icc') || text.includes('bcci') || text.includes('t20') || text.includes('test match') || text.includes('willow') || text.includes('star sports') || text.includes('sony ten') || text.includes('sony six') || text.includes('psl') || text.includes('bbl') || text.includes('cpl')) return 'cricket';
+      if (text.includes('racing') || text.includes('motor') || text.includes('f1') || text.includes('formula') || text.includes('motogp') || text.includes('nascar') || text.includes('indycar') || text.includes('wrc') || text.includes('rally') || text.includes('supercars') || text.includes('speedway')) return 'racing';
+      if (text.includes('basketball') || text.includes('nba') || text.includes('euroleague') || text.includes('fiba') || text.includes('wnba') || text.includes('basket')) return 'basketball';
+      if (text.includes('tennis') || text.includes('wimbledon') || text.includes('atp') || text.includes('wta') || text.includes('roland garros') || text.includes('us open') || text.includes('australian open') || text.includes('davis cup')) return 'tennis';
+      if (text.includes('combat') || text.includes('fight') || text.includes('ufc') || text.includes('mma') || text.includes('boxing') || text.includes('wrestling') || text.includes('wwe') || text.includes('bellator') || text.includes('one championship') || text.includes('boxnation') || text.includes('kickboxing')) return 'combat';
+      if (text.includes('hockey') || text.includes('nhl') || text.includes('khl') || text.includes('iihf') || text.includes('stanley cup')) return 'hockey';
+      if (text.includes('baseball') || text.includes('mlb') || text.includes('npb') || text.includes('kbo') || text.includes('world series')) return 'baseball';
+      if (text.includes('rugby') || text.includes('nfl') || text.includes('super bowl') || text.includes('afl') || text.includes('six nations') || text.includes('nrl') || text.includes('touchdown')) return 'rugby';
+      if (text.includes('golf') || text.includes('pga') || text.includes('liv golf') || text.includes('ryder cup') || text.includes('masters') || text.includes('us open golf')) return 'golf';
+      return 'general';
     }
 
     function isSportChannel(channel) {
@@ -1277,6 +1327,7 @@
     function getFilters() {
       return {
         q: els.search.value.trim().toLowerCase(),
+        category: (els.category && els.category.value) || 'all',
         country: els.country.value,
         language: els.language.value,
         favOnly: els.favoritesToggle.getAttribute('aria-pressed') === 'true',
@@ -1286,10 +1337,11 @@
     function filtered(f) {
       return channels.filter((c) => {
         if (f.favOnly && !isFav(c.id)) return false;
+        if (f.category && f.category !== 'all' && c.sportCategory !== f.category) return false;
         if (f.country !== 'all' && c.country !== f.country) return false;
         if (f.language !== 'all' && !(c.languages || []).includes(f.language)) return false;
         if (f.q) {
-          const hay = `${c.name} ${getCountryName(c.country)} ${(c.languages || []).join(' ')} ${c.category || ''}`.toLowerCase();
+          const hay = `${c.name} ${getCountryName(c.country)} ${(c.languages || []).join(' ')} ${c.category || ''} ${c.sportCategory || ''}`.toLowerCase();
           if (!hay.includes(f.q)) return false;
         }
         return true;
@@ -1302,7 +1354,7 @@
       const all = filtered(f);
 
       const sports = all.slice(0, 12);
-      const focused = f.q || f.country !== 'all' || f.language !== 'all' || f.favOnly;
+      const focused = f.q || (f.category && f.category !== 'all') || f.country !== 'all' || f.language !== 'all' || f.favOnly;
 
       els.grids.sports.parentElement.style.display = focused ? 'none' : '';
 
@@ -1393,6 +1445,48 @@
     }
 
     function populateFilters() {
+      const catCounts = {
+        all: channels.length,
+        football: 0,
+        cricket: 0,
+        racing: 0,
+        basketball: 0,
+        tennis: 0,
+        combat: 0,
+        hockey: 0,
+        baseball: 0,
+        rugby: 0,
+        golf: 0,
+        general: 0,
+      };
+      channels.forEach((c) => {
+        if (catCounts[c.sportCategory] !== undefined) catCounts[c.sportCategory]++;
+        else catCounts.general++;
+      });
+
+      const catLabels = {
+        all: `⚡ All Sport Categories (${catCounts.all})`,
+        football: `⚽ Football / Soccer (${catCounts.football})`,
+        cricket: `🏏 Cricket (${catCounts.cricket})`,
+        racing: `🏎️ Motorsport & F1 (${catCounts.racing})`,
+        basketball: `🏀 Basketball (${catCounts.basketball})`,
+        tennis: `🎾 Tennis (${catCounts.tennis})`,
+        combat: `🥊 Combat / UFC & MMA (${catCounts.combat})`,
+        hockey: `🏒 Hockey (${catCounts.hockey})`,
+        baseball: `⚾ Baseball (${catCounts.baseball})`,
+        rugby: `🏉 Rugby & NFL (${catCounts.rugby})`,
+        golf: `⛳ Golf (${catCounts.golf})`,
+        general: `🏆 General Sports (${catCounts.general})`,
+      };
+
+      [els.category, els.heroCategory].filter(Boolean).forEach((sel) => {
+        const currentVal = sel.value || 'all';
+        sel.innerHTML = Object.entries(catLabels)
+          .map(([key, label]) => `<option value="${key}">${label}</option>`)
+          .join('');
+        sel.value = currentVal;
+      });
+
       els.country.innerHTML = '<option value="all">All countries</option>';
       els.language.innerHTML = '<option value="all">All languages</option>';
 
@@ -1519,6 +1613,21 @@
         el.addEventListener('input', () => renderAll(true));
         el.addEventListener('change', () => renderAll(true));
       });
+
+      if (els.category && els.heroCategory) {
+        els.category.addEventListener('change', () => {
+          els.heroCategory.value = els.category.value;
+          renderAll(true);
+        });
+        els.heroCategory.addEventListener('change', () => {
+          els.category.value = els.heroCategory.value;
+          renderAll(true);
+          const rowAll = document.getElementById('rowAll');
+          if (rowAll) rowAll.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      } else if (els.category) {
+        els.category.addEventListener('change', () => renderAll(true));
+      }
 
       els.favoritesToggle.addEventListener('click', () => {
         const pressed = els.favoritesToggle.getAttribute('aria-pressed') === 'true';
@@ -1688,7 +1797,15 @@
           .filter(Boolean);
         ch.languages = languages;
         ch.language = languages[0] || 'Unknown';
+        ch.sportCategory = getSportCategory(ch);
       });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('category');
+      if (catParam) {
+        if (els.category) els.category.value = catParam;
+        if (els.heroCategory) els.heroCategory.value = catParam;
+      }
 
       populateFilters();
       renderAll();

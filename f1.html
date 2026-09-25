@@ -260,17 +260,24 @@
         Watch high-speed motorsport action live online. Discover free-to-air Formula 1 Grand Prix coverage, MotoGP races, NASCAR Cup Series, WRC rally, and endurance events with zero subscription fees.
       </p>
 
-      <!-- Sport Category Navigation Subnav -->
-      <div class="flex flex-wrap justify-center items-center gap-1.5 max-w-[850px] mx-auto mb-4 text-xs font-semibold">
-        <span class="text-muted text-[11px] mr-1">Categories:</span>
-        <a href="/" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-muted hover:text-ink transition-colors">⚡ All Sports</a>
-        <a href="/guide.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-muted hover:text-ink transition-colors">📖 Guide</a>
-        <a href="/football.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors">⚽ Football</a>
-        <a href="/cricket.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors">🏏 Cricket</a>
-        <a href="/f1.html" class="px-2.5 py-1 rounded-full bg-primary text-white border border-primary shadow-sm font-bold">🏎️ F1 & Racing</a>
-        <a href="/basketball.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors">🏀 Basketball</a>
-        <a href="/tennis.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors">🎾 Tennis</a>
-        <a href="/combat.html" class="px-2.5 py-1 rounded-full bg-surface border border-edge hover:border-primary text-ink hover:text-primary transition-colors">🥊 Combat / UFC</a>
+      <!-- Category Dropdown Filter in Hero -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-[560px] mx-auto mb-4">
+        <label for="heroCategoryFilter" class="text-xs font-semibold text-muted flex items-center gap-1.5 whitespace-nowrap">
+          <span class="text-primary font-bold">Filter Category:</span>
+        </label>
+        <div class="relative w-full sm:w-auto flex-1 min-w-[240px] max-w-[340px]">
+          <select id="heroCategoryFilter" onchange="window.location.href = this.value"
+            class="w-full appearance-none py-2 pl-3.5 pr-8 rounded-xl border border-edge bg-surface text-ink text-xs font-bold cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft shadow-sm transition-all hover:border-primary/60">
+            <option value="/">⚡ All Sport Categories</option>
+            <option value="/football.html">⚽ Football / Soccer</option>
+            <option value="/cricket.html">🏏 Cricket</option>
+            <option value="/f1.html" selected>🏎️ Motorsport &amp; F1</option>
+            <option value="/basketball.html">🏀 Basketball</option>
+            <option value="/tennis.html">🎾 Tennis</option>
+            <option value="/combat.html">🥊 Combat / UFC &amp; MMA</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted text-[10px]">▼</div>
+        </div>
       </div>
 
       <div class="hero-stats flex justify-center gap-6 sm:gap-10 flex-wrap pt-2">
@@ -292,20 +299,35 @@
 
   <!-- Interactive Filters -->
   <section class="filters border-b border-edge bg-base sticky top-[57px] z-30 shadow-sm" aria-label="Channel Filters">
-    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:flex gap-2 sm:gap-3 sm:items-end">
-      <div class="filter-group flex flex-col gap-1 col-span-1 sm:flex-1">
+    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:grid-cols-3 lg:flex gap-2 sm:gap-3 sm:items-end">
+      <div class="filter-group flex flex-col gap-1 col-span-2 sm:col-span-1 lg:flex-1">
+        <label for="categoryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
+          Filter by Category
+        </label>
+        <select id="categoryFilter" onchange="window.location.href = this.value"
+          class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
+          <option value="/">⚡ All Categories</option>
+          <option value="/football.html">⚽ Football / Soccer</option>
+          <option value="/cricket.html">🏏 Cricket</option>
+          <option value="/f1.html" selected>🏎️ Motorsport &amp; F1</option>
+          <option value="/basketball.html">🏀 Basketball</option>
+          <option value="/tennis.html">🎾 Tennis</option>
+          <option value="/combat.html">🥊 Combat / UFC &amp; MMA</option>
+        </select>
+      </div>
+      <div class="filter-group flex flex-col gap-1 col-span-1 lg:flex-1">
         <label for="countryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">Country</label>
         <select id="countryFilter" class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
           <option value="all">All countries</option>
         </select>
       </div>
-      <div class="filter-group flex flex-col gap-1 col-span-1 sm:flex-1">
+      <div class="filter-group flex flex-col gap-1 col-span-1 lg:flex-1">
         <label for="languageFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">Language</label>
         <select id="languageFilter" class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
           <option value="all">All languages</option>
         </select>
       </div>
-      <button id="favoritesToggle" class="pill-toggle col-span-2 sm:col-span-auto sm:ml-auto w-full sm:w-auto py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all flex items-center justify-center gap-1.5" aria-pressed="false">
+      <button id="favoritesToggle" class="pill-toggle col-span-2 sm:col-span-auto lg:w-auto py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all flex items-center justify-center gap-1.5 flex-none" aria-pressed="false">
         <span class="text-yellow-400">★</span> Favorites
       </button>
     </div>
