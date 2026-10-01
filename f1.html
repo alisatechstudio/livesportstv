@@ -15,6 +15,13 @@
   <meta name="author" content="LiveSportsTV" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://livesportstv.store/f1.html" />
+  <!-- Ultra-Fast Channel & Asset Preload -->
+  <link rel="preload" href="./verified-streams.json" as="fetch" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://flagcdn.com" crossorigin />
+  <link rel="dns-prefetch" href="https://flagcdn.com" />
+
 
   <!-- Favicon & Mobile Icons -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236d5efc'/%3E%3Cstop offset='100%25' stop-color='%2338e1ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpolygon points='12,9 24,16 12,23' fill='white'/%3E%3C/svg%3E" />
@@ -584,7 +591,7 @@
       const countryName = getCountryName(channel.country);
 
       const logoEl = logo
-        ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="${channel.name} logo" width="32" height="32" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#dc2626,#f87171)\\'>${initials}</div>'">`
+        ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="${channel.name} logo" width="32" height="32" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#dc2626,#f87171)\\'>${initials}</div>'">`
         : `<div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none" style="background:linear-gradient(135deg,#dc2626,#f87171)">${initials}</div>`;
 
       return `
@@ -734,6 +741,27 @@
     }
 
     let hls = null;
+        const prewarmedHosts = new Set();
+    function prewarmStream(url) {
+      if (!url) return;
+      try {
+        const host = new URL(url).origin;
+        if (!prewarmedHosts.has(host)) {
+          prewarmedHosts.add(host);
+          const dnsLink = document.createElement('link');
+          dnsLink.rel = 'dns-prefetch';
+          dnsLink.href = host;
+          document.head.appendChild(dnsLink);
+
+          const preconnLink = document.createElement('link');
+          preconnLink.rel = 'preconnect';
+          preconnLink.href = host;
+          preconnLink.crossOrigin = 'anonymous';
+          document.head.appendChild(preconnLink);
+        }
+      } catch (e) {}
+    }
+
     function openPlayer(channel) {
       currentChannelId = channel.id;
       els.title.textContent = channel.name;
@@ -758,28 +786,67 @@
         return;
       }
 
+      prewarmStream(channel.streamUrl);
+
       const video = els.player;
       const streamUrl = channel.streamUrl;
 
+      video.preload = 'auto';
+      video.playsInline = true;
+
+      const onFastPlay = () => hideOverlay();
+      video.addEventListener('playing', onFastPlay, { once: true });
+      video.addEventListener('loadeddata', onFastPlay, { once: true });
+      video.addEventListener('timeupdate', () => {
+        if (video.currentTime > 0) hideOverlay();
+      }, { once: true });
+
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamUrl;
-        video.play().catch(() => {});
-        video.addEventListener('loadeddata', () => hideOverlay(), { once: true });
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            video.muted = true;
+            video.play().catch(() => {});
+          });
+        }
         video.addEventListener('error', () => {
           showOverlay('Broadcaster restricts direct in-browser playback (CORS security) or feed is geo-blocked.', true, streamUrl);
         }, { once: true });
       } else if (window.Hls && Hls.isSupported()) {
         hls = new Hls({
-          manifestLoadTimeout: 12000,
+          enableWorker: true,
+          lowLatencyMode: true,
+          startFragPrefetch: true,
+          maxBufferLength: 8,
+          maxMaxBufferLength: 15,
+          maxBufferSize: 20 * 1000 * 1000,
+          backBufferLength: 15,
+          liveSyncDurationCount: 2,
+          liveMaxLatencyDurationCount: 4,
+          manifestLoadingTimeOut: 10000,
           manifestLoadingMaxRetry: 2,
+          levelLoadingTimeOut: 8000,
           levelLoadingMaxRetry: 2,
+          fragLoadingTimeOut: 10000,
           fragLoadingMaxRetry: 2,
-          enableWorker: true
+          capLevelToPlayerSize: true,
+          fastSwitch: true,
+          progressive: true,
+          autoStartLoad: true
         });
         hls.loadSource(streamUrl);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play().catch(() => {});
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              video.muted = true;
+              video.play().catch(() => {});
+            });
+          }
+        });
+        hls.on(Hls.Events.FRAG_BUFFERED, () => {
           hideOverlay();
         });
         hls.on(Hls.Events.ERROR, (_, data) => {
@@ -867,6 +934,26 @@
       if (els.playerNext) els.playerNext.addEventListener('click', () => playAdjacentChannel(1));
       if (els.prevOverlayBtn) els.prevOverlayBtn.addEventListener('click', () => playAdjacentChannel(-1));
       if (els.nextOverlayBtn) els.nextOverlayBtn.addEventListener('click', () => playAdjacentChannel(1));
+
+      const container = document.querySelector('.container') || document.querySelector('main');
+      if (container) {
+        container.addEventListener('mouseover', (e) => {
+          const card = e.target.closest('.channel-card');
+          if (card && card.dataset.id) {
+            const ch = channels.find((c) => c.id === card.dataset.id);
+            if (ch && ch.streamUrl) prewarmStream(ch.streamUrl);
+          }
+        }, { passive: true });
+
+        container.addEventListener('touchstart', (e) => {
+          const card = e.target.closest('.channel-card');
+          if (card && card.dataset.id) {
+            const ch = channels.find((c) => c.id === card.dataset.id);
+            if (ch && ch.streamUrl) prewarmStream(ch.streamUrl);
+          }
+        }, { passive: true });
+      }
+    
 
       document.querySelector('.container').addEventListener('click', (e) => {
         const favBtn = e.target.closest('[data-fav]');
