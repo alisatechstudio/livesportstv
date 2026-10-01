@@ -606,7 +606,7 @@
       const categoryLabel = channel.sportCategory && channel.sportCategory !== 'general' ? channel.sportCategory : 'Cricket';
 
       const logoImg = logo
-        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\\\'w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm\\\' style=\\\background:linear-gradient(135deg,#059669,#34d399)\\\'>${initials}</div>'">`
+        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\\'w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm\\' style=\\'background:linear-gradient(135deg,#059669,#34d399)\\'>${initials}</div>'">`
         : `<div class="w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm" style="background:linear-gradient(135deg,#059669,#34d399)">${initials}</div>`;
 
       const statusBadge = channel.verified
