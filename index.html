@@ -764,10 +764,24 @@
         </button>
         <video id="player" controls playsinline preload="metadata" class="w-full h-full block bg-black"></video>
         <div
-          class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/75 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10"
+          class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/85 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10"
           id="videoOverlay">
           <div class="spinner w-9 h-9 rounded-full border-[3px] border-white/20 border-t-accent animate-spin" aria-hidden="true"></div>
-          <span id="overlayText">Connecting to broadcast stream…</span>
+          <span id="overlayText" class="max-w-[480px] leading-relaxed">Connecting to broadcast stream…</span>
+          <div id="overlayErrorActions" class="hidden flex flex-wrap gap-2.5 justify-center mt-2">
+            <a id="vlcFallbackBtn" href="#" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md">
+              ▶ Open in VLC Player
+            </a>
+            <button id="copyStreamBtn" class="px-3.5 py-2 bg-surface border border-edge hover:bg-card text-ink font-semibold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+              📋 Copy Stream URL
+            </button>
+            <a id="directStreamBtn" href="#" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg text-xs flex items-center gap-1.5 transition-all">
+              🌐 Direct Feed
+            </a>
+            <button id="retryStreamBtn" class="px-3.5 py-2 bg-card border border-edge hover:bg-card-hover text-ink font-semibold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+              🔄 Retry
+            </button>
+          </div>
         </div>
       </div>
 
@@ -776,7 +790,13 @@
           <h3 id="playerTitle" class="m-0 mb-1 text-lg sm:text-xl font-bold">Select a channel</h3>
           <p id="playerDesc" class="m-0 text-muted text-xs sm:text-sm leading-relaxed"></p>
         </div>
-        <div class="player-badges flex gap-2 flex-wrap">
+        <div class="player-badges flex gap-2 flex-wrap items-center">
+          <button id="quickCopyBtn" class="px-2.5 py-1.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer flex items-center gap-1 transition-colors" title="Copy .m3u8 streaming link">
+            📋 <span id="quickCopyText">Copy Link</span>
+          </button>
+          <a id="quickVlcBtn" href="#" class="px-2.5 py-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold flex items-center gap-1 transition-colors" title="Open directly in VLC Media Player">
+            ▶ VLC
+          </a>
           <span
             class="badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 bg-primary-soft text-ink text-xs font-semibold">
             <img id="playerFlag" alt="Country Flag" class="flag w-5 h-[14px] rounded-sm object-cover flex-none" />
@@ -1211,6 +1231,10 @@
         ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="${channel.name} channel logo" width="32" height="32" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\\'>${initials}</div>'">`
         : `<div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
+      const statusBadge = channel.verified
+        ? `<span class="inline-flex items-center gap-[4px] text-[10px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" aria-hidden="true"></span>⚡ Verified</span>`
+        : `<span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald" aria-hidden="true"></span>Live</span>`;
+
       return `
           <article class="channel-card group relative border border-edge bg-card rounded-xl p-2.5 cursor-pointer transition-all duration-160 flex flex-col gap-2 hover:-translate-y-0.5 hover:border-[color:color-mix(in_srgb,var(--primary)_40%,transparent)] hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
             <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-2 right-2 w-7 h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-xs flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
@@ -1223,7 +1247,7 @@
                 <img class="w-4 h-[12px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="${countryName} flag" width="16" height="12" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'"> ${countryName}
               </span>
               <span class="text-muted text-[11px] bg-[var(--lang-bg)] px-1.5 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : ''}</span>
-              <span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald" aria-hidden="true"></span>Live</span>
+              ${statusBadge}
             </div>
           </article>`;
     }
@@ -1437,6 +1461,7 @@
       }
     }
 
+    const VERIFIED_URL = './verified-streams.json';
     let hls = null;
 
     function openPlayer(channel) {
@@ -1450,6 +1475,9 @@
       els.flag.referrerPolicy = 'no-referrer';
       els.flag.style.display = '';
 
+      const quickVlc = document.getElementById('quickVlcBtn');
+      if (quickVlc) quickVlc.href = 'vlc://' + channel.streamUrl;
+
       showOverlay('Connecting to broadcast stream…');
 
       if (hls) {
@@ -1459,7 +1487,7 @@
       els.player.removeAttribute('src');
 
       if (!channel.streamUrl) {
-        showOverlay('This stream is unavailable right now.', true);
+        showOverlay('This stream is unavailable right now.', true, '');
         return;
       }
 
@@ -1468,11 +1496,16 @@
         els.player.play().catch(() => { });
         els.player.addEventListener('loadeddata', () => hideOverlay(), { once: true });
         els.player.addEventListener('error', () => {
-          markStreamBroken(currentChannelId);
-          showOverlay('This stream is currently unavailable or geo-blocked.', true);
+          showOverlay('Broadcaster restricts in-browser playback (CORS security) or feed is geo-blocked.', true, channel.streamUrl);
         }, { once: true });
       } else if (window.Hls && Hls.isSupported()) {
-        hls = new Hls({ manifestLoadTimeout: 15000 });
+        hls = new Hls({
+          manifestLoadTimeout: 12000,
+          manifestLoadingMaxRetry: 2,
+          levelLoadingMaxRetry: 2,
+          fragLoadingMaxRetry: 2,
+          enableWorker: true
+        });
         hls.loadSource(channel.streamUrl);
         hls.attachMedia(els.player);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -1481,17 +1514,18 @@
         });
         hls.on(Hls.Events.ERROR, (e, data) => {
           if (data.fatal) {
-            let msg = 'This stream appears to be offline or unavailable.';
+            let msg = 'Stream playback interrupted. The broadcaster restricts direct in-browser playback (CORS policy).';
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code === 403) {
-              msg = 'Access forbidden (403). The broadcaster restricts this stream to specific regions.';
+              msg = 'Access restricted (403). The broadcaster limits this stream to specific regions.';
+            } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+              msg = 'In-browser playback blocked by broadcaster CORS security policy.';
             }
-            markStreamBroken(currentChannelId);
-            showOverlay(msg, true);
+            showOverlay(msg, true, channel.streamUrl);
             hls.destroy();
           }
         });
       } else {
-        showOverlay('Your browser cannot play this stream natively.', true);
+        showOverlay('Your browser cannot play this stream natively.', true, channel.streamUrl);
       }
 
       els.modal.classList.add('open');
@@ -1509,13 +1543,33 @@
       els.player.removeAttribute('src');
     }
 
-    function showOverlay(text, isError = false) {
+    function showOverlay(text, isError = false, streamUrl = '') {
       els.overlayText.textContent = text;
       els.overlay.classList.toggle('error', isError);
+      const actionsEl = document.getElementById('overlayErrorActions');
+      if (actionsEl) {
+        if (isError && streamUrl) {
+          actionsEl.classList.remove('hidden');
+          actionsEl.classList.add('flex');
+          const vlcBtn = document.getElementById('vlcFallbackBtn');
+          const directBtn = document.getElementById('directStreamBtn');
+          if (vlcBtn) vlcBtn.href = 'vlc://' + streamUrl;
+          if (directBtn) directBtn.href = streamUrl;
+        } else {
+          actionsEl.classList.add('hidden');
+          actionsEl.classList.remove('flex');
+        }
+      }
       els.overlay.classList.add('visible');
     }
+
     function hideOverlay() {
       els.overlay.classList.remove('visible');
+      const actionsEl = document.getElementById('overlayErrorActions');
+      if (actionsEl) {
+        actionsEl.classList.add('hidden');
+        actionsEl.classList.remove('flex');
+      }
     }
 
     function playAdjacentChannel(direction) {
@@ -1546,6 +1600,35 @@
       if (els.playerNext) els.playerNext.addEventListener('click', () => playAdjacentChannel(1));
       if (els.prevOverlayBtn) els.prevOverlayBtn.addEventListener('click', () => playAdjacentChannel(-1));
       if (els.nextOverlayBtn) els.nextOverlayBtn.addEventListener('click', () => playAdjacentChannel(1));
+
+      // Quick copy button in player-meta & overlay copy button
+      const copyBtns = [document.getElementById('copyStreamBtn'), document.getElementById('quickCopyBtn')].filter(Boolean);
+      copyBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ch = channels.find(c => c.id === currentChannelId);
+          if (ch && ch.streamUrl) {
+            navigator.clipboard.writeText(ch.streamUrl).then(() => {
+              const txtEl = document.getElementById('quickCopyText');
+              if (txtEl) txtEl.textContent = 'Copied!';
+              btn.textContent = '✓ Copied!';
+              setTimeout(() => {
+                if (txtEl) txtEl.textContent = 'Copy Link';
+                btn.textContent = '📋 Copy Link';
+              }, 2000);
+            }).catch(() => {
+              prompt('Copy stream URL:', ch.streamUrl);
+            });
+          }
+        });
+      });
+
+      const retryBtn = document.getElementById('retryStreamBtn');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          const ch = channels.find(c => c.id === currentChannelId);
+          if (ch) openPlayer(ch);
+        });
+      }
 
       document.querySelector('.container').addEventListener('click', (e) => {
         const favBtn = e.target.closest('[data-fav]');
@@ -1605,25 +1688,6 @@
       }
     }
 
-    const BROKEN_STREAMS_KEY = 'livesports_broken_streams_v1';
-    function getBrokenStreamIds() {
-      try {
-        return new Set(JSON.parse(localStorage.getItem(BROKEN_STREAMS_KEY) || '[]'));
-      } catch (e) {
-        return new Set();
-      }
-    }
-    function markStreamBroken(channelId) {
-      if (!channelId) return;
-      try {
-        const list = JSON.parse(localStorage.getItem(BROKEN_STREAMS_KEY) || '[]');
-        if (!list.includes(channelId)) {
-          list.push(channelId);
-          localStorage.setItem(BROKEN_STREAMS_KEY, JSON.stringify(list));
-        }
-      } catch (e) {}
-    }
-
     const GEO_KEY = 'livesports_visitor_country';
     let visitorCountry = localStorage.getItem(GEO_KEY) || '';
 
@@ -1667,7 +1731,7 @@
       return visitorCountry;
     }
 
-    const CACHE_KEY = 'livesports_channels_v3';
+    const CACHE_KEY = 'livesports_channels_v5';
     const CACHE_TTL = 2 * 60 * 60 * 1000; // 2 hours
 
     function getCachedChannels() {
@@ -1689,7 +1753,6 @@
     function parseM3U(m3uText, currentVisitorCountry) {
       const lines = m3uText.split('\n');
       const result = [];
-      const brokenIds = getBrokenStreamIds();
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
@@ -1704,8 +1767,8 @@
             break;
           }
         }
-        // 1. Filter out non-streaming / invalid protocols
-        if (!streamUrl || !/^https?:\/\//i.test(streamUrl)) continue;
+        // 1. Only HTTPS streaming URLs (prevents browser Mixed Content blocking)
+        if (!streamUrl || !/^https:\/\//i.test(streamUrl)) continue;
 
         const groupMatch = line.match(/group-title="([^"]*)"/);
         const category = groupMatch ? groupMatch[1] : 'Sports';
@@ -1713,13 +1776,16 @@
         const tvgIdMatch = line.match(/tvg-id="([^"]*)"/);
         const channelId = tvgIdMatch ? tvgIdMatch[1] : 'ch-' + result.length;
 
-        // 2. Filter out known dead streams
-        if (brokenIds.has(channelId)) continue;
-
         const lastComma = line.lastIndexOf(',');
         let name = lastComma !== -1 ? line.slice(lastComma + 1).trim() : 'Unknown';
 
-        // 3. Filter geo-blocked channels based on visitor location
+        // Clean crawler / user-agent clutter in channel name if any
+        if (name.includes('like Gecko)')) {
+          const parts = name.split(',');
+          name = parts[parts.length - 1].trim();
+        }
+
+        // 2. Filter geo-blocked channels based on visitor location
         const isGeoBlocked = /\[geo-blocked\]/i.test(line) || /\[geo-blocked\]/i.test(name);
 
         const logoMatch = line.match(/tvg-logo="([^"]*)"/);
@@ -1733,7 +1799,6 @@
           continue;
         }
 
-        // Clean display name
         name = name.replace(/\[geo-blocked\]/gi, '').trim();
 
         result.push({
@@ -1745,6 +1810,7 @@
           language: 'Unknown',
           logo: logo,
           streamUrl: streamUrl,
+          verified: false,
           isGeoBlocked: isGeoBlocked
         });
       }
@@ -1757,6 +1823,12 @@
       const yearEl = document.getElementById('currentYear');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+      // Clear legacy broken stream bans
+      try {
+        localStorage.removeItem('livesports_broken_streams_v1');
+        localStorage.removeItem('livesports_broken_streams');
+      } catch (e) {}
+
       loadFavorites();
       setupTheme();
       setupCookieConsent();
@@ -1764,14 +1836,35 @@
       setupQuickFilters();
       bindEvents();
 
-      // Step 1: Detect visitor location (cached or async)
+      // Step 1: Detect visitor location
       visitorCountry = await detectVisitorLocation();
 
-      // Step 2: Instant Cache Hydration (< 5ms)
+      // Step 2: Instant Hydration with 100+ Verified Streams (< 10ms)
+      try {
+        const verifiedRes = await fetch(VERIFIED_URL);
+        if (verifiedRes.ok) {
+          const verifiedData = await verifiedRes.json();
+          if (Array.isArray(verifiedData) && verifiedData.length > 0) {
+            channels = verifiedData;
+            populateFilters();
+            renderAll();
+          }
+        }
+      } catch (e) {
+        console.warn('Verified streams load note:', e);
+      }
+
+      // Step 3: Hydrate Cache
       const cached = getCachedChannels();
-      let hasRenderedCache = false;
+      let hasRenderedCache = channels.length > 0;
       if (cached && cached.channels && cached.channels.length > 0 && cached.visitorCountry === visitorCountry) {
-        channels = cached.channels;
+        const seenUrls = new Set(channels.map(c => c.streamUrl));
+        cached.channels.forEach(ch => {
+          if (!seenUrls.has(ch.streamUrl)) {
+            channels.push(ch);
+            seenUrls.add(ch.streamUrl);
+          }
+        });
         countryData = cached.countryData || countryData;
         langName = cached.langName || langName;
         populateFilters();
@@ -1779,35 +1872,18 @@
         hasRenderedCache = true;
       }
 
-      // Check if cache is fresh; if so, skip re-fetching
       const isCacheFresh = cached && (Date.now() - cached.timestamp < CACHE_TTL);
       if (isCacheFresh && hasRenderedCache) {
         return;
       }
 
-      // Step 3: Fetch fresh data in parallel
-      if (!hasRenderedCache) {
-        const allGrids = Object.values(els.grids);
-        allGrids.forEach((g) => {
-          g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading live sports channels…</div>';
-        });
-      }
-
+      // Step 4: Background fetch fresh directory
       try {
         const [m3uText, countriesData, langsData] = await Promise.all([
           fetchM3U(),
           fetchJSON(COUNTRIES_URL),
           fetchJSON(LANGUAGES_URL)
         ]);
-
-        if (!m3uText) {
-          if (!hasRenderedCache) {
-            Object.values(els.grids).forEach((g) => {
-              g.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Could not load channel data. Please refresh.</div>';
-            });
-          }
-          return;
-        }
 
         if (countriesData) {
           countriesData.forEach((c) => {
@@ -1821,34 +1897,38 @@
           });
         }
 
-        channels = parseM3U(m3uText, visitorCountry).filter(isSportChannel);
+        if (m3uText) {
+          const parsed = parseM3U(m3uText, visitorCountry).filter(isSportChannel);
+          parsed.forEach((ch) => {
+            const langsForCountry = (countryData[ch.country] || {}).languages || [];
+            const languages = langsForCountry
+              .map((code) => langName[code] || code)
+              .filter(Boolean);
+            ch.languages = languages;
+            ch.language = languages[0] || 'Unknown';
+            ch.sportCategory = getSportCategory(ch);
+          });
 
-        channels.forEach((ch) => {
-          const langsForCountry = (countryData[ch.country] || {}).languages || [];
-          const languages = langsForCountry
-            .map((code) => langName[code] || code)
-            .filter(Boolean);
-          ch.languages = languages;
-          ch.language = languages[0] || 'Unknown';
-          ch.sportCategory = getSportCategory(ch);
-        });
+          // Merge: verified streams always stay first!
+          const seenUrls = new Set(channels.map(c => c.streamUrl));
+          parsed.forEach(ch => {
+            if (!seenUrls.has(ch.streamUrl)) {
+              channels.push(ch);
+              seenUrls.add(ch.streamUrl);
+            }
+          });
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const catParam = urlParams.get('category');
-        if (catParam && els.category) {
-          els.category.value = catParam;
+          populateFilters();
+          renderAll();
+
+          saveChannelsCache({
+            timestamp: Date.now(),
+            visitorCountry: visitorCountry,
+            channels: channels,
+            countryData: countryData,
+            langName: langName
+          });
         }
-
-        populateFilters();
-        renderAll();
-
-        saveChannelsCache({
-          timestamp: Date.now(),
-          visitorCountry: visitorCountry,
-          channels: channels,
-          countryData: countryData,
-          langName: langName
-        });
       } catch (err) {
         console.error('Failed to load fresh sports streams:', err);
       }

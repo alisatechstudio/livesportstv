@@ -390,9 +390,23 @@
         <button id="prevOverlayBtn" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 cursor-pointer flex items-center justify-center text-xl opacity-0 group-hover:opacity-100 transition-all" aria-label="Previous channel">‹</button>
         <button id="nextOverlayBtn" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 cursor-pointer flex items-center justify-center text-xl opacity-0 group-hover:opacity-100 transition-all" aria-label="Next channel">›</button>
         <video id="player" controls playsinline preload="metadata" class="w-full h-full block bg-black"></video>
-        <div class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/75 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10" id="videoOverlay">
+        <div class="video-overlay absolute inset-0 flex flex-col items-center justify-center gap-3.5 bg-black/85 text-muted text-sm opacity-0 invisible transition-opacity duration-200 text-center p-5 z-10" id="videoOverlay">
           <div class="spinner w-9 h-9 rounded-full border-[3px] border-white/20 border-t-accent animate-spin" aria-hidden="true"></div>
-          <span id="overlayText">Connecting to basketball broadcast…</span>
+          <span id="overlayText" class="max-w-[480px] leading-relaxed">Connecting to broadcast stream…</span>
+          <div id="overlayErrorActions" class="hidden flex flex-wrap gap-2.5 justify-center mt-2">
+            <a id="vlcFallbackBtn" href="#" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md">
+              ▶ Open in VLC Player
+            </a>
+            <button id="copyStreamBtn" class="px-3.5 py-2 bg-surface border border-edge hover:bg-card text-ink font-semibold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+              📋 Copy Stream URL
+            </button>
+            <a id="directStreamBtn" href="#" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg text-xs flex items-center gap-1.5 transition-all">
+              🌐 Direct Feed
+            </a>
+            <button id="retryStreamBtn" class="px-3.5 py-2 bg-card border border-edge hover:bg-card-hover text-ink font-semibold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+              🔄 Retry
+            </button>
+          </div>
         </div>
       </div>
       <div class="player-meta flex justify-between items-start gap-4 mt-3 flex-wrap">
@@ -400,7 +414,13 @@
           <h3 id="playerTitle" class="m-0 mb-1 text-lg sm:text-xl font-bold">Select a channel</h3>
           <p id="playerDesc" class="m-0 text-muted text-xs sm:text-sm leading-relaxed"></p>
         </div>
-        <div class="player-badges flex gap-2 flex-wrap">
+        <div class="player-badges flex gap-2 flex-wrap items-center">
+          <button id="quickCopyBtn" class="px-2.5 py-1.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer flex items-center gap-1 transition-colors" title="Copy .m3u8 streaming link">
+            📋 <span id="quickCopyText">Copy Link</span>
+          </button>
+          <a id="quickVlcBtn" href="#" class="px-2.5 py-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold flex items-center gap-1 transition-colors" title="Open directly in VLC Media Player">
+            ▶ VLC
+          </a>
           <span class="badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 bg-primary-soft text-ink text-xs font-semibold">
             <img id="playerFlag" alt="Country Flag" class="flag w-5 h-[14px] rounded-sm object-cover flex-none" />
             <span id="playerCountry">—</span>
@@ -579,7 +599,7 @@
               <img class="w-4 h-[12px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="${countryName} flag" width="16" height="12" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'"> ${countryName}
             </span>
             <span class="text-muted text-[11px] bg-[var(--lang-bg)] px-1.5 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : 'Live'}</span>
-            <span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>
+            ${channel.verified ? '<span class="inline-flex items-center gap-[4px] text-[10px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>⚡ Verified</span>' : '<span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>'}
           </div>
         </article>`;
     }
@@ -720,47 +740,91 @@
       els.countryEl.textContent = getCountryName(channel.country);
       els.flag.src = getCountryFlag(channel.country, true);
       els.categoryEl.textContent = channel.category || 'Basketball';
-      els.desc.textContent = `${channel.name} is a live sports broadcast channel from ${getCountryName(channel.country)}. Transmitting via HLS.`;
+      els.desc.textContent = `${channel.name} is a live broadcast channel from ${getCountryName(channel.country)}. Transmitting via HLS.`;
+
+      const quickVlc = document.getElementById('quickVlcBtn');
+      if (quickVlc) quickVlc.href = 'vlc://' + channel.streamUrl;
 
       els.modal.classList.add('open');
       els.modal.setAttribute('aria-hidden', 'false');
 
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (hls) { hls.destroy(); hls = null; }
+      els.player.removeAttribute('src');
 
-      els.overlay.classList.add('visible');
-      els.overlay.classList.remove('error');
-      els.overlayText.textContent = `Connecting to ${channel.name}…`;
+      showOverlay(`Connecting to ${channel.name}…`);
+
+      if (!channel.streamUrl) {
+        showOverlay('This stream is unavailable right now.', true, '');
+        return;
+      }
 
       const video = els.player;
       const streamUrl = channel.streamUrl;
 
-      if (Hls.isSupported() && !(!isMobile && video.canPlayType('application/vnd.apple.mpegurl') && !streamUrl.includes('.m3u8'))) {
-        hls = new Hls({ enableWorker: true, lowLatencyMode: true, manifestLoadingTimeOut: 12000 });
+      if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = streamUrl;
+        video.play().catch(() => {});
+        video.addEventListener('loadeddata', () => hideOverlay(), { once: true });
+        video.addEventListener('error', () => {
+          showOverlay('Broadcaster restricts direct in-browser playback (CORS security) or feed is geo-blocked.', true, streamUrl);
+        }, { once: true });
+      } else if (window.Hls && Hls.isSupported()) {
+        hls = new Hls({
+          manifestLoadTimeout: 12000,
+          manifestLoadingMaxRetry: 2,
+          levelLoadingMaxRetry: 2,
+          fragLoadingMaxRetry: 2,
+          enableWorker: true
+        });
         hls.loadSource(streamUrl);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           video.play().catch(() => {});
-          els.overlay.classList.remove('visible');
+          hideOverlay();
         });
         hls.on(Hls.Events.ERROR, (_, data) => {
           if (data.fatal) {
-            markStreamBroken(currentChannelId);
-            els.overlay.classList.add('visible', 'error');
-            els.overlayText.textContent = 'Stream unavailable or geo-blocked. Try another channel.';
+            let msg = 'Stream playback interrupted. Broadcaster restricts direct in-browser playback (CORS policy).';
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code === 403) {
+              msg = 'Access restricted (403). The broadcaster limits this stream to specific regions.';
+            } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+              msg = 'In-browser playback blocked by broadcaster CORS security policy.';
+            }
+            showOverlay(msg, true, streamUrl);
+            hls.destroy();
           }
         });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = streamUrl;
-        video.addEventListener('loadedmetadata', () => {
-          video.play().catch(() => {});
-          els.overlay.classList.remove('visible');
-        }, { once: true });
-        video.addEventListener('error', () => {
-          markStreamBroken(currentChannelId);
-          els.overlay.classList.add('visible', 'error');
-          els.overlayText.textContent = 'Playback error or offline stream.';
-        }, { once: true });
+      } else {
+        showOverlay('Your browser cannot play this stream natively.', true, streamUrl);
+      }
+    }
+
+    function showOverlay(text, isError = false, streamUrl = '') {
+      els.overlayText.textContent = text;
+      els.overlay.classList.toggle('error', isError);
+      const actionsEl = document.getElementById('overlayErrorActions');
+      if (actionsEl) {
+        if (isError && streamUrl) {
+          actionsEl.classList.remove('hidden');
+          actionsEl.classList.add('flex');
+          const vlcBtn = document.getElementById('vlcFallbackBtn');
+          const directBtn = document.getElementById('directStreamBtn');
+          if (vlcBtn) vlcBtn.href = 'vlc://' + streamUrl;
+          if (directBtn) directBtn.href = streamUrl;
+        } else {
+          actionsEl.classList.add('hidden');
+          actionsEl.classList.remove('flex');
+        }
+      }
+      els.overlay.classList.add('visible');
+    }
+
+    function hideOverlay() {
+      els.overlay.classList.remove('visible');
+      const actionsEl = document.getElementById('overlayErrorActions');
+      if (actionsEl) {
+        actionsEl.classList.add('hidden');
+        actionsEl.classList.remove('flex');
       }
     }
 
@@ -980,16 +1044,46 @@
 
     async function init() {
       document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      try {
+        localStorage.removeItem('livesports_broken_streams_v1');
+        localStorage.removeItem('livesports_broken_streams');
+      } catch (e) {}
+
       loadFavorites();
       setupTheme();
       bindEvents();
 
       visitorCountry = await detectVisitorLocation();
 
+      // Step 1: Load Verified Streams (< 10ms)
+      try {
+        const verifiedRes = await fetch('./verified-streams.json');
+        if (verifiedRes.ok) {
+          const verifiedData = await verifiedRes.json();
+          if (Array.isArray(verifiedData)) {
+            const matched = verifiedData.filter(c => c.sportCategory === 'basketball' || (typeof isBasketballChannel === 'function' && isBasketballChannel(c)));
+            if (matched.length > 0) {
+              channels = matched;
+              populateFilters();
+              renderAll();
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Verified streams load note:', e);
+      }
+
       const cached = getCachedChannels();
-      let hasRenderedCache = false;
+      let hasRenderedCache = channels.length > 0;
       if (cached && cached.channels && cached.channels.length > 0 && cached.visitorCountry === visitorCountry) {
-        channels = cached.channels;
+        const seenUrls = new Set(channels.map(c => c.streamUrl));
+        cached.channels.forEach(ch => {
+          if (!seenUrls.has(ch.streamUrl)) {
+            channels.push(ch);
+            seenUrls.add(ch.streamUrl);
+          }
+        });
         countryData = cached.countryData || countryData;
         langName = cached.langName || langName;
         populateFilters();
@@ -1002,18 +1096,12 @@
         return;
       }
 
-      if (!hasRenderedCache) {
-        els.grids.sports.innerHTML = '<div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading live basketball channels…</div>';
-      }
-
       try {
         const [m3uText, countriesData, langsData] = await Promise.all([
           fetchM3U(),
           fetchJSON(COUNTRIES_URL),
           fetchJSON(LANGUAGES_URL)
         ]);
-
-        if (!m3uText) return;
 
         if (countriesData) {
           countriesData.forEach((c) => { countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] }; });
@@ -1022,29 +1110,39 @@
           langsData.forEach((l) => { langName[l.code] = l.name; });
         }
 
-        const parsed = parseM3U(m3uText, visitorCountry);
-        const basketballList = parsed.filter(isBasketballChannel);
-        channels = basketballList.length >= 10 ? basketballList : parsed.slice(0, 100);
+        if (m3uText) {
+          const parsed = parseM3U(m3uText, visitorCountry);
+          const filteredList = typeof isBasketballChannel === 'function' ? parsed.filter(isBasketballChannel) : parsed;
+          const freshList = filteredList.length >= 5 ? filteredList : parsed.slice(0, 100);
 
-        channels.forEach((ch) => {
-          const langsForCountry = (countryData[ch.country] || {}).languages || [];
-          const languages = langsForCountry.map((code) => langName[code] || code).filter(Boolean);
-          ch.languages = languages;
-          ch.language = languages[0] || 'Unknown';
-        });
+          freshList.forEach((ch) => {
+            const langsForCountry = (countryData[ch.country] || {}).languages || [];
+            const languages = langsForCountry.map((code) => langName[code] || code).filter(Boolean);
+            ch.languages = languages;
+            ch.language = languages[0] || 'Unknown';
+          });
 
-        populateFilters();
-        renderAll();
+          const seenUrls = new Set(channels.map(c => c.streamUrl));
+          freshList.forEach(ch => {
+            if (!seenUrls.has(ch.streamUrl)) {
+              channels.push(ch);
+              seenUrls.add(ch.streamUrl);
+            }
+          });
 
-        saveChannelsCache({
-          timestamp: Date.now(),
-          visitorCountry: visitorCountry,
-          channels: channels,
-          countryData: countryData,
-          langName: langName
-        });
+          populateFilters();
+          renderAll();
+
+          saveChannelsCache({
+            timestamp: Date.now(),
+            visitorCountry: visitorCountry,
+            channels: channels,
+            countryData: countryData,
+            langName: langName
+          });
+        }
       } catch (e) {
-        console.error('Failed to refresh basketball channels:', e);
+        console.error('Failed to refresh channels:', e);
       }
     }
 
