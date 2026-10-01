@@ -305,15 +305,28 @@
       </div>
     </div>
   </section>
+  <!-- Main Content Area: Sidebar Filters & Channel Cards in One Row (Desktop) -->
+  <main class="w-full px-4 sm:px-6 lg:px-8 py-5 flex-1">
+    <div class="flex flex-col lg:flex-row gap-5 lg:gap-6 items-start">
 
-  <!-- Interactive Filters -->
-  <section class="filters border-b border-edge bg-base sticky top-[57px] z-30 shadow-sm" aria-label="Channel Filters">
-    <div class="w-full px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-2 sm:grid-cols-3 lg:flex gap-2 sm:gap-3 sm:items-end">
-      <div class="filter-group flex flex-col gap-1 col-span-2 sm:col-span-1 lg:flex-1">
-        <label for="categoryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
-          Filter by Category
-        </label>
-        <select id="categoryFilter" onchange="window.location.href = this.value"
+      <!-- Filters Sidebar (Row 1 on mobile, Left Column on desktop) -->
+      <aside class="filters-sidebar w-full lg:w-56 xl:w-64 flex-none lg:sticky lg:top-[76px] z-20" aria-label="Channel Filters">
+        <div class="bg-card border border-edge rounded-2xl p-4 shadow-sm space-y-3.5">
+          <div class="flex items-center justify-between pb-2.5 border-b border-edge">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-ink flex items-center gap-2 m-0">
+              <span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true"></span>
+              Filters
+            </h2>
+            <span class="text-[10px] text-muted font-medium uppercase tracking-wider">Directory</span>
+          </div>
+
+          <div class="grid grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3">
+            <!-- Category Filter -->
+            <div class="filter-group flex flex-col gap-1 col-span-2 lg:col-span-1">
+              <label for="categoryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
+                Category
+              </label>
+              <select id="categoryFilter" onchange="window.location.href = this.value"
           class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink font-[inherit] text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
           <option value="/">⚡ All Categories</option>
           <option value="/football.html">⚽ Football / Soccer</option>
@@ -323,27 +336,40 @@
           <option value="/tennis.html">🎾 Tennis</option>
           <option value="/combat.html">🥊 Combat / UFC &amp; MMA</option>
         </select>
-      </div>
-      <div class="filter-group flex flex-col gap-1 col-span-1 lg:flex-1">
-        <label for="countryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">Country</label>
-        <select id="countryFilter" class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
-          <option value="all">All countries</option>
-        </select>
-      </div>
-      <div class="filter-group flex flex-col gap-1 col-span-1 lg:flex-1">
-        <label for="languageFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">Language</label>
-        <select id="languageFilter" class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft">
-          <option value="all">All languages</option>
-        </select>
-      </div>
-      <button id="favoritesToggle" class="pill-toggle col-span-2 sm:col-span-auto lg:w-auto py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all flex items-center justify-center gap-1.5 flex-none" aria-pressed="false">
-        <span class="text-yellow-400">★</span> Favorites
-      </button>
-    </div>
-  </section>
+            </div>
 
-  <!-- Channel Grid & Core Main Content -->
-  <main class="w-full px-4 sm:px-6 lg:px-8 py-5 flex-1">
+            <!-- Country Filter -->
+            <div class="filter-group flex flex-col gap-1 col-span-1">
+              <label for="countryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
+                Country
+              </label>
+              <select id="countryFilter" class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft transition-all">
+                <option value="all">All countries</option>
+              </select>
+            </div>
+
+            <!-- Language Filter -->
+            <div class="filter-group flex flex-col gap-1 col-span-1">
+              <label for="languageFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
+                Language
+              </label>
+              <select id="languageFilter" class="w-full py-1.5 px-2.5 rounded-lg border border-edge bg-surface text-ink text-xs cursor-pointer focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-soft transition-all">
+                <option value="all">All languages</option>
+              </select>
+            </div>
+
+            <!-- Favorites Toggle -->
+            <div class="col-span-2 lg:col-span-1 pt-0.5">
+              <button id="favoritesToggle" class="pill-toggle w-full py-1.5 px-3.5 rounded-lg border border-edge bg-surface hover:bg-card text-ink text-xs font-semibold cursor-pointer transition-all duration-160 flex items-center justify-center gap-1.5" aria-pressed="false">
+                <span class="text-yellow-400">★</span> Favorites
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Channel Grid & Directory Content Area -->
+      <div class="channels-content flex-1 min-w-0 w-full space-y-6">
 
     <!-- Featured Motorsport Channels Section -->
     <section class="row mb-6" id="rowSports" aria-labelledby="featuredHeading">
@@ -387,7 +413,8 @@
         </p>
       </div>
     </section>
-
+      </div><!-- /.channels-content -->
+    </div><!-- /.flex -->
   </main>
 
   <!-- Player Modal -->
