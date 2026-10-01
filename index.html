@@ -1247,8 +1247,9 @@
       const categoryLabel = channel.sportCategory && channel.sportCategory !== 'general' ? channel.sportCategory : 'Sports';
 
       const logoImg = logo
-        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} channel logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\'w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm\' style=\'background:linear-gradient(135deg,#6d5efc,#38e1ff)\'>${initials}</div>'">`
-        : `<div class="w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm" style="background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
+        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} channel logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">`
+        : '';
+      const fallbackAvatar = `<div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-sm" style="display:${logo ? 'none' : 'flex'};background:linear-gradient(135deg,#6d5efc,#38e1ff)">${initials}</div>`;
 
       const statusBadge = channel.verified
         ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" aria-hidden="true"></span>⚡ Verified</span>`
@@ -1264,6 +1265,7 @@
               <!-- HD Logo Container -->
               <div class="relative w-12 h-12 rounded-xl bg-black/60 p-1 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden">
                 ${logoImg}
+                ${fallbackAvatar}
               </div>
 
               <!-- Channel Title & Category -->
@@ -1702,7 +1704,7 @@
       if (els.nextOverlayBtn) els.nextOverlayBtn.addEventListener('click', () => playAdjacentChannel(1));
 
       // Pre-warm stream DNS/connection on card hover & mobile touch
-      const container = document.querySelector('.container');
+      const container = document.querySelector('main') || document.body;
       if (container) {
         container.addEventListener('mouseover', (e) => {
           const card = e.target.closest('.channel-card');
@@ -1750,7 +1752,7 @@
         });
       }
 
-      document.querySelector('.container').addEventListener('click', (e) => {
+      container.addEventListener('click', (e) => {
         const favBtn = e.target.closest('[data-fav]');
         if (favBtn) {
           e.stopPropagation();
@@ -1813,8 +1815,11 @@
 
     async function detectVisitorLocation() {
       if (visitorCountry) return visitorCountry;
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timer = controller ? setTimeout(() => controller.abort(), 1200) : null;
       try {
-        const res = await fetch('https://api.country.is');
+        const res = await fetch('https://api.country.is', controller ? { signal: controller.signal } : {});
+        if (timer) clearTimeout(timer);
         if (res.ok) {
           const data = await res.json();
           if (data && data.country) {
@@ -1823,19 +1828,10 @@
             return visitorCountry;
           }
         }
-      } catch (e) {}
-      try {
-        const res2 = await fetch('https://ipapi.co/json/');
-        if (res2.ok) {
-          const data2 = await res2.json();
-          if (data2 && data2.country_code) {
-            visitorCountry = data2.country_code.toUpperCase();
-            localStorage.setItem(GEO_KEY, visitorCountry);
-            return visitorCountry;
-          }
-        }
-      } catch (e) {}
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      } catch (e) {
+        if (timer) clearTimeout(timer);
+      }
+      const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
       if (tz.includes('London')) visitorCountry = 'GB';
       else if (tz.includes('New_York') || tz.includes('Chicago') || tz.includes('Los_Angeles') || tz.includes('Denver')) visitorCountry = 'US';
       else if (tz.includes('Dhaka')) visitorCountry = 'BD';
@@ -1957,7 +1953,7 @@
       bindEvents();
 
       // Step 1: Detect visitor location
-      visitorCountry = await detectVisitorLocation();
+      detectVisitorLocation().then(c => { visitorCountry = c; }).catch(() => {});
 
       // Step 2: Instant Hydration with 100+ Verified Streams (< 10ms)
       try {

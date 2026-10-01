@@ -603,8 +603,9 @@
       const categoryLabel = channel.sportCategory && channel.sportCategory !== 'general' ? channel.sportCategory : 'Basketball';
 
       const logoImg = logo
-        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\'w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm\' style=\'background:linear-gradient(135deg,#f97316,#ea580c)\'>${initials}</div>'">`
-        : `<div class="w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm" style="background:linear-gradient(135deg,#f97316,#ea580c)">${initials}</div>`;
+        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">`
+        : '';
+      const fallbackAvatar = `<div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-sm" style="display:${logo ? 'none' : 'flex'};background:linear-gradient(135deg,#f97316,#ea580c)">${initials}</div>`;
 
       const statusBadge = channel.verified
         ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" aria-hidden="true"></span>⚡ Verified</span>`
@@ -620,6 +621,7 @@
             <!-- HD Logo Container -->
             <div class="relative w-12 h-12 rounded-xl bg-black/60 p-1 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden">
               ${logoImg}
+              ${fallbackAvatar}
             </div>
 
             <!-- Channel Title & Category -->
@@ -970,7 +972,7 @@
       if (els.prevOverlayBtn) els.prevOverlayBtn.addEventListener('click', () => playAdjacentChannel(-1));
       if (els.nextOverlayBtn) els.nextOverlayBtn.addEventListener('click', () => playAdjacentChannel(1));
 
-      const container = document.querySelector('.container') || document.querySelector('main');
+      const container = document.querySelector('main') || document.body;
       if (container) {
         container.addEventListener('mouseover', (e) => {
           const card = e.target.closest('.channel-card');
@@ -990,7 +992,7 @@
       }
     
 
-      document.querySelector('.container').addEventListener('click', (e) => {
+      container.addEventListener('click', (e) => {
         const favBtn = e.target.closest('[data-fav]');
         if (favBtn) {
           e.stopPropagation();
@@ -1176,7 +1178,7 @@
       setupTheme();
       bindEvents();
 
-      visitorCountry = await detectVisitorLocation();
+      detectVisitorLocation().then(c => { visitorCountry = c; }).catch(() => {});
 
       // Step 1: Load Verified Streams (< 10ms)
       try {
@@ -1185,8 +1187,9 @@
           const verifiedData = await verifiedRes.json();
           if (Array.isArray(verifiedData)) {
             const matched = verifiedData.filter(c => c.sportCategory === 'basketball' || (typeof isBasketballChannel === 'function' && isBasketballChannel(c)));
-            if (matched.length > 0) {
-              channels = matched;
+            const toUse = matched.length > 0 ? matched : verifiedData.filter(c => c.sportCategory === 'general').slice(0, 24);
+            if (toUse.length > 0) {
+              channels = toUse;
               populateFilters();
               renderAll();
             }
