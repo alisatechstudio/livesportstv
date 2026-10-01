@@ -158,12 +158,8 @@
       font-size: 0.82rem;
       line-height: 1.3;
       margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
       word-break: break-word;
+      overflow-wrap: anywhere;
     }
     @media (min-width: 640px) {
       .channel-title {
@@ -684,14 +680,13 @@
               </div>
             </div>
 
-            <!-- Card Footer: Country Flag + Language + Status -->
-            <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-edge/60 mt-auto">
-              <span class="flex items-center gap-1 text-muted text-[11px] sm:text-xs font-medium truncate max-w-[85px] sm:max-w-[125px]">
+            <!-- Card Footer: Country Flag + Status -->
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+              <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
                 <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="${flagUrl}" alt="${countryName} flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
                 <span class="truncate">${countryName}</span>
               </span>
-              <div class="flex items-center gap-1 sm:gap-1.5 flex-none">
-                ${channel.language && channel.language !== 'Unknown' ? `<span class="text-muted/80 text-[10px] sm:text-[11px] bg-[var(--lang-bg)] px-1.5 py-0.5 rounded-md font-medium whitespace-nowrap">${channel.language}</span>` : ''}
+              <div class="flex items-center flex-none">
                 ${statusBadge}
               </div>
             </div>
