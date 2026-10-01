@@ -170,6 +170,10 @@
         font-size: 0.95rem;
       }
     }
+
+    #statChannels { color: var(--primary); }
+    #statCountries { color: var(--accent); }
+    #statLanguages { color: var(--emerald); }
   </style>
 
   <!-- Tailwind CSS -->
@@ -179,7 +183,6 @@
       theme: {
         extend: {
           colors: {
-            base: "var(--bg)",
             surface: "var(--bg-2)",
             card: "var(--card)",
             "card-hover": "var(--card-hover)",
@@ -190,6 +193,9 @@
             "primary-soft": "var(--primary-soft)",
             accent: "var(--accent)",
             emerald: "var(--emerald)",
+          },
+          backgroundColor: {
+            base: "var(--bg)",
           },
           borderRadius: { xl: "14px", "2xl": "18px" },
           boxShadow: { glass: "0 10px 30px rgba(0, 0, 0, 0.45)", card: "0 14px 30px rgba(0, 0, 0, 0.35)" },
