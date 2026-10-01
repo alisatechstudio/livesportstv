@@ -660,9 +660,9 @@
       const categoryLabel = channel.sportCategory && channel.sportCategory !== 'general' ? channel.sportCategory : 'Football';
 
       const logoImg = logo
-        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">`
+        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="64" height="64" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">`
         : '';
-      const fallbackAvatar = `<div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-sm" style="display:${logo ? 'none' : 'flex'};background:linear-gradient(135deg,#10b981,#3b82f6)">${initials}</div>`;
+      const fallbackAvatar = `<div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-base sm:text-lg" style="display:${logo ? 'none' : 'flex'};background:linear-gradient(135deg,#10b981,#3b82f6)">${initials}</div>`;
 
       const statusBadge = channel.verified
         ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" aria-hidden="true"></span>⚡ Verified</span>`
@@ -674,9 +674,9 @@
           <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center transition-all duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
 
           <!-- Card Header: HD Logo + Channel Info -->
-          <div class="flex items-start gap-3.5 pr-8">
+          <div class="flex items-start gap-3.5 sm:gap-4 pr-8">
             <!-- HD Logo Container -->
-            <div class="relative w-12 h-12 rounded-xl bg-black/60 p-1 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden">
+            <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-black/60 p-1.5 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden">
               ${logoImg}
               ${fallbackAvatar}
             </div>
