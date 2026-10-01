@@ -182,7 +182,7 @@
 <body class="bg-base text-ink antialiased flex flex-col min-h-screen">
   <!-- Header Navigation -->
   <header class="sticky top-0 z-40 backdrop-blur-md border-b border-edge bg-[color:color-mix(in_srgb,var(--bg)_85%,transparent)]">
-    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
+    <div class="w-full px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
       <!-- Brand & Mobile Controls -->
       <div class="flex items-center justify-between w-full lg:w-auto gap-3">
         <a href="/" class="brand flex items-center gap-2.5 font-extrabold text-base sm:text-lg tracking-tight flex-none group select-none" aria-label="LiveSportsTV Home">
@@ -290,7 +290,7 @@
 
   <!-- Interactive Filters -->
   <section class="filters border-b border-edge bg-base sticky top-[57px] z-30 shadow-sm" aria-label="Channel Filters">
-    <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2 grid grid-cols-2 sm:grid-cols-3 lg:flex gap-2 sm:gap-3 sm:items-end">
+    <div class="w-full px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-2 sm:grid-cols-3 lg:flex gap-2 sm:gap-3 sm:items-end">
       <div class="filter-group flex flex-col gap-1 col-span-2 sm:col-span-1 lg:flex-1">
         <label for="categoryFilter" class="text-[11px] font-semibold text-muted uppercase tracking-[0.04em]">
           Filter by Category
@@ -325,7 +325,7 @@
   </section>
 
   <!-- Channel Grid & Core Main Content -->
-  <main class="container max-w-[1180px] mx-auto px-4 py-5 flex-1">
+  <main class="w-full px-4 sm:px-6 lg:px-8 py-5 flex-1">
     <!-- Top Native Banner Ad Unit -->
     <div class="ad-slot-native mb-5 text-center">
       <span class="text-[10px] tracking-wider uppercase text-muted mb-1 block font-semibold">Recommended</span>
@@ -603,7 +603,7 @@
       const categoryLabel = channel.sportCategory && channel.sportCategory !== 'general' ? channel.sportCategory : 'Tennis';
 
       const logoImg = logo
-        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\\'w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm\\' style=\\'background:linear-gradient(135deg,#10b981,#059669)\\'>${initials}</div>'">`
+        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\'w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm\' style=\'background:linear-gradient(135deg,#10b981,#059669)\'>${initials}</div>'">`
         : `<div class="w-full h-full rounded-xl flex items-center justify-center font-black text-white text-sm" style="background:linear-gradient(135deg,#10b981,#059669)">${initials}</div>`;
 
       const statusBadge = channel.verified
@@ -611,21 +611,15 @@
         : `<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald" aria-hidden="true"></span>Live</span>`;
 
       return `
-        <article class="channel-card group relative border border-edge bg-card rounded-2xl p-4 sm:p-5 cursor-pointer transition-all duration-200 flex flex-col justify-between gap-3.5 hover:-translate-y-1 hover:border-primary/60 hover:shadow-card hover:bg-card-hover overflow-hidden" data-id="${channel.id}">
-          <!-- Top Neon Accent Glow Line -->
-          <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true"></div>
-
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-4 sm:p-5 cursor-pointer flex flex-col justify-between gap-3.5 overflow-hidden" data-id="${channel.id}">
           <!-- Favorite Toggle Button -->
-          <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center transition-all duration-160 opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center transition-all duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
 
           <!-- Card Header: HD Logo + Channel Info -->
           <div class="flex items-center gap-3.5 pr-7">
-            <!-- HD Logo Container with Play Hover Effect -->
-            <div class="relative w-12 h-12 rounded-xl bg-black/60 p-1 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden group-hover:border-primary/50 transition-colors duration-200">
+            <!-- HD Logo Container -->
+            <div class="relative w-12 h-12 rounded-xl bg-black/60 p-1 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden">
               ${logoImg}
-              <div class="absolute inset-0 bg-primary/25 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200" aria-hidden="true">
-                <span class="w-5 h-5 rounded-full bg-white text-primary flex items-center justify-center text-[9px] pl-0.5 shadow-md">▶</span>
-              </div>
             </div>
 
             <!-- Channel Title & Category -->
@@ -634,7 +628,7 @@
                 <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
                 <span class="text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">${categoryLabel}</span>
               </div>
-              <h3 class="font-bold text-sm sm:text-base leading-snug text-ink overflow-hidden line-clamp-2 group-hover:text-primary transition-colors m-0">${channel.name}</h3>
+              <h3 class="font-bold text-sm sm:text-base leading-snug text-ink overflow-hidden line-clamp-2 m-0">${channel.name}</h3>
             </div>
           </div>
 
