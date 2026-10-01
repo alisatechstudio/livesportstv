@@ -621,49 +621,49 @@
       const categoryLabel = channel.sportCategory && channel.sportCategory !== 'general' ? channel.sportCategory : 'Basketball';
 
       const logoImg = logo
-        ? `<img class="w-full h-full object-contain" src="${logo}" alt="${channel.name} logo" width="64" height="64" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">`
+        ? `<img class="max-w-full max-h-full object-contain p-2 filter drop-shadow-sm" src="${logo}" alt="${channel.name} logo" width="120" height="120" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">`
         : '';
-      const fallbackAvatar = `<div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-base sm:text-lg" style="display:${logo ? 'none' : 'flex'};background:linear-gradient(135deg,#f97316,#ea580c)">${initials}</div>`;
+      const fallbackAvatar = `<div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-2xl sm:text-3xl shadow-inner" style="display:${logo ? 'none' : 'flex'};background:linear-gradient(135deg,#f97316,#ea580c)">${initials}</div>`;
 
       const statusBadge = channel.verified
         ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" aria-hidden="true"></span>⚡ Verified</span>`
         : `<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald" aria-hidden="true"></span>Live</span>`;
 
       return `
-        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-4 sm:p-5 cursor-pointer flex flex-col justify-between gap-3.5 overflow-hidden" data-id="${channel.id}">
-          <!-- Favorite Toggle Button -->
-          <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center transition-all duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-3.5 sm:p-4 cursor-pointer flex flex-col justify-between gap-3 overflow-hidden" data-id="${channel.id}">
+            <!-- Favorite Toggle Button -->
+            <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-2.5 right-2.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-xs sm:text-sm flex items-center justify-center transition-all duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
 
-          <!-- Card Header: HD Logo + Channel Info -->
-          <div class="flex items-start gap-3.5 sm:gap-4 pr-8">
-            <!-- HD Logo Container -->
-            <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-black/60 p-1.5 border border-edge/80 shadow-sm flex items-center justify-center flex-none overflow-hidden">
-              ${logoImg}
-              ${fallbackAvatar}
-            </div>
-
-            <!-- Channel Title & Category -->
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-1.5 mb-1">
-                <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
-                <span class="text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">${categoryLabel}</span>
+            <!-- Side-by-Side (50/50) Header Section -->
+            <div class="flex items-center gap-3 sm:gap-3.5 min-w-0">
+              <!-- Left 50%: Large Channel Logo Container (Takes Half the Card Width) -->
+              <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[130px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+                ${logoImg}
+                ${fallbackAvatar}
               </div>
-              <h3 class="channel-title font-bold text-sm sm:text-base leading-snug m-0" style="color:var(--text);">${channel.name}</h3>
-            </div>
-          </div>
 
-          <!-- Card Footer: Country Flag + Language + Status -->
-          <div class="flex items-center justify-between gap-2 pt-2.5 border-t border-edge/60 mt-auto">
-            <span class="flex items-center gap-1.5 text-muted text-xs font-medium truncate max-w-[115px] sm:max-w-[130px]">
-              <img class="w-[18px] h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="${flagUrl}" alt="${countryName} flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
-              <span class="truncate">${countryName}</span>
-            </span>
-            <div class="flex items-center gap-1.5 flex-none">
-              ${channel.language && channel.language !== 'Unknown' ? `<span class="text-muted/80 text-[11px] bg-[var(--lang-bg)] px-2 py-0.5 rounded-md font-medium whitespace-nowrap">${channel.language}</span>` : ''}
-              ${statusBadge}
+              <!-- Right 50%: Channel Metadata & Title -->
+              <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1.5 pr-6 sm:pr-7">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                  <span class="text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">${categoryLabel}</span>
+                </div>
+                <h3 class="channel-title font-bold text-sm sm:text-base leading-snug m-0" style="color:var(--text);">${channel.name}</h3>
+              </div>
             </div>
-          </div>
-        </article>`;
+
+            <!-- Card Footer: Country Flag + Language + Status -->
+            <div class="flex items-center justify-between gap-2 pt-2.5 border-t border-edge/60 mt-auto">
+              <span class="flex items-center gap-1.5 text-muted text-xs font-medium truncate max-w-[115px] sm:max-w-[130px]">
+                <img class="w-[18px] h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="${flagUrl}" alt="${countryName} flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+                <span class="truncate">${countryName}</span>
+              </span>
+              <div class="flex items-center gap-1.5 flex-none">
+                ${channel.language && channel.language !== 'Unknown' ? `<span class="text-muted/80 text-[11px] bg-[var(--lang-bg)] px-2 py-0.5 rounded-md font-medium whitespace-nowrap">${channel.language}</span>` : ''}
+                ${statusBadge}
+              </div>
+            </div>
+          </article>`;
     }
 
     function renderGrid(grid, list) {
