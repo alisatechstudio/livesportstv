@@ -328,6 +328,8 @@
       --border: rgba(0, 0, 0, 0.1);
       --primary: #5b4ff0;
       --primary-soft: rgba(91, 79, 240, 0.12);
+      --accent: #0284c7;
+      --emerald: #059669;
       --lang-bg: rgba(0, 0, 0, 0.06);
     }
 
@@ -649,26 +651,17 @@
 
         <!-- Directory Stat Cards Under Filter -->
         <div class="grid grid-cols-3 lg:grid-cols-1 gap-2 sm:gap-2.5 mt-3 sm:mt-3.5">
-          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-xs flex flex-col justify-between transition-all hover:border-primary/50 group">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[10px] sm:text-[11px] text-muted font-semibold uppercase tracking-[0.04em] truncate"><span class="hidden sm:inline">Sports </span>Channels</span>
-              <span class="text-xs sm:text-sm text-primary group-hover:scale-110 transition-transform">📺</span>
-            </div>
-            <strong id="statChannels" class="block text-base sm:text-lg lg:text-xl font-extrabold text-primary leading-tight mt-1">—</strong>
+          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl shadow-sm text-center flex flex-col justify-center items-center hover:border-primary/50 transition-colors">
+            <strong id="statChannels" class="block text-base sm:text-lg lg:text-xl font-extrabold text-primary leading-tight">—</strong>
+            <span class="text-muted text-[10px] sm:text-[11px] font-medium block mt-1 truncate max-w-full"><span class="hidden sm:inline">Sports </span>Channels</span>
           </div>
-          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-xs flex flex-col justify-between transition-all hover:border-accent/50 group">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[10px] sm:text-[11px] text-muted font-semibold uppercase tracking-[0.04em] truncate">Countries</span>
-              <span class="text-xs sm:text-sm text-accent group-hover:scale-110 transition-transform">🌍</span>
-            </div>
-            <strong id="statCountries" class="block text-base sm:text-lg lg:text-xl font-extrabold text-accent leading-tight mt-1">—</strong>
+          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl shadow-sm text-center flex flex-col justify-center items-center hover:border-accent/50 transition-colors">
+            <strong id="statCountries" class="block text-base sm:text-lg lg:text-xl font-extrabold text-accent leading-tight">—</strong>
+            <span class="text-muted text-[10px] sm:text-[11px] font-medium block mt-1 truncate max-w-full">Countries</span>
           </div>
-          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-xs flex flex-col justify-between transition-all hover:border-emerald/50 group">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[10px] sm:text-[11px] text-muted font-semibold uppercase tracking-[0.04em] truncate">Languages</span>
-              <span class="text-xs sm:text-sm text-emerald group-hover:scale-110 transition-transform">🌐</span>
-            </div>
-            <strong id="statLanguages" class="block text-base sm:text-lg lg:text-xl font-extrabold text-emerald leading-tight mt-1">—</strong>
+          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl shadow-sm text-center flex flex-col justify-center items-center hover:border-emerald/50 transition-colors">
+            <strong id="statLanguages" class="block text-base sm:text-lg lg:text-xl font-extrabold text-emerald leading-tight">—</strong>
+            <span class="text-muted text-[10px] sm:text-[11px] font-medium block mt-1 truncate max-w-full">Languages</span>
           </div>
         </div>
       </aside>
