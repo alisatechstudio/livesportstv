@@ -24,7 +24,8 @@
 
 
   <!-- Favicon & Mobile Icons -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236d5efc'/%3E%3Cstop offset='100%25' stop-color='%2338e1ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpolygon points='12,9 24,16 12,23' fill='white'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/logo-icon.svg" />
   <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
 
@@ -220,11 +221,12 @@
     <div class="max-w-[1180px] mx-auto px-3 sm:px-4 py-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
       <!-- Brand & Mobile Controls -->
       <div class="flex items-center justify-between w-full lg:w-auto gap-3">
-        <a href="/" class="brand flex items-center gap-2 font-extrabold text-base tracking-tight flex-none" aria-label="LiveSportsTV Home">
-          <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-xs shadow-md">
-            ▶
+        <a href="/" class="brand flex items-center gap-2.5 font-extrabold text-base sm:text-lg tracking-tight flex-none group select-none" aria-label="LiveSportsTV Home">
+          <img src="/logo-icon.svg" alt="LiveSportsTV Logo" width="36" height="36" class="w-9 h-9 rounded-xl shadow-md transition-transform duration-200 group-hover:scale-105 flex-none" onerror="this.outerHTML='<span class=\'inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent text-white text-xs shadow-md\'>▶</span>'" />
+          <span class="flex items-center tracking-tight font-black text-ink">
+            <span>LIVE</span><span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent ml-0.5">SPORTS</span><span class="ml-0.5">TV</span>
+            <span class="ml-1.5 px-1.5 py-0.5 text-[9px] font-black tracking-wider uppercase rounded bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xs border border-cyan-300/30">HD</span>
           </span>
-          <span>LIVE<span class="text-primary">SPORTS</span>TV</span>
         </a>
 
         <div class="flex items-center gap-2 lg:hidden">
@@ -480,6 +482,15 @@
   <!-- Footer -->
   <footer class="site-footer border-t border-edge bg-surface px-4 py-8 text-center mt-auto" role="contentinfo">
     <div class="max-w-[960px] mx-auto">
+      <!-- Footer Brand -->
+      <div class="flex items-center justify-center gap-2.5 mb-4 select-none">
+        <img src="/logo-icon.svg" alt="LiveSportsTV Logo" width="28" height="28" class="w-7 h-7 rounded-lg shadow-sm" />
+        <span class="font-black text-sm tracking-tight text-ink flex items-center">
+          <span>LIVE</span><span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent ml-0.5">SPORTS</span><span class="ml-0.5">TV</span>
+          <span class="ml-1 px-1 py-0.2 text-[8px] font-black uppercase rounded bg-gradient-to-r from-cyan-500 to-blue-600 text-white border border-cyan-300/20">HD</span>
+        </span>
+      </div>
+
       <nav class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-semibold text-muted mb-4" aria-label="Footer Navigation">
         <a href="/" class="hover:text-ink transition-colors">Home</a>
         <span class="text-edge" aria-hidden="true">•</span>

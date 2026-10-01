@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 52" width="260" height="52" fill="none">
+  <defs>
+    <!-- Background shield gradient -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1035"/>
+      <stop offset="50%" stop-color="#0e1726"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+
+    <!-- Neon border gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38e1ff"/>
+      <stop offset="40%" stop-color="#6d5efc"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+
+    <!-- Play icon gradient -->
+    <linearGradient id="playGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38e1ff"/>
+      <stop offset="60%" stop-color="#6d5efc"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <!-- Sports text gradient -->
+    <linearGradient id="sportsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38e1ff"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+
+    <!-- HD badge gradient -->
+    <linearGradient id="hdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <!-- Drop glow filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- === LOGO ICON (40x40 at x=6, y=6) === -->
+  <g transform="translate(6, 6)">
+    <!-- Base Shield with rounded corners -->
+    <rect x="0" y="0" width="40" height="40" rx="12" fill="url(#shieldGrad)"/>
+    <rect x="0.75" y="0.75" width="38.5" height="38.5" rx="11.25" stroke="url(#borderGrad)" stroke-width="1.5" fill="none"/>
+
+    <!-- Stadium Orbit Broadcast Arcs -->
+    <path d="M 8 20 A 13 13 0 0 1 20 7" stroke="#38e1ff" stroke-width="1.75" stroke-linecap="round" fill="none" opacity="0.85"/>
+    <path d="M 6 24 A 16 16 0 0 1 24 5" stroke="#6d5efc" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <path d="M 33 21 A 13 13 0 0 1 21 34" stroke="#a855f7" stroke-width="1.75" stroke-linecap="round" fill="none" opacity="0.85"/>
+    <path d="M 35 17 A 16 16 0 0 1 17 36" stroke="#ec4899" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+    <!-- Aerodynamic Center Play Button -->
+    <polygon points="16,13 28,20 16,27" fill="url(#playGrad)" filter="url(#neonGlow)"/>
+    <!-- Inner Play Highlight -->
+    <polygon points="17.5,15.5 25.5,20 17.5,24.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+
+    <!-- Live Beacon Dot -->
+    <circle cx="31" cy="9" r="3" fill="#10b981" filter="url(#neonGlow)"/>
+    <circle cx="31" cy="9" r="1.5" fill="#ffffff"/>
+  </g>
+
+  <!-- === WORDMARK TYPOGRAPHY === -->
+  <g font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="20" letter-spacing="-0.5">
+    <!-- "LIVE" -->
+    <text x="56" y="33" fill="#f8fafc">LIVE</text>
+    
+    <!-- "SPORTS" -->
+    <text x="105" y="33" fill="url(#sportsGrad)">SPORTS</text>
+    
+    <!-- "TV" -->
+    <text x="194" y="33" fill="#f8fafc">TV</text>
+  </g>
+
+  <!-- === "HD" ULTRA BADGE === -->
+  <g transform="translate(225, 17)">
+    <rect x="0" y="0" width="28" height="18" rx="5" fill="url(#hdGrad)"/>
+    <rect x="0.5" y="0.5" width="27" height="17" rx="4.5" fill="none" stroke="#67e8f9" stroke-width="1" opacity="0.8"/>
+    <text x="14" y="13" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="10.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">HD</text>
+  </g>
+</svg>
