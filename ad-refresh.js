@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  // Prevent uncaught errors from third-party ad network resize listeners (e.g. AdsTargets contentWindow access on null iframe)
+  // Prevent uncaught errors from third-party ad network resize listeners (e.g. contentWindow access on null iframe)
   window.addEventListener('error', function (e) {
     if (e.message && e.message.indexOf('contentWindow') !== -1) {
       e.preventDefault();
