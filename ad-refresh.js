@@ -42,45 +42,11 @@
   }
 
   /**
-   * Reload the top native ad banner in-place without page reload.
+   * Auto-refresh helper for future banner slots if present.
    */
-  function reloadNativeBanner() {
-    const container = document.getElementById('container-a3c27f6bb252fff26f976d0a2f4be494');
-    if (!container) return;
-
-    const iframes = container.querySelectorAll('iframe');
-    let reloaded = false;
-    if (iframes.length > 0) {
-      iframes.forEach(function (iframe) {
-        if (reloadAdIframe(iframe)) reloaded = true;
-      });
-    }
-
-    if (!reloaded) {
-      // Re-fetch script in-place inside container without page reload
-      container.innerHTML = '';
-      const script = document.createElement('script');
-      script.src = 'https://windowthrilling.com/a3c27f6bb252fff26f976d0a2f4be494/invoke.js?_rb=' + Date.now();
-      script.async = true;
-      script.setAttribute('data-cfasync', 'false');
-      container.appendChild(script);
-    }
-  }
-
   function refreshAllBanners() {
-    // 1. Refresh native banner container in-place
-    reloadNativeBanner();
+    // Currently no native banner or iframe banners configured
   }
-
-  // Set recurring auto-refresh every 10 seconds
-  setInterval(refreshAllBanners, REFRESH_INTERVAL_MS);
-
-  // Instant refresh when user returns to tab
-  document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible') {
-      refreshAllBanners();
-    }
-  });
 
   // Mobile Navigation Drawer Toggle Handler
   function setupMobileMenu() {
