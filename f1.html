@@ -285,24 +285,9 @@
       <h1 class="text-2xl sm:text-3xl lg:text-4xl leading-tight mb-2.5 tracking-tight font-extrabold">
         Free Live F1 & Motorsport TV Channels
       </h1>
-      <p class="text-muted text-xs sm:text-sm max-w-[720px] mx-auto mb-4 leading-relaxed">
+      <p class="text-muted text-xs sm:text-sm max-w-[720px] mx-auto mb-2 leading-relaxed">
         Watch high-speed motorsport action live online. Discover free-to-air Formula 1 Grand Prix coverage, MotoGP races, NASCAR Cup Series, WRC rally, and endurance events with zero subscription fees.
       </p>
-
-      <div class="hero-stats flex justify-center gap-6 sm:gap-10 flex-wrap pt-2">
-        <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
-          <strong id="statChannels" class="block text-xl font-extrabold text-primary">—</strong>
-          <span class="text-muted text-[11px]">Racing Feeds</span>
-        </div>
-        <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
-          <strong id="statCountries" class="block text-xl font-extrabold text-accent">—</strong>
-          <span class="text-muted text-[11px]">Countries</span>
-        </div>
-        <div class="bg-card border border-edge px-4 py-2 rounded-xl min-w-[110px]">
-          <strong id="statLanguages" class="block text-xl font-extrabold text-emerald">—</strong>
-          <span class="text-muted text-[11px]">Languages</span>
-        </div>
-      </div>
     </div>
   </section>
   <!-- Main Content Area: Sidebar Filters & Channel Cards in One Row (Desktop) -->
@@ -364,6 +349,31 @@
                 <span class="text-yellow-400">★</span> Favorites
               </button>
             </div>
+          </div>
+        </div>
+
+        <!-- Directory Stat Cards Under Filter -->
+        <div class="grid grid-cols-3 lg:grid-cols-1 gap-2 sm:gap-2.5 mt-3 sm:mt-3.5">
+          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-xs flex flex-col justify-between transition-all hover:border-primary/50 group">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[10px] sm:text-[11px] text-muted font-semibold uppercase tracking-[0.04em] truncate"><span class="hidden sm:inline">Racing </span>Channels</span>
+              <span class="text-xs sm:text-sm text-primary group-hover:scale-110 transition-transform">🏎️</span>
+            </div>
+            <strong id="statChannels" class="block text-base sm:text-lg lg:text-xl font-extrabold text-primary leading-tight mt-1">—</strong>
+          </div>
+          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-xs flex flex-col justify-between transition-all hover:border-accent/50 group">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[10px] sm:text-[11px] text-muted font-semibold uppercase tracking-[0.04em] truncate">Countries</span>
+              <span class="text-xs sm:text-sm text-accent group-hover:scale-110 transition-transform">🌍</span>
+            </div>
+            <strong id="statCountries" class="block text-base sm:text-lg lg:text-xl font-extrabold text-accent leading-tight mt-1">—</strong>
+          </div>
+          <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-xs flex flex-col justify-between transition-all hover:border-emerald/50 group">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[10px] sm:text-[11px] text-muted font-semibold uppercase tracking-[0.04em] truncate">Languages</span>
+              <span class="text-xs sm:text-sm text-emerald group-hover:scale-110 transition-transform">🌐</span>
+            </div>
+            <strong id="statLanguages" class="block text-base sm:text-lg lg:text-xl font-extrabold text-emerald leading-tight mt-1">—</strong>
           </div>
         </div>
       </aside>
