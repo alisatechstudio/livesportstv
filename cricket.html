@@ -342,7 +342,7 @@
         </h2>
         <span class="text-muted text-xs">Top free-to-air feeds</span>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5" id="gridSports">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-5" id="gridSports">
         <div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading live cricket channels…</div>
       </div>
     </section>
@@ -356,7 +356,7 @@
         </h2>
         <span class="text-muted text-xs font-semibold" id="allCount">Loading channels…</span>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5" id="gridAll"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-5" id="gridAll"></div>
 
       <!-- Responsive Pagination Controls -->
       <div id="paginationControls" class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6 pt-4 border-t border-edge text-xs">
@@ -594,22 +594,31 @@
       const countryName = getCountryName(channel.country);
 
       const logoEl = logo
-        ? `<img class="w-8 h-8 rounded-lg object-cover bg-black border border-edge flex-none" src="${logo}" alt="${channel.name} logo" width="32" height="32" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\\'w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none\\' style=\\'background:linear-gradient(135deg,#059669,#34d399)\\'>${initials}</div>'">`
-        : `<div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white text-xs flex-none" style="background:linear-gradient(135deg,#059669,#34d399)">${initials}</div>`;
+        ? `<img class="w-12 h-12 rounded-xl object-contain bg-black/60 border border-edge/80 p-1 flex-none shadow-xs" src="${logo}" alt="${channel.name} logo" width="48" height="48" referrerpolicy="no-referrer" loading="lazy" decoding="async" fetchpriority="low" onerror="this.outerHTML='<div class=\\'w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-sm flex-none shadow-xs\\' style=\\'background:linear-gradient(135deg,#059669,#34d399)\\'>${initials}</div>'">`
+        : `<div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-sm flex-none shadow-xs" style="background:linear-gradient(135deg,#059669,#34d399)">${initials}</div>`;
+
+      const statusBadge = channel.verified
+        ? `<span class="inline-flex items-center gap-1 text-xs font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" aria-hidden="true"></span>⚡ Verified</span>`
+        : `<span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald" aria-hidden="true"></span>Live</span>`;
 
       return `
-        <article class="channel-card group relative border border-edge bg-card rounded-xl p-2.5 cursor-pointer transition-all duration-160 flex flex-col gap-2 hover:-translate-y-0.5 hover:border-primary hover:shadow-card hover:bg-card-hover" data-id="${channel.id}">
-          <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite" class="absolute top-2 right-2 w-7 h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_70%,transparent)] text-muted cursor-pointer text-xs flex items-center justify-center opacity-0 transition-all duration-160 group-hover:opacity-100 hover:scale-110">★</button>
-          <div class="flex items-center gap-2">
+        <article class="channel-card group relative border border-edge bg-card rounded-2xl p-4 sm:p-5 cursor-pointer transition-all duration-200 flex flex-col justify-between gap-3.5 hover:-translate-y-1 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/5 hover:bg-card-hover" data-id="${channel.id}">
+          <button style="${favStyle}" data-fav="${channel.id}" aria-label="Toggle favorite for ${channel.name}" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-sm flex items-center justify-center transition-all duration-160 opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10">★</button>
+          <div class="flex items-center gap-3 pr-7">
             ${logoEl}
-            <div class="font-bold text-xs leading-snug overflow-hidden line-clamp-2">${channel.name}</div>
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-sm sm:text-base leading-snug text-ink overflow-hidden line-clamp-2 group-hover:text-primary transition-colors m-0">${channel.name}</h3>
+            </div>
           </div>
-          <div class="flex items-center justify-between gap-1.5 mt-auto">
-            <span class="flex items-center gap-1 text-muted text-[11px] truncate max-w-[100px]">
-              <img class="w-4 h-[12px] rounded-sm object-cover flex-none" src="${flagUrl}" alt="${countryName} flag" width="16" height="12" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'"> ${countryName}
+          <div class="flex items-center justify-between gap-2 pt-2.5 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-xs font-medium truncate max-w-[115px] sm:max-w-[130px]">
+              <img class="w-[18px] h-[13px] rounded-xs object-cover flex-none shadow-xs" src="${flagUrl}" alt="${countryName} flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">${countryName}</span>
             </span>
-            <span class="text-muted text-[11px] bg-[var(--lang-bg)] px-1.5 py-0.5 rounded-full whitespace-nowrap">${channel.language !== 'Unknown' ? channel.language : 'Live'}</span>
-            ${channel.verified ? '<span class="inline-flex items-center gap-[4px] text-[10px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>⚡ Verified</span>' : '<span class="inline-flex items-center gap-[4px] text-[11px] font-semibold text-emerald bg-[rgba(52,211,153,0.12)] border border-[rgba(52,211,153,0.3)] px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald"></span>Live</span>'}
+            <div class="flex items-center gap-1.5 flex-none">
+              ${channel.language && channel.language !== 'Unknown' ? `<span class="text-muted/80 text-[11px] bg-[var(--lang-bg)] px-2 py-0.5 rounded-md font-medium whitespace-nowrap">${channel.language}</span>` : ''}
+              ${statusBadge}
+            </div>
           </div>
         </article>`;
     }
