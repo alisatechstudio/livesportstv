@@ -1,54 +1,10 @@
 /**
- * LiveSportsTV - Auto Banner Refresh Controller
- * Automatically reloads banner and native ad slots every 10 seconds
- * for maximum ad impressions and revenue optimization.
+ * LiveSportsTV - Mobile Navigation Controller
+ * Handles mobile drawer toggle and outside click closing.
  */
 (function () {
   'use strict';
 
-  // Prevent uncaught errors from third-party ad network resize listeners (e.g. contentWindow access on null iframe)
-  window.addEventListener('error', function (e) {
-    if (e.message && e.message.indexOf('contentWindow') !== -1) {
-      e.preventDefault();
-      return true;
-    }
-  }, true);
-
-  const REFRESH_INTERVAL_MS = 20000; // 20 seconds (safe for ad networks, no layout jitter)
-
-  /**
-   * Reload an ad iframe in-place using cache-busting URL parameter.
-   * Completely isolated to the iframe element — NEVER reloads or touches the parent window.
-   */
-  function reloadAdIframe(iframe) {
-    if (!iframe) return false;
-    try {
-      const src = iframe.src || iframe.getAttribute('src');
-      if (src && src !== 'about:blank' && !src.startsWith('javascript:')) {
-        const url = new URL(src, window.location.href);
-        url.searchParams.set('_rb', Date.now().toString());
-        iframe.src = url.toString();
-        return true;
-      }
-    } catch (err) {
-      if (iframe.src) {
-        const clean = iframe.src.replace(/([?&])_rb=\d+/, '');
-        const sep = clean.indexOf('?') === -1 ? '?' : '&';
-        iframe.src = clean + sep + '_rb=' + Date.now();
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Auto-refresh helper for future banner slots if present.
-   */
-  function refreshAllBanners() {
-    // Currently no native banner or iframe banners configured
-  }
-
-  // Mobile Navigation Drawer Toggle Handler
   function setupMobileMenu() {
     const toggles = document.querySelectorAll('#menuToggle, #menuToggleMobile');
     const mobileMenu = document.getElementById('mobileMenu');
