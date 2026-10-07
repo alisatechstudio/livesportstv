@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
+# Primary Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
@@ -15,6 +16,16 @@ User-agent: Applebot
 Allow: /
 
 User-agent: DuckDuckBot
+Allow: /
+
+# Google AdSense Verification Crawlers
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
 Allow: /
 
 Host: https://livesportstv.store
