@@ -7,7 +7,7 @@
     "country": "INT",
     "quality": "1080p",
     "language": "English",
-    "logo": "https://i.imgur.com/2s9VlqK.png",
+    "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f5/Red_Bull_TV_logo.svg/512px-Red_Bull_TV_logo.svg.png",
     "streamUrl": "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8",
     "verified": true,
     "isGeoBlocked": false
@@ -176,7 +176,7 @@
     "country": "CL",
     "quality": "720p",
     "language": "International",
-    "logo": "https://i2.paste.pics/bf68b159547597c39574aec9dd7c626a.png",
+    "logo": "",
     "streamUrl": "https://stmv2.voxtvhd.com.br/crtvchile/crtvchile/playlist.m3u8",
     "verified": true,
     "isGeoBlocked": false
@@ -449,7 +449,7 @@
     "country": "CZ",
     "quality": "HD",
     "language": "International",
-    "logo": "https://www.sms.cz/kategorie/televize/bmp/loga/velka/golfchannel.png",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Golf_Channel_2014.svg/512px-Golf_Channel_2014.svg.png",
     "streamUrl": "https://dash4.antik.sk/live/test_golf_channel/playlist.m3u8",
     "verified": true,
     "isGeoBlocked": false

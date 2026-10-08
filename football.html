@@ -221,7 +221,7 @@
   </style>
 
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -675,7 +675,8 @@
 
     function getCountryFlag(code, asImage = false) {
       if (countryData[code] && countryData[code].flag && !asImage) return countryData[code].flag;
-      return `https://flagcdn.com/24x18/${String(code).toLowerCase()}.png`;
+      const cleanCode = (!code || String(code).toUpperCase() === 'INT') ? 'un' : String(code).toLowerCase();
+      return `https://flagcdn.com/24x18/${cleanCode}.png`;
     }
 
     // Football / Soccer category filter heuristics
@@ -716,7 +717,7 @@
       toggles.forEach((t) => (t.textContent = theme === 'light' ? '🌙' : '☀️'));
     }
 
-    function logoUrl(channel) { return channel.logo || null; }
+    function logoUrl(channel) { if (!channel.logo) return null; const l = String(channel.logo).trim(); if (l.includes('paste.pics') || l.includes('sms.cz') || l.includes('i.imgur.com')) return null; return l; }
 
     function cardHtml(channel) {
       const flagUrl = getCountryFlag(channel.country, true);

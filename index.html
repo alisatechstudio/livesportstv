@@ -452,7 +452,7 @@
   </style>
 
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -1357,10 +1357,9 @@
     }
 
     function getCountryFlag(code, asImage = false) {
-      if (countryData[code] && countryData[code].flag && !asImage) {
-        return countryData[code].flag;
-      }
-      return `https://flagcdn.com/24x18/${String(code).toLowerCase()}.png`;
+      if (countryData[code] && countryData[code].flag && !asImage) return countryData[code].flag;
+      const cleanCode = (!code || String(code).toUpperCase() === 'INT') ? 'un' : String(code).toLowerCase();
+      return `https://flagcdn.com/24x18/${cleanCode}.png`;
     }
 
     function categoryFor(channel) {
@@ -1488,8 +1487,10 @@
     }
 
     function logoUrl(channel) {
-      if (channel.logo) return channel.logo;
-      return null;
+      if (!channel.logo) return null;
+      const l = String(channel.logo).trim();
+      if (l.includes('paste.pics') || l.includes('sms.cz') || l.includes('i.imgur.com')) return null;
+      return l;
     }
 
     function cardHtml(channel) {
@@ -1785,7 +1786,7 @@
       els.desc.textContent = `${categoryFor(channel)} • ${getCountryName(channel.country)}${channel.language !== 'Unknown' ? ' • ' + channel.language : ''}`;
       els.countryEl.textContent = getCountryName(channel.country);
       els.categoryEl.textContent = categoryFor(channel);
-      els.flag.src = `https://flagcdn.com/24x18/${channel.country.toLowerCase()}.png`;
+      els.flag.src = getCountryFlag(channel.country, true);
       els.flag.alt = `${getCountryName(channel.country)} flag`;
       els.flag.referrerPolicy = 'no-referrer';
       els.flag.style.display = '';
