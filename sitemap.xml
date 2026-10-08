@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- Main Home Directory -->
   <url>
     <loc>https://livesportstv.store/</loc>
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>LiveSportsTV — Free Live Sports TV Channels</image:title>
+      <image:caption>Watch Free Live Sports TV Channels Online in HD</image:caption>
+    </image:image>
   </url>
 
   <!-- Sports Category Pages -->
@@ -14,6 +20,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Football &amp; Soccer TV Channels</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -21,6 +31,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Cricket TV Channels</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -28,6 +42,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live F1 &amp; Motorsport TV Channels</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -35,6 +53,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Basketball TV Channels</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -42,6 +64,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Tennis TV Channels</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -49,6 +75,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Combat &amp; UFC TV Channels</image:title>
+    </image:image>
   </url>
 
   <!-- Directory Guide & FAQ Pages -->
@@ -57,6 +87,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Sports TV Guide</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -64,6 +98,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Sports TV FAQ</image:title>
+    </image:image>
   </url>
 
   <!-- Information & Legal Compliance Pages -->
@@ -72,6 +110,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>About Live Sports TV</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -79,6 +121,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Sports TV Privacy Policy</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -86,6 +132,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Sports TV Terms of Service</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -93,6 +143,10 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Sports TV DMCA Policy</image:title>
+    </image:image>
   </url>
 
   <url>
@@ -100,5 +154,9 @@
     <lastmod>2026-10-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://livesportstv.store/logo.png</image:loc>
+      <image:title>Live Sports TV Contact</image:title>
+    </image:image>
   </url>
 </urlset>
