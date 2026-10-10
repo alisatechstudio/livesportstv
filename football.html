@@ -615,7 +615,7 @@
       toggles.forEach((t) => (t.textContent = theme === 'light' ? '🌙' : '☀️'));
     }
 
-    function logoUrl(channel) { if (!channel.logo) return null; const l = String(channel.logo).trim(); if (l.includes('paste.pics') || l.includes('sms.cz') || l.includes('i.imgur.com')) return null; return l; }
+    function logoUrl(channel) { if (!channel.logo) return null; const l = String(channel.logo).trim(); if (l.includes('paste.pics') || l.includes('sms.cz')) return null; return l; }
 
     function cardHtml(channel) {
       const flagUrl = getCountryFlag(channel.country, true);
