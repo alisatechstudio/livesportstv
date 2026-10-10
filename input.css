@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --bg-2: #111113;
+  --card: #121214;
+  --card-hover: #161619;
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.1);
+  --primary: #6d5efc;
+  --primary-soft: rgba(109, 94, 252, 0.16);
+  --accent: #38e1ff;
+  --emerald: #34d399;
+  --lang-bg: rgba(255, 255, 255, 0.06);
+}
+
+body.light-theme {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --bg-2: #ffffff;
+  --card: #ffffff;
+  --card-hover: #f3f4f6;
+  --text: #0a0a0a;
+  --muted: #5a5f66;
+  --border: rgba(0, 0, 0, 0.1);
+  --primary: #5b4ff0;
+  --primary-soft: rgba(91, 79, 240, 0.12);
+  --accent: #0284c7;
+  --emerald: #059669;
+  --lang-bg: rgba(0, 0, 0, 0.06);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a, button, select, input {
+  touch-action: manipulation;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* GPU-accelerated composited pulse animation */
+@keyframes livepulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.policy-modal,
+.player-modal {
+  display: none;
+}
+
+.policy-modal.open,
+.player-modal.open {
+  display: flex;
+}
+
+.video-overlay {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease;
+}
+
+.video-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-overlay.error {
+  color: #ff9a9a;
+}
+
+.video-overlay.error .spinner {
+  display: none;
+}
+
+details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 640px) {
+  .video-frame #prevOverlayBtn,
+  .video-frame #nextOverlayBtn {
+    opacity: 0.85;
+  }
+}
+
+.channel-title {
+  color: var(--text) !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .channel-title {
+    font-size: 0.95rem;
+  }
+}
+
+#statChannels { color: var(--primary); }
+#statCountries { color: var(--accent); }
+#statLanguages { color: var(--emerald); }
+
+/* Skeleton Placeholder styles to eliminate CLS */
+.skeleton-card {
+  min-height: 128px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}

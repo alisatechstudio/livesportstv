@@ -18,10 +18,8 @@
 
   <!-- Ultra-Fast Channel & Asset Preload -->
   <link rel="preload" href="./verified-streams.json" as="fetch" crossorigin="anonymous" />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-  <link rel="preconnect" href="https://flagcdn.com" crossorigin />
   <link rel="dns-prefetch" href="https://flagcdn.com" />
+  <link rel="dns-prefetch" href="https://iptv-org.github.io" />
 
   <!-- Favicon & Website URL Icons (ICO, PNG, SVG, Apple Touch, Manifest) -->
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -303,191 +301,12 @@
   <meta name="google-adsense-account" content="ca-pub-2862340185854650" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2862340185854650" crossorigin="anonymous"></script>
 
-  <!-- Resource hints for speed & Core Web Vitals -->
+  <!-- Resource hints for speed & Core Web Vitals (Limit preconnect to 2 critical origins) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-  <link rel="dns-prefetch" href="https://flagcdn.com" />
-  <link rel="preconnect" href="https://iptv-org.github.io" crossorigin />
-  <link rel="dns-prefetch" href="https://iptv-org.github.io" />
-  <link rel="preconnect" href="https://api.country.is" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0a0a0a;
-      --bg-2: #111113;
-      --card: #121214;
-      --card-hover: #161619;
-      --text: #fafafa;
-      --muted: #a1a1aa;
-      --border: rgba(255, 255, 255, 0.1);
-      --primary: #6d5efc;
-      --primary-soft: rgba(109, 94, 252, 0.16);
-      --accent: #38e1ff;
-      --emerald: #34d399;
-      --lang-bg: rgba(255, 255, 255, 0.06);
-    }
-
-    body.light-theme {
-      color-scheme: light;
-      --bg: #f6f7f9;
-      --bg-2: #ffffff;
-      --card: #ffffff;
-      --card-hover: #f3f4f6;
-      --text: #0a0a0a;
-      --muted: #5a5f66;
-      --border: rgba(0, 0, 0, 0.1);
-      --primary: #5b4ff0;
-      --primary-soft: rgba(91, 79, 240, 0.12);
-      --accent: #0284c7;
-      --emerald: #059669;
-      --lang-bg: rgba(0, 0, 0, 0.06);
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a, button, select, input {
-      touch-action: manipulation;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    @keyframes livepulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.6);
-      }
-      70% {
-        box-shadow: 0 0 0 8px rgba(255, 77, 77, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .policy-modal,
-    .player-modal {
-      display: none;
-    }
-
-    .policy-modal.open,
-    .player-modal.open {
-      display: flex;
-    }
-
-    .video-overlay {
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 200ms ease;
-    }
-
-    .video-overlay.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .video-overlay.error {
-      color: #ff9a9a;
-    }
-
-    .video-overlay.error .spinner {
-      display: none;
-    }
-
-    details[open] summary svg {
-      transform: rotate(180deg);
-    }
-
-
-    @media (max-width: 640px) {
-      .video-frame #prevOverlayBtn,
-      .video-frame #nextOverlayBtn {
-        opacity: 0.85;
-      }
-    }
-  
-    .channel-title {
-      color: var(--text) !important;
-      font-weight: 700 !important;
-      font-size: 0.82rem;
-      line-height: 1.3;
-      margin: 0;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-    @media (min-width: 640px) {
-      .channel-title {
-        font-size: 0.95rem;
-      }
-    }
-
-    #statChannels { color: var(--primary); }
-    #statCountries { color: var(--accent); }
-    #statLanguages { color: var(--emerald); }
-  </style>
-
-  <!-- Tailwind CSS -->
-  <script>(function(){var w=console.warn;console.warn=function(){if(arguments[0]&&typeof arguments[0]==='string'&&arguments[0].indexOf('cdn.tailwindcss.com')!==-1)return;w.apply(console,arguments);};})();</script>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            surface: "var(--bg-2)",
-            card: "var(--card)",
-            "card-hover": "var(--card-hover)",
-            ink: "var(--text)",
-            muted: "var(--muted)",
-            edge: "var(--border)",
-            primary: "var(--primary)",
-            "primary-soft": "var(--primary-soft)",
-            accent: "var(--accent)",
-            emerald: "var(--emerald)",
-          },
-          backgroundColor: {
-            base: "var(--bg)",
-          },
-          borderRadius: {
-            xl: "14px",
-            "2xl": "18px",
-          },
-          boxShadow: {
-            glass: "0 10px 30px rgba(0, 0, 0, 0.45)",
-            card: "0 14px 30px rgba(0, 0, 0, 0.35)",
-          },
-          transitionDuration: {
-            160: "160ms",
-          },
-        },
-      },
-    };
-  </script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" /></noscript>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body class="bg-base text-ink antialiased flex flex-col min-h-screen">
@@ -694,9 +513,158 @@
         </h2>
         <span class="text-muted text-xs">Top free-to-air broadcast feeds</span>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-4"
+      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-4 min-h-[280px]"
         id="gridSports">
-        <div class="col-span-full text-center text-muted p-10 border border-dashed border-edge rounded-xl">Loading live sports channels…</div>
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-2.5 sm:p-3.5 cursor-pointer flex flex-col justify-between gap-2.5 sm:gap-3 overflow-hidden min-h-[128px]" data-id="v-redbull-tv-master">
+          <button data-fav="v-redbull-tv-master" aria-label="Toggle favorite for Red Bull TV HD" class="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-[11px] sm:text-xs flex items-center justify-center transition-transform duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[120px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+              <img class="max-w-full max-h-full object-contain p-1.5 sm:p-2 filter drop-shadow-sm" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f5/Red_Bull_TV_logo.svg/512px-Red_Bull_TV_logo.svg.png" alt="Red Bull TV HD logo" width="120" height="120" referrerpolicy="no-referrer" loading="eager" fetchpriority="high" decoding="async" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-xl sm:text-2xl shadow-inner" style="display:none;background:linear-gradient(135deg,#6d5efc,#38e1ff)">RE</div>
+            </div>
+            <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 pr-5 sm:pr-6">
+              <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <span class="inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                <span class="text-[9px] sm:text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">racing</span>
+              </div>
+              <h3 class="channel-title font-bold leading-snug m-0">Red Bull TV HD</h3>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
+              <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="https://flagcdn.com/24x18/un.png" alt="International flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">International</span>
+            </span>
+            <div class="flex items-center flex-none">
+              <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 sm:px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>⚡ Verified</span>
+            </div>
+          </div>
+        </article>
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-2.5 sm:p-3.5 cursor-pointer flex flex-col justify-between gap-2.5 sm:gap-3 overflow-hidden min-h-[128px]" data-id="v-30AGolfKingdom.us@SD">
+          <button data-fav="v-30AGolfKingdom.us@SD" aria-label="Toggle favorite for 30A Golf Kingdom (720p)" class="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-[11px] sm:text-xs flex items-center justify-center transition-transform duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[120px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+              <img class="max-w-full max-h-full object-contain p-1.5 sm:p-2 filter drop-shadow-sm" src="https://i.imgur.com/Lv53nh4.png" alt="30A Golf Kingdom (720p) logo" width="120" height="120" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-xl sm:text-2xl shadow-inner" style="display:none;background:linear-gradient(135deg,#6d5efc,#38e1ff)">30</div>
+            </div>
+            <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 pr-5 sm:pr-6">
+              <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <span class="inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                <span class="text-[9px] sm:text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">golf</span>
+              </div>
+              <h3 class="channel-title font-bold leading-snug m-0">30A Golf Kingdom (720p)</h3>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
+              <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="https://flagcdn.com/24x18/us.png" alt="United States flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">United States</span>
+            </span>
+            <div class="flex items-center flex-none">
+              <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 sm:px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>⚡ Verified</span>
+            </div>
+          </div>
+        </article>
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-2.5 sm:p-3.5 cursor-pointer flex flex-col justify-between gap-2.5 sm:gap-3 overflow-hidden min-h-[128px]" data-id="v-ATGLive.se@SD">
+          <button data-fav="v-ATGLive.se@SD" aria-label="Toggle favorite for ATG Live (720p)" class="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-[11px] sm:text-xs flex items-center justify-center transition-transform duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[120px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+              <img class="max-w-full max-h-full object-contain p-1.5 sm:p-2 filter drop-shadow-sm" src="https://i.imgur.com/bPWFXkL.png" alt="ATG Live (720p) logo" width="120" height="120" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-xl sm:text-2xl shadow-inner" style="display:none;background:linear-gradient(135deg,#6d5efc,#38e1ff)">AT</div>
+            </div>
+            <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 pr-5 sm:pr-6">
+              <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <span class="inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                <span class="text-[9px] sm:text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">Sports</span>
+              </div>
+              <h3 class="channel-title font-bold leading-snug m-0">ATG Live (720p)</h3>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
+              <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="https://flagcdn.com/24x18/se.png" alt="Sweden flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">Sweden</span>
+            </span>
+            <div class="flex items-center flex-none">
+              <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 sm:px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>⚡ Verified</span>
+            </div>
+          </div>
+        </article>
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-2.5 sm:p-3.5 cursor-pointer flex flex-col justify-between gap-2.5 sm:gap-3 overflow-hidden min-h-[128px]" data-id="v-AlIraqiaSport.iq@SD">
+          <button data-fav="v-AlIraqiaSport.iq@SD" aria-label="Toggle favorite for Al Iraqia Sport (720p)" class="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-[11px] sm:text-xs flex items-center justify-center transition-transform duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[120px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+              <img class="max-w-full max-h-full object-contain p-1.5 sm:p-2 filter drop-shadow-sm" src="https://i.imgur.com/DrrlxTO.png" alt="Al Iraqia Sport (720p) logo" width="120" height="120" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-xl sm:text-2xl shadow-inner" style="display:none;background:linear-gradient(135deg,#6d5efc,#38e1ff)">AL</div>
+            </div>
+            <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 pr-5 sm:pr-6">
+              <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <span class="inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                <span class="text-[9px] sm:text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">Sports</span>
+              </div>
+              <h3 class="channel-title font-bold leading-snug m-0">Al Iraqia Sport (720p)</h3>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
+              <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="https://flagcdn.com/24x18/iq.png" alt="Iraq flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">Iraq</span>
+            </span>
+            <div class="flex items-center flex-none">
+              <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 sm:px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>⚡ Verified</span>
+            </div>
+          </div>
+        </article>
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-2.5 sm:p-3.5 cursor-pointer flex flex-col justify-between gap-2.5 sm:gap-3 overflow-hidden min-h-[128px]" data-id="v-AstrahanRuSport.ru@SD">
+          <button data-fav="v-AstrahanRuSport.ru@SD" aria-label="Toggle favorite for Astrahan.Ru Sport (720p)" class="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-[11px] sm:text-xs flex items-center justify-center transition-transform duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[120px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+              <img class="max-w-full max-h-full object-contain p-1.5 sm:p-2 filter drop-shadow-sm" src="https://i.imgur.com/8QO9n5N.png" alt="Astrahan.Ru Sport (720p) logo" width="120" height="120" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-xl sm:text-2xl shadow-inner" style="display:none;background:linear-gradient(135deg,#6d5efc,#38e1ff)">AS</div>
+            </div>
+            <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 pr-5 sm:pr-6">
+              <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <span class="inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                <span class="text-[9px] sm:text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">Sports</span>
+              </div>
+              <h3 class="channel-title font-bold leading-snug m-0">Astrahan.Ru Sport (720p)</h3>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
+              <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="https://flagcdn.com/24x18/ru.png" alt="Russia flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">Russia</span>
+            </span>
+            <div class="flex items-center flex-none">
+              <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 sm:px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>⚡ Verified</span>
+            </div>
+          </div>
+        </article>
+        <article class="channel-card relative w-full border border-edge bg-card rounded-2xl p-2.5 sm:p-3.5 cursor-pointer flex flex-col justify-between gap-2.5 sm:gap-3 overflow-hidden min-h-[128px]" data-id="v-beINSPORTSUSA.us@SD">
+          <button data-fav="v-beINSPORTSUSA.us@SD" aria-label="Toggle favorite for beIN Sports USA (720p)" class="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-edge bg-[color:color-mix(in_srgb,var(--bg)_80%,transparent)] text-muted cursor-pointer text-[11px] sm:text-xs flex items-center justify-center transition-transform duration-160 opacity-80 hover:opacity-100 hover:scale-110 hover:text-amber-400 hover:border-amber-400/50 shadow-xs z-10 backdrop-blur-xs">★</button>
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div class="w-1/2 aspect-[4/3] sm:aspect-square max-h-[120px] rounded-xl bg-black/60 border border-edge/80 shadow-inner flex items-center justify-center flex-none overflow-hidden relative">
+              <img class="max-w-full max-h-full object-contain p-1.5 sm:p-2 filter drop-shadow-sm" src="https://i.imgur.com/4qF3m7f.png" alt="beIN Sports USA (720p) logo" width="120" height="120" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full rounded-xl items-center justify-center font-black text-white text-xl sm:text-2xl shadow-inner" style="display:none;background:linear-gradient(135deg,#6d5efc,#38e1ff)">BE</div>
+            </div>
+            <div class="w-1/2 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 pr-5 sm:pr-6">
+              <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <span class="inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-400/30">HD</span>
+                <span class="text-[9px] sm:text-[10px] text-muted/80 font-semibold uppercase tracking-wider truncate">football</span>
+              </div>
+              <h3 class="channel-title font-bold leading-snug m-0">beIN Sports USA (720p)</h3>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-edge/60 mt-auto">
+            <span class="flex items-center gap-1.5 text-muted text-[11px] sm:text-xs font-medium truncate min-w-0">
+              <img class="w-3.5 h-2.5 sm:w-[18px] sm:h-[13px] rounded-xs object-cover flex-none shadow-xs ring-1 ring-white/10" src="https://flagcdn.com/24x18/us.png" alt="United States flag" width="18" height="13" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'">
+              <span class="truncate">United States</span>
+            </span>
+            <div class="flex items-center flex-none">
+              <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 sm:px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>⚡ Verified</span>
+            </div>
+          </div>
+        </article>
       </div>
 
       <!-- Noscript Fallback for Search Engine Crawlers & Text Browsers -->
@@ -727,8 +695,15 @@
         </h2>
         <span class="row-count text-muted text-xs font-semibold" id="allCount"></span>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-4"
-        id="gridAll"></div>
+      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-4 min-h-[480px]"
+        id="gridAll">
+        <div class="skeleton-card animate-pulse"></div>
+        <div class="skeleton-card animate-pulse"></div>
+        <div class="skeleton-card animate-pulse"></div>
+        <div class="skeleton-card animate-pulse"></div>
+        <div class="skeleton-card animate-pulse"></div>
+        <div class="skeleton-card animate-pulse"></div>
+      </div>
 
       <!-- Pagination Controls for All Channels Directory -->
       <nav id="paginationControls" class="pagination-container mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs border-t border-edge pt-4" aria-label="Channels Pagination">
@@ -2249,60 +2224,68 @@
         return;
       }
 
-      // Step 4: Background fetch fresh directory
-      try {
-        const [m3uText, countriesData, langsData] = await Promise.all([
-          fetchM3U(),
-          fetchJSON(COUNTRIES_URL),
-          fetchJSON(LANGUAGES_URL)
-        ]);
+      // Step 4: Background fetch fresh directory (deferred to idle time to eliminate Total Blocking Time)
+      const runBackgroundFetch = async () => {
+        try {
+          const [m3uText, countriesData, langsData] = await Promise.all([
+            fetchM3U(),
+            fetchJSON(COUNTRIES_URL),
+            fetchJSON(LANGUAGES_URL)
+          ]);
 
-        if (countriesData) {
-          countriesData.forEach((c) => {
-            countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
-          });
+          if (countriesData) {
+            countriesData.forEach((c) => {
+              countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
+            });
+          }
+
+          if (langsData) {
+            langsData.forEach((l) => {
+              langName[l.code] = l.name;
+            });
+          }
+
+          if (m3uText) {
+            const parsed = parseM3U(m3uText, visitorCountry).filter(isSportChannel);
+            parsed.forEach((ch) => {
+              const langsForCountry = (countryData[ch.country] || {}).languages || [];
+              const languages = langsForCountry
+                .map((code) => langName[code] || code)
+                .filter(Boolean);
+              ch.languages = languages;
+              ch.language = languages[0] || 'Unknown';
+              ch.sportCategory = getSportCategory(ch);
+            });
+
+            // Merge: verified streams always stay first!
+            const seenUrls = new Set(channels.map(c => c.streamUrl));
+            parsed.forEach(ch => {
+              if (!seenUrls.has(ch.streamUrl)) {
+                channels.push(ch);
+                seenUrls.add(ch.streamUrl);
+              }
+            });
+
+            populateFilters();
+            renderAll();
+
+            saveChannelsCache({
+              timestamp: Date.now(),
+              visitorCountry: visitorCountry,
+              channels: channels,
+              countryData: countryData,
+              langName: langName
+            });
+          }
+        } catch (err) {
+          console.error('Failed to load fresh sports streams:', err);
         }
+      };
 
-        if (langsData) {
-          langsData.forEach((l) => {
-            langName[l.code] = l.name;
-          });
-        }
-
-        if (m3uText) {
-          const parsed = parseM3U(m3uText, visitorCountry).filter(isSportChannel);
-          parsed.forEach((ch) => {
-            const langsForCountry = (countryData[ch.country] || {}).languages || [];
-            const languages = langsForCountry
-              .map((code) => langName[code] || code)
-              .filter(Boolean);
-            ch.languages = languages;
-            ch.language = languages[0] || 'Unknown';
-            ch.sportCategory = getSportCategory(ch);
-          });
-
-          // Merge: verified streams always stay first!
-          const seenUrls = new Set(channels.map(c => c.streamUrl));
-          parsed.forEach(ch => {
-            if (!seenUrls.has(ch.streamUrl)) {
-              channels.push(ch);
-              seenUrls.add(ch.streamUrl);
-            }
-          });
-
-          populateFilters();
-          renderAll();
-
-          saveChannelsCache({
-            timestamp: Date.now(),
-            visitorCountry: visitorCountry,
-            channels: channels,
-            countryData: countryData,
-            langName: langName
-          });
-        }
-      } catch (err) {
-        console.error('Failed to load fresh sports streams:', err);
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(runBackgroundFetch, { timeout: 4000 });
+      } else {
+        setTimeout(runBackgroundFetch, 2500);
       }
     }
 
