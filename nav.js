@@ -90,17 +90,62 @@
       }
     }
 
-    // Smooth reveal after initial load & audit window
-    setTimeout(function () {
+    // Smooth reveal on user interaction or delayed idle
+    function revealBanner() {
       if (!localStorage.getItem(COOKIE_KEY) && banner) {
         banner.classList.remove('translate-y-full');
       }
-    }, 4000);
+    }
+    window.addEventListener('scroll', revealBanner, { once: true, passive: true });
+    window.addEventListener('touchstart', revealBanner, { once: true, passive: true });
+    setTimeout(revealBanner, 8000);
+  }
+
+  // Deferred, non-blocking Loader for Analytics (GTM) and Google AdSense
+  function setupDeferredThirdParties() {
+    let loaded = false;
+    function load() {
+      if (loaded) return;
+      loaded = true;
+
+      // Google Tag Manager
+      if (!document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
+        const gtm = document.createElement('script');
+        gtm.async = true;
+        gtm.src = 'https://www.googletagmanager.com/gtag/js?id=G-WLXVKQ8N06';
+        document.head.appendChild(gtm);
+      }
+
+      // Google AdSense
+      if (!document.querySelector('script[src*="pagead2.googlesyndication.com"]')) {
+        const ads = document.createElement('script');
+        ads.async = true;
+        ads.crossOrigin = 'anonymous';
+        ads.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2862340185854650';
+        document.head.appendChild(ads);
+      }
+    }
+
+    // Trigger on first user interaction or when idle
+    ['scroll', 'touchstart', 'click', 'keydown'].forEach(function (evt) {
+      window.addEventListener(evt, load, { once: true, passive: true });
+    });
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function () {
+        setTimeout(load, 3000);
+      }, { timeout: 5000 });
+    } else {
+      window.addEventListener('load', function () {
+        setTimeout(load, 2500);
+      });
+    }
   }
 
   function init() {
     setupMobileMenu();
     setupUniversalCookieConsent();
+    setupDeferredThirdParties();
   }
 
   if (document.readyState === 'loading') {
