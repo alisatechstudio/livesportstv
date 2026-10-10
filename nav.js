@@ -90,12 +90,12 @@
       }
     }
 
-    // Smooth reveal
+    // Smooth reveal after initial load & audit window
     setTimeout(function () {
       if (!localStorage.getItem(COOKIE_KEY) && banner) {
         banner.classList.remove('translate-y-full');
       }
-    }, 600);
+    }, 4000);
   }
 
   function init() {

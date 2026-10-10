@@ -287,7 +287,7 @@
   </script>
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLXVKQ8N06"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLXVKQ8N06" fetchpriority="low"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() {
@@ -299,7 +299,7 @@
 
   <!-- Google AdSense -->
   <meta name="google-adsense-account" content="ca-pub-2862340185854650" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2862340185854650" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2862340185854650" crossorigin="anonymous" fetchpriority="low"></script>
 
   <!-- Resource hints for speed & Core Web Vitals (Limit preconnect to 2 critical origins) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -404,7 +404,7 @@
       <h1 class="text-2xl sm:text-3xl lg:text-4xl leading-tight mb-2.5 tracking-tight font-extrabold">
         Live Sports TV — Free Live Sports TV Channels &amp; Broadcasts from
         <span id="heroCountryCount" class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-          Worldwide Broadcasters
+          64 Countries
         </span>
       </h1>
       <p class="text-muted text-xs sm:text-sm max-w-[700px] mx-auto mb-2 leading-relaxed">
@@ -487,15 +487,15 @@
         <!-- Directory Stat Cards Under Filter -->
         <div class="grid grid-cols-3 lg:grid-cols-1 gap-2 sm:gap-2.5 mt-3 sm:mt-3.5">
           <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl shadow-sm text-center flex flex-col justify-center items-center hover:border-primary/50 transition-colors">
-            <strong id="statChannels" class="block text-base sm:text-lg lg:text-xl font-extrabold text-primary leading-tight">—</strong>
+            <strong id="statChannels" class="block text-base sm:text-lg lg:text-xl font-extrabold text-primary leading-tight">1,000+</strong>
             <span class="text-muted text-[10px] sm:text-[11px] font-medium block mt-1 truncate max-w-full"><span class="hidden sm:inline">Sports </span>Channels</span>
           </div>
           <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl shadow-sm text-center flex flex-col justify-center items-center hover:border-accent/50 transition-colors">
-            <strong id="statCountries" class="block text-base sm:text-lg lg:text-xl font-extrabold text-accent leading-tight">—</strong>
+            <strong id="statCountries" class="block text-base sm:text-lg lg:text-xl font-extrabold text-accent leading-tight">64</strong>
             <span class="text-muted text-[10px] sm:text-[11px] font-medium block mt-1 truncate max-w-full">Countries</span>
           </div>
           <div class="bg-card border border-edge p-2.5 sm:p-3 rounded-xl shadow-sm text-center flex flex-col justify-center items-center hover:border-emerald/50 transition-colors">
-            <strong id="statLanguages" class="block text-base sm:text-lg lg:text-xl font-extrabold text-emerald leading-tight">—</strong>
+            <strong id="statLanguages" class="block text-base sm:text-lg lg:text-xl font-extrabold text-emerald leading-tight">30+</strong>
             <span class="text-muted text-[10px] sm:text-[11px] font-medium block mt-1 truncate max-w-full">Languages</span>
           </div>
         </div>
@@ -1278,7 +1278,7 @@
     const FAV_KEY = 'livesportsFavorites';
     const THEME_KEY = 'livesportsTheme';
     const COOKIE_KEY = 'livesportsCookieConsent';
-    const PAGE_SIZE = 40;
+    const PAGE_SIZE = 24;
     let currentPage = 1;
 
     let channels = [];
@@ -1405,7 +1405,7 @@
       if (!consent && els.cookieBanner) {
         setTimeout(() => {
           els.cookieBanner.classList.remove('translate-y-full');
-        }, 1000);
+        }, 4000);
       }
       if (els.cookieAccept) {
         els.cookieAccept.addEventListener('click', () => {
@@ -1560,7 +1560,7 @@
       const f = getFilters();
       const all = filtered(f);
 
-      const sports = all.slice(0, 10);
+      const sports = all.slice(0, 6);
       const focused = f.q || (f.category && f.category !== 'all') || f.country !== 'all' || f.language !== 'all' || f.favOnly;
 
       els.grids.sports.parentElement.style.display = focused ? 'none' : '';
