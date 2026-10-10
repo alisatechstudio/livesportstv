@@ -78,8 +78,8 @@
   </style>
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" /></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=optional" /></noscript>
 </head>
 
 <body class="bg-base text-ink antialiased flex flex-col min-h-screen">
@@ -1042,7 +1042,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
   <script>
     const M3U_URL = 'https://iptv-org.github.io/iptv/categories/sports.m3u';
     const FALLBACK_M3U_URL = 'https://iptv-org.github.io/iptv/index.m3u';
@@ -1512,6 +1511,21 @@
 
     const VERIFIED_URL = './verified-streams.json';
     let hls = null;
+    let hlsScriptPromise = null;
+    function ensureHlsScript() {
+      if (window.Hls) return Promise.resolve();
+      if (hlsScriptPromise) return hlsScriptPromise;
+      hlsScriptPromise = new Promise((resolve) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js';
+        s.async = true;
+        s.onload = () => resolve();
+        s.onerror = () => resolve();
+        document.head.appendChild(s);
+      });
+      return hlsScriptPromise;
+    }
+
 
     const prewarmedHosts = new Set();
     function prewarmStream(url) {
@@ -1575,6 +1589,60 @@
       els.player.preload = 'auto';
       els.player.playsInline = true;
 
+      const initHlsPlayback = () => {
+        if (window.Hls && Hls.isSupported()) {
+          hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+            startFragPrefetch: true,
+            maxBufferLength: 8,
+            maxMaxBufferLength: 15,
+            maxBufferSize: 20 * 1000 * 1000,
+            backBufferLength: 15,
+            liveSyncDurationCount: 2,
+            liveMaxLatencyDurationCount: 4,
+            manifestLoadingTimeOut: 10000,
+            manifestLoadingMaxRetry: 2,
+            levelLoadingTimeOut: 8000,
+            levelLoadingMaxRetry: 2,
+            fragLoadingTimeOut: 10000,
+            fragLoadingMaxRetry: 2,
+            capLevelToPlayerSize: true,
+            fastSwitch: true,
+            progressive: true,
+            autoStartLoad: true
+          });
+          hls.loadSource(channel.streamUrl);
+          hls.attachMedia(els.player);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            const playPromise = els.player.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(() => {
+                els.player.muted = true;
+                els.player.play().catch(() => {});
+              });
+            }
+          });
+          hls.on(Hls.Events.FRAG_BUFFERED, () => {
+            hideOverlay();
+          });
+          hls.on(Hls.Events.ERROR, (e, data) => {
+            if (data.fatal) {
+              if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code === 403) {
+                showOverlay('Broadcaster restricts stream to specific regions (geo-blocked).', true, channel.streamUrl);
+              } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                showOverlay('Stream network error. Click retry or try another channel.', true, channel.streamUrl);
+              } else {
+                showOverlay('Cannot play stream. Format unsupported or offline.', true, channel.streamUrl);
+              }
+              hls.destroy();
+            }
+          });
+        } else {
+          showOverlay('Your browser does not support HLS video playback.', true, channel.streamUrl);
+        }
+      };
+
       if (els.player.canPlayType('application/vnd.apple.mpegurl')) {
         els.player.src = channel.streamUrl;
         const playPromise = els.player.play();
@@ -1587,56 +1655,8 @@
         els.player.addEventListener('error', () => {
           showOverlay('Broadcaster restricts in-browser playback (CORS security) or feed is geo-blocked.', true, channel.streamUrl);
         }, { once: true });
-      } else if (window.Hls && Hls.isSupported()) {
-        hls = new Hls({
-          enableWorker: true,
-          lowLatencyMode: true,
-          startFragPrefetch: true,
-          maxBufferLength: 8,
-          maxMaxBufferLength: 15,
-          maxBufferSize: 20 * 1000 * 1000,
-          backBufferLength: 15,
-          liveSyncDurationCount: 2,
-          liveMaxLatencyDurationCount: 4,
-          manifestLoadingTimeOut: 10000,
-          manifestLoadingMaxRetry: 2,
-          levelLoadingTimeOut: 8000,
-          levelLoadingMaxRetry: 2,
-          fragLoadingTimeOut: 10000,
-          fragLoadingMaxRetry: 2,
-          capLevelToPlayerSize: true,
-          fastSwitch: true,
-          progressive: true,
-          autoStartLoad: true
-        });
-        hls.loadSource(channel.streamUrl);
-        hls.attachMedia(els.player);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          const playPromise = els.player.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              els.player.muted = true;
-              els.player.play().catch(() => {});
-            });
-          }
-        });
-        hls.on(Hls.Events.FRAG_BUFFERED, () => {
-          hideOverlay();
-        });
-        hls.on(Hls.Events.ERROR, (e, data) => {
-          if (data.fatal) {
-            let msg = 'Stream playback interrupted. The broadcaster restricts direct in-browser playback (CORS policy).';
-            if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code === 403) {
-              msg = 'Access restricted (403). The broadcaster limits this stream to specific regions.';
-            } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-              msg = 'In-browser playback blocked by broadcaster CORS security policy.';
-            }
-            showOverlay(msg, true, channel.streamUrl);
-            hls.destroy();
-          }
-        });
       } else {
-        showOverlay('Your browser cannot play this stream natively.', true, channel.streamUrl);
+        ensureHlsScript().then(initHlsPlayback);
       }
 
       els.modal.classList.add('open');
@@ -1822,24 +1842,8 @@
     const GEO_KEY = 'livesports_visitor_country';
     let visitorCountry = localStorage.getItem(GEO_KEY) || '';
 
-    async function detectVisitorLocation() {
+    function detectVisitorLocation() {
       if (visitorCountry) return visitorCountry;
-      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-      const timer = controller ? setTimeout(() => controller.abort(), 1200) : null;
-      try {
-        const res = await fetch('https://api.country.is', controller ? { signal: controller.signal } : {});
-        if (timer) clearTimeout(timer);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.country) {
-            visitorCountry = data.country.toUpperCase();
-            localStorage.setItem(GEO_KEY, visitorCountry);
-            return visitorCountry;
-          }
-        }
-      } catch (e) {
-        if (timer) clearTimeout(timer);
-      }
       const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
       if (tz.includes('London')) visitorCountry = 'GB';
       else if (tz.includes('New_York') || tz.includes('Chicago') || tz.includes('Los_Angeles') || tz.includes('Denver')) visitorCountry = 'US';
@@ -1852,7 +1856,7 @@
       else if (tz.includes('Toronto') || tz.includes('Vancouver')) visitorCountry = 'CA';
       else if (tz.includes('Sydney') || tz.includes('Melbourne')) visitorCountry = 'AU';
       else visitorCountry = 'INT';
-      localStorage.setItem(GEO_KEY, visitorCountry);
+      try { localStorage.setItem(GEO_KEY, visitorCountry); } catch(e) {}
       return visitorCountry;
     }
 
@@ -1961,109 +1965,59 @@
       setupQuickFilters();
       bindEvents();
 
-      // Step 1: Detect visitor location
-      detectVisitorLocation().then(c => { visitorCountry = c; }).catch(() => {});
+      // Step 1: Detect visitor location instantly
+      detectVisitorLocation();
 
-      // Step 2: Instant Hydration with 100+ Verified Streams (< 10ms)
-      try {
-        const verifiedRes = await fetch(VERIFIED_URL);
-        if (verifiedRes.ok) {
-          const verifiedData = await verifiedRes.json();
-          if (Array.isArray(verifiedData) && verifiedData.length > 0) {
-            channels = verifiedData;
-            populateFilters();
-            renderAll();
-          }
-        }
-      } catch (e) {
-        console.warn('Verified streams load note:', e);
+      // Step 2: Pre-load HLS script when browser is idle or on first user interaction
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(ensureHlsScript, { timeout: 4000 });
       }
+      window.addEventListener('touchstart', ensureHlsScript, { once: true, passive: true });
+      window.addEventListener('mouseover', ensureHlsScript, { once: true, passive: true });
 
-      // Step 3: Hydrate Cache
-      const cached = getCachedChannels();
-      let hasRenderedCache = channels.length > 0;
-      if (cached && cached.channels && cached.channels.length > 0 && cached.visitorCountry === visitorCountry) {
-        const seenUrls = new Set(channels.map(c => c.streamUrl));
-        cached.channels.forEach(ch => {
-          if (!seenUrls.has(ch.streamUrl)) {
-            channels.push(ch);
-            seenUrls.add(ch.streamUrl);
-          }
-        });
-        countryData = cached.countryData || countryData;
-        langName = cached.langName || langName;
-        populateFilters();
-        renderAll();
-        hasRenderedCache = true;
-      }
-
-      const isCacheFresh = cached && (Date.now() - cached.timestamp < CACHE_TTL);
-      if (isCacheFresh && hasRenderedCache) {
-        return;
-      }
-
-      // Step 4: Background fetch fresh directory (deferred to idle time to eliminate Total Blocking Time)
-      const runBackgroundFetch = async () => {
+      // Step 3: Defer stream hydration and directory fetching to idle time
+      const hydrateData = async () => {
         try {
-          const [m3uText, countriesData, langsData] = await Promise.all([
-            fetchM3U(),
-            fetchJSON(COUNTRIES_URL),
-            fetchJSON(LANGUAGES_URL)
-          ]);
-
-          if (countriesData) {
-            countriesData.forEach((c) => {
-              countryData[c.code] = { name: c.name, flag: c.flag, languages: c.languages || [] };
-            });
+          const verifiedRes = await fetch(VERIFIED_URL);
+          if (verifiedRes.ok) {
+            const verifiedData = await verifiedRes.json();
+            if (Array.isArray(verifiedData) && verifiedData.length > 0) {
+              channels = verifiedData;
+              populateFilters();
+              renderAll();
+            }
           }
-
-          if (langsData) {
-            langsData.forEach((l) => {
-              langName[l.code] = l.name;
-            });
-          }
-
-          if (m3uText) {
-            const parsed = parseM3U(m3uText, visitorCountry).filter(isSportChannel);
-            parsed.forEach((ch) => {
-              const langsForCountry = (countryData[ch.country] || {}).languages || [];
-              const languages = langsForCountry
-                .map((code) => langName[code] || code)
-                .filter(Boolean);
-              ch.languages = languages;
-              ch.language = languages[0] || 'Unknown';
-              ch.sportCategory = getSportCategory(ch);
-            });
-
-            // Merge: verified streams always stay first!
-            const seenUrls = new Set(channels.map(c => c.streamUrl));
-            parsed.forEach(ch => {
-              if (!seenUrls.has(ch.streamUrl)) {
-                channels.push(ch);
-                seenUrls.add(ch.streamUrl);
-              }
-            });
-
-            populateFilters();
-            renderAll();
-
-            saveChannelsCache({
-              timestamp: Date.now(),
-              visitorCountry: visitorCountry,
-              channels: channels,
-              countryData: countryData,
-              langName: langName
-            });
-          }
-        } catch (err) {
-          console.error('Failed to load fresh sports streams:', err);
+        } catch (e) {
+          console.warn('Verified streams load note:', e);
         }
+
+        const cached = getCachedChannels();
+        let hasRenderedCache = channels.length > 0;
+        if (cached && cached.channels && cached.channels.length > 0 && cached.visitorCountry === visitorCountry) {
+          const seenUrls = new Set(channels.map(c => c.streamUrl));
+          cached.channels.forEach(ch => {
+            if (!seenUrls.has(ch.streamUrl)) {
+              channels.push(ch);
+              seenUrls.add(ch.streamUrl);
+            }
+          });
+          countryData = cached.countryData || countryData;
+          langName = cached.langName || langName;
+          populateFilters();
+          renderAll();
+          hasRenderedCache = true;
+        }
+
+        const isCacheFresh = cached && (Date.now() - cached.timestamp < CACHE_TTL);
+        if (isCacheFresh && hasRenderedCache) return;
+
+        runBackgroundFetch();
       };
 
       if ('requestIdleCallback' in window) {
-        requestIdleCallback(runBackgroundFetch, { timeout: 4000 });
+        requestIdleCallback(hydrateData, { timeout: 2500 });
       } else {
-        setTimeout(runBackgroundFetch, 2500);
+        setTimeout(hydrateData, 1000);
       }
     }
 
