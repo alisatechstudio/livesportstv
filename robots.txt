@@ -12,7 +12,24 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# OpenAI Crawlers & Agentic Search Bots
 User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
 Allow: /
 Disallow: /api/
 
@@ -20,10 +37,87 @@ User-agent: OAI-SearchBot
 Allow: /
 Disallow: /api/
 
-User-agent: Applebot
+# Google AI & Extended Models (Gemini, Vertex, AI Overviews)
+User-agent: Google-Extended
 Allow: /
 
-User-agent: DuckDuckBot
+User-agent: GoogleOther
+Allow: /
+
+User-agent: GoogleOther-Image
+Allow: /
+
+User-agent: GoogleOther-Video
+Allow: /
+
+# Anthropic (Claude & Claude Web Agents)
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /api/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+
+# Perplexity AI Search Crawler & User Agent
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+# Meta AI (Llama, Meta Assistant, Social Agent)
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /api/
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+Disallow: /api/
+
+User-agent: FacebookBot
+Allow: /
+
+# Apple Intelligence & Siri AI
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon AI & Alexa (Rufus, Bedrock)
+User-agent: Amazonbot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Mistral AI
+User-agent: MistralBot
+Allow: /
+
+# ByteDance AI (TikTok, Doubao)
+User-agent: Bytespider
+Allow: /
+
+# You.com AI Search
+User-agent: YouBot
+Allow: /
+
+# Diffbot Autonomous Extraction
+User-agent: Diffbot
+Allow: /
+
+# Common Crawl (Foundational AI Datasets)
+User-agent: CCBot
+Allow: /
+
+# Timpi AI Autonomous Search
+User-agent: Timpibot
+Allow: /
+
+# DuckDuckGo AI Assistance
+User-agent: DuckAssistBot
 Allow: /
 
 # Google AdSense Verification Crawlers

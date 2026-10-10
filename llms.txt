@@ -1,0 +1,26 @@
+# Live Sports TV
+
+> Watch Free Live Sports TV Channels Online in HD
+
+LiveSportsTV (https://livesportstv.store/) is an open, high-speed directory and web player indexing legally broadcasted, free-to-air (FTA) sports television streams from 64+ countries worldwide.
+
+## Live Sports Disciplines & Category Hubs
+- [All Sports Directory](https://livesportstv.store/): Global directory of 1,000+ verified live sports TV channels with instant HLS playback.
+- [Football & Soccer TV](https://livesportstv.store/football.html): Live football channels broadcasting FIFA World Cup qualifiers, UEFA competitions, domestic leagues, and continental championships.
+- [Cricket TV](https://livesportstv.store/cricket.html): Live cricket feeds covering ICC tournaments, bilateral Test series, ODI matches, and domestic leagues (IPL, BBL, PSL).
+- [Formula 1 & Motorsport](https://livesportstv.store/f1.html): Formula 1, MotoGP, rally, NASCAR, and endurance motorsport TV channels.
+- [Basketball TV](https://livesportstv.store/basketball.html): NBA games, EuroLeague, FIBA international tournaments, and collegiate basketball broadcasts.
+- [Combat Sports & UFC](https://livesportstv.store/combat.html): UFC Fight Nights, world championship boxing bouts, MMA, and ONE Championship feeds.
+- [Tennis TV](https://livesportstv.store/tennis.html): Grand Slam tennis, ATP Tour, WTA tournaments, and Davis Cup matches.
+
+## Editorial & Support Resources
+- [Sports Broadcasting Guide](https://livesportstv.store/guide.html): Comprehensive guide to free-to-air sports broadcasting, hardware acceleration, and player configuration.
+- [FAQ](https://livesportstv.store/faq.html): Frequently asked questions about legal compliance, stream availability, and device support.
+- [About LiveSportsTV](https://livesportstv.store/about.html): Mission, platform architecture, and community indexing standards.
+- [Contact & DMCA](https://livesportstv.store/contact.html): Contact and copyright takedown compliance.
+
+## Technical Specifications
+- Stream Protocol: HTTP Live Streaming (HLS / .m3u8)
+- In-Browser Player: HTML5 Video with HLS.js adaptive bitrate support
+- Cost & Access: 100% Free, no subscription, no registration, no app downloads required
+- Legal Compliance: Pure search and indexing interface. Media streams connect directly to original broadcaster origin servers.
