@@ -11,8 +11,8 @@
   --text: #fafafa;
   --muted: #a1a1aa;
   --border: rgba(255, 255, 255, 0.1);
-  --primary: #6d5efc;
-  --primary-soft: rgba(109, 94, 252, 0.16);
+  --primary: #818cf8;
+  --primary-soft: rgba(129, 140, 248, 0.16);
   --accent: #38e1ff;
   --emerald: #34d399;
   --lang-bg: rgba(255, 255, 255, 0.06);
@@ -28,10 +28,10 @@ body.light-theme {
   --text: #0a0a0a;
   --muted: #5a5f66;
   --border: rgba(0, 0, 0, 0.1);
-  --primary: #5b4ff0;
-  --primary-soft: rgba(91, 79, 240, 0.12);
-  --accent: #0284c7;
-  --emerald: #059669;
+  --primary: #4f46e5;
+  --primary-soft: rgba(79, 70, 229, 0.12);
+  --accent: #0369a1;
+  --emerald: #047857;
   --lang-bg: rgba(0, 0, 0, 0.06);
 }
 
