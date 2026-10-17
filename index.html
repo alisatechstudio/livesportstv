@@ -67,7 +67,75 @@
   <meta name="twitter:image" content="https://livesportstv.store/og-image.png" />
   <meta name="twitter:image:alt" content="Live Sports TV Streaming Directory" />
 
-  
+  <!-- Structured Data: WebSite, Organization, and FAQPage for Google PAA & Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://livesportstv.store/#website",
+        "url": "https://livesportstv.store/",
+        "name": "Live Sports TV",
+        "description": "Watch live sports TV free in HD. Official live sports TV directory streaming 1,000+ live football, cricket, F1, basketball & UFC channels worldwide.",
+        "inLanguage": "en-US",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://livesportstv.store/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://livesportstv.store/#organization",
+        "name": "Live Sports TV",
+        "url": "https://livesportstv.store/",
+        "logo": "https://livesportstv.store/logo.png",
+        "sameAs": [
+          "https://twitter.com/LiveSportsTV"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://livesportstv.store/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How can I watch live sports TV online for free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can watch live sports online for free by browsing the verified channels on LiveSportsTV. Simply click on any sport category—such as Football, Cricket, Formula 1, Tennis, or Basketball—and select your desired channel to launch the high-definition stream directly in your browser without registration."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What sports tournaments and events are covered?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "LiveSportsTV covers major international sports events including FIFA World Cup, UEFA Champions League, English Premier League, La Liga, Serie A, ICC Cricket World Cup, IPL, Formula 1 Grand Prix, NBA Finals, ATP & WTA Tennis Grand Slams, and UFC/Boxing title fights."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are the live sports streams legal and safe to watch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. LiveSportsTV is a legitimate directory aggregating publicly available, free-to-air (FTA) broadcasts and official streams provided by rights holders and public broadcasting networks worldwide. We do not host copyrighted streams directly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I watch live sports on mobile phones and Smart TVs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, our player is fully optimized with responsive HTML5 and HLS video streaming, working seamlessly across iOS, Android, macOS, Windows, Smart TVs, and Firestick web browsers without requiring third-party plugins."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Google Consent Mode v2 & GDPR Consent Settings -->
   <script src="gdpr-consent.js"></script>

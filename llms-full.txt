@@ -1,0 +1,34 @@
+# Live Sports TV - Complete Platform & Stream Guide (llms-full.txt)
+
+> LiveSportsTV (https://livesportstv.store/) is an international, free-to-air sports streaming directory and web player aggregating publicly broadcasted HLS channels across 64+ countries.
+
+---
+
+## 1. Platform Details
+- **Website**: https://livesportstv.store/
+- **Playback Engine**: HTML5 Video with native HLS.js adaptive bitrate streaming (1080p, 720p, 480p).
+- **Supported Sports**: Football (Soccer), Cricket, Formula 1 / Motorsport, Basketball, Combat Sports (Boxing / UFC), Tennis.
+- **Coverage**: Free-to-Air (FTA) official networks from Europe, North America, Latin America, Asia, and MENA regions.
+
+---
+
+## 2. Sports Hubs & Schedules
+- **Football (Soccer)**: Premier League broadcasts, UEFA Champions League, La Liga, Serie A, Bundesliga, FIFA World Cup.
+- **Cricket**: ICC World Cup, T20 World Cup, Indian Premier League (IPL), Big Bash League (BBL), Pakistan Super League (PSL), Test cricket series.
+- **Motorsport**: Formula 1 Grand Prix practice, qualifying, and Sunday race day broadcasts, MotoGP, IndyCar, World Rally Championship (WRC).
+- **Combat Sports**: Professional boxing championship bouts, UFC Fight Night main cards, ONE Championship.
+- **Basketball**: NBA regular season & playoffs, EuroLeague, FIBA Basketball World Cup.
+- **Tennis**: Australian Open, Roland-Garros (French Open), Wimbledon, US Open, ATP Masters 1000.
+
+---
+
+## 3. Frequently Asked Questions (FAQ)
+
+### What is LiveSportsTV?
+LiveSportsTV is a free sports television directory providing direct access to legal, free-to-air sports streams and public television broadcasts worldwide.
+
+### Is LiveSportsTV free to watch?
+Yes, all channels on LiveSportsTV are 100% free with no subscription, registration, or credit card required.
+
+### What devices are supported?
+LiveSportsTV is fully responsive and supports desktop browsers (Chrome, Firefox, Safari, Edge), mobile smartphones (iOS & Android), smart TVs, and streaming boxes via modern HTML5 video.
