@@ -1,0 +1,23 @@
+name: Refresh ACLIB adblock script
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download z-9ekdf46og2
+        run: |
+          curl -sSL -o z-9ekdf46og2 "https://adbpage.com/adblock?zone_id=9ekdf46og2&zone_type=atag&v=2"
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet z-9ekdf46og2; then echo "No changes"; else git add z-9ekdf46og2 && git commit -m "Refresh ACLIB z-9ekdf46og2" && git push; fi
